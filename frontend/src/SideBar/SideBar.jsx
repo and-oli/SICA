@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -12,13 +13,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import EnhancedTable from "../Tables/Table";
 import FolderIcon from '@material-ui/icons/Folder';
+import Logout from "@material-ui/icons/Alarm";
 import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import "./SideBar.css"
 
-const drawerWidth = 170;
+const drawerWidth = 200;
 
 const toolbarStyle = {
     backgroundColor: blue[500]
@@ -54,6 +61,15 @@ const styles = theme => ({
         flexGrow: 1,
         padding: theme.spacing.unit * 3,
     },
+    card: {
+        minWidth: 275,
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -61,12 +77,27 @@ class ResponsiveDrawer extends React.Component {
         super(props);
         this.state = {
             mobileOpen: false,
-            actualTable: "Casos"
+            actualTable: "Casos",
+            userType: "",
+            showUpload: false
         };
 
         // This binding is necessary to make `this` work in the callback
         this.handleClickCasos = this.handleClickCasos.bind(this);
         this.handleClickLotes = this.handleClickLotes.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
+    }
+
+    uploadFile = (archivo) => {
+        let formData = new FormData();
+        formData.append("file", archivo);
+        return fetch('https://intellgentcms.herokuapp.com/api/uploadPicture', {
+            method: 'POST',
+            headers: {
+                'x-access-token': localStorage.getItem("SICAToken")
+            },
+            body: formData
+        }).then(response => response.json())
     }
 
     handleDrawerToggle = () => {
@@ -81,6 +112,48 @@ class ResponsiveDrawer extends React.Component {
         this.setState({ actualTable: "Lotes" })
     }
 
+    handleUpload() {
+        this.setState({ showUpload: true })
+    }
+
+    renderUploadFile() {
+        if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "Lotes") {
+            return (
+                <div>
+                    <button className="uploadButton" type="button" onClick={this.handleUpload}>Agregar nuevo lote</button>
+                </div>
+            );
+        }
+    }
+
+    renderComponents(classes) {
+        console.log(classes)
+        if (!this.state.showUpload) {
+            return (<EnhancedTable />)
+        }
+        else {
+            return (
+                <div>
+                    <br />
+                    <Grid item xs={6} sm={6}>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    Subir un archivo
+                    </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <input id = "file-upload" className = "text-input images-input" type="file" ref = "file" name="myimages"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                            </CardActions>
+                            <CardActions>
+                            <Button size="small">Aceptar</Button>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                </div>
+            )
+        }
+    }
     render() {
         const { classes, theme } = this.props;
 
@@ -99,6 +172,13 @@ class ResponsiveDrawer extends React.Component {
                     <ListItem button key={"Lotes"}>
                         <FolderIcon />
                         <ListItemText primary={"Lotes"} onClick={this.handleClickLotes} />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List>
+                    <ListItem button key={"Logout"}>
+                        <Logout />
+                        <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
                     </ListItem>
                 </List>
             </div>
@@ -120,6 +200,9 @@ class ResponsiveDrawer extends React.Component {
                         <Typography variant="h6" color="inherit" noWrap>
                             {this.state.actualTable}
                         </Typography>
+                        {
+                            this.renderUploadFile(classes)
+                        }
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>
@@ -152,7 +235,9 @@ class ResponsiveDrawer extends React.Component {
                 </nav>
                 <main className={classes.content}>
                     <br />
-                    <EnhancedTable />
+                    {
+                        this.renderComponents(classes)
+                    }
                 </main>
             </div>
         );
