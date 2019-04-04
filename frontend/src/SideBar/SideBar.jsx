@@ -18,12 +18,8 @@ import FolderIcon from '@material-ui/icons/Folder';
 import Logout from "@material-ui/icons/Alarm";
 import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import "./SideBar.css"
+import UploadFile from "../UploadFile/UploadFile";
 
 const drawerWidth = 200;
 
@@ -66,10 +62,7 @@ const styles = theme => ({
     },
     title: {
         fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
+    }
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -79,80 +72,82 @@ class ResponsiveDrawer extends React.Component {
             mobileOpen: false,
             actualTable: "Casos",
             userType: "",
-            showUpload: false
+            showUpload: false,
+            loading: true,
+            rows: []
         };
 
         // This binding is necessary to make `this` work in the callback
         this.handleClickCasos = this.handleClickCasos.bind(this);
         this.handleClickLotes = this.handleClickLotes.bind(this);
-        this.handleUpload = this.handleUpload.bind(this);
+        this.switchUploadView = this.switchUploadView.bind(this);
     }
-
-    uploadFile = (archivo) => {
-        let formData = new FormData();
-        formData.append("file", archivo);
-        return fetch('https://intellgentcms.herokuapp.com/api/uploadPicture', {
-            method: 'POST',
-            headers: {
-                'x-access-token': localStorage.getItem("SICAToken")
-            },
-            body: formData
-        }).then(response => response.json())
-    }
-
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
     handleClickCasos() {
-        this.setState({ actualTable: "Casos" })
+        this.setState({ actualTable: "Casos", showUpload: false })
+
     }
 
     handleClickLotes() {
-        this.setState({ actualTable: "Lotes" })
+        this.setState({ actualTable: "Lotes", showUpload: false })
     }
 
-    handleUpload() {
-        this.setState({ showUpload: true })
+    switchUploadView(value) {
+        this.setState({ showUpload: value })
+    }
+
+    componentDidMount() {
+        return fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
+            method: 'GET',
+            headers: {
+                'x-access-token': localStorage.getItem("SICAToken")
+            },
+        }).then(response => response.json().then(
+            (json) => {
+                Object.keys(json.casos[0]).map(headerToAdd => {
+                    if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+                        this.setState(prevState => {
+                            prevState.rows.push({ id: headerToAdd, numeric: false, disablePadding: true, label: headerToAdd });
+                            return ({ rows: prevState.rows });
+                        })
+                    }
+                    this.setState({ loading: false });
+                    return ("");
+                })
+            }
+        ));
     }
 
     renderUploadFile() {
         if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "Lotes") {
             return (
                 <div>
-                    <button className="uploadButton" type="button" onClick={this.handleUpload}>Agregar nuevo lote</button>
+                    <button className="uploadButton" type="button" onClick={() => { this.switchUploadView(true) }}>Agregar nuevo lote</button>
                 </div>
             );
         }
     }
 
-    renderComponents(classes) {
-        console.log(classes)
-        if (!this.state.showUpload) {
-            return (<EnhancedTable />)
+    renderComponents() {
+        if (this.state.loading) {
+            return(<span className="loaderTable" id="loaderTable"></span>)
         }
         else {
-            return (
-                <div>
-                    <br />
-                    <Grid item xs={6} sm={6}>
-                        <Card className={classes.card}>
-                            <CardContent>
-                                <Typography variant="h5" component="h2">
-                                    Subir un archivo
-                    </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <input id = "file-upload" className = "text-input images-input" type="file" ref = "file" name="myimages"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                            </CardActions>
-                            <CardActions>
-                            <Button size="small">Aceptar</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                </div>
-            )
+            if (!this.state.showUpload) {
+                return (<EnhancedTable rows={this.state.rows} />)
+            }
+            else {
+                return (
+                    <div>
+                        <UploadFile switchUploadView={this.switchUploadView} />
+                    </div>
+                )
+            }
         }
+
     }
     render() {
         const { classes, theme } = this.props;
@@ -236,7 +231,7 @@ class ResponsiveDrawer extends React.Component {
                 <main className={classes.content}>
                     <br />
                     {
-                        this.renderComponents(classes)
+                        this.renderComponents()
                     }
                 </main>
             </div>

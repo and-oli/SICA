@@ -1,0 +1,119 @@
+.acceptButton{
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    margin: auto;
+    position: relative;
+    right: 0;
+    width: 130px;
+    border-radius: 8px;   
+}
+
+#loader {
+    position: absolute;
+    left: 69%;
+    z-index: 1;
+    margin: -25px 0 0 -25px;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Add animation to "page content" */
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+  }
+  
+  @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 } 
+    to { bottom:0px; opacity:1 }
+  }
+  
+  @keyframes animatebottom { 
+    from{ bottom:-100px; opacity:0 } 
+    to{ bottom:0; opacity:1 }
+  }
+
+  .subirArchivo{
+      margin: auto;
+      display: block;
+      width: 500px;
+  }
+
+  #file-upload:hover{
+      cursor: pointer;
+  }
+
+  .upload-btn-wrapper {
+    position: relative;
+  }
+  
+  .btnUpload {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 16px;    
+    cursor: pointer;
+    margin-left: 70%;
+    width: 200px;
+  }
+
+  .btnUpload:hover{
+      cursor: pointer;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 22px;
+    color: white;
+    position: absolute;
+    width: 200px;
+    margin-left: 70%;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+.errorText{
+    color: red;
+    margin-left: 0%;
+    font-size: 20px;
+}
+
+.successText{
+    color: green;
+    margin-left: 0%;
+    font-size: 20px;
+}
+
+.arrow:hover{
+cursor: pointer;
+}
+
+.cardActionAccept{
+    padding: 0 10px 0 0 !important;
+    width: 100%;
+    text-align: right;
+}
