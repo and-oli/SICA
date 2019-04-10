@@ -16,13 +16,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import EnhancedTableHead from "./TableHead"
-
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
+import EnhancedTableHead from "./TableHead";
+import "./Table.css"
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -135,28 +130,19 @@ const styles = theme => ({
 });
 
 class EnhancedTable extends React.Component {
-  state = {
-    order: 'asc',
-    orderBy: 'calories',
-    selected: [],
-    data: [
-      createData('Cupcake', 305, 3.7, 67, 4.3),
-      createData('Donut', 452, 25.0, 51, 4.9),
-      createData('Eclair', 262, 16.0, 24, 6.0),
-      createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-      createData('Gingerbread', 356, 16.0, 49, 3.9),
-      createData('Honeycomb', 408, 3.2, 87, 6.5),
-      createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-      createData('Jelly Bean', 375, 0.0, 94, 0.0),
-      createData('KitKat', 518, 26.0, 65, 7.0),
-      createData('Lollipop', 392, 0.2, 98, 0.0),
-      createData('Marshmallow', 318, 0, 81, 2.0),
-      createData('Nougat', 360, 19.0, 9, 37.0),
-      createData('Oreo', 437, 18.0, 63, 4.0),
-    ],
-    page: 0,
-    rowsPerPage: 10,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      order: 'asc',
+      orderBy: 'calories',
+      selected: [],
+      page: 0,
+      rowsPerPage: 10,
+    };
+
+    this.handleDateDetailView = this.handleDateDetailView.bind(this);
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -206,12 +192,14 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
+  handleDateDetailView(rowData) {
+    this.props.switchDateDetailView(true, rowData);
+  }
 
   render() {
-    const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const { rows, classes } = this.props;
+    const { order, orderBy, selected, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -224,34 +212,44 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-              rows={this.props.rows}
+              rowCount={rows.length}
+              rowsHeaders={this.props.rowsHeaders}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
-                      selected={isSelected}
+                      key={n._id}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {n.name}
-                      </TableCell>
-                      <TableCell align="right">{n.calories}</TableCell>
-                      <TableCell align="right">{n.fat}</TableCell>
-                      <TableCell align="right">{n.carbs}</TableCell>
-                      <TableCell align="right">{n.protein}</TableCell>
+                      {
+                        this.props.rowsHeaders.map((header, i) => {
+                          if (header.id !== "cambiosDeEstado" && header.id !== "cerrado") {
+                            return (
+                              <TableCell key={i} align="right">{n[header.id]}</TableCell>
+                            )
+                          }
+                          else if (header.id === "cerrado") {
+                            return (
+                              n[header.id] ? (<TableCell key={i} ><Checkbox disabled checked /></TableCell>) : (<TableCell key={i}> <Checkbox disabled /></TableCell>)
+                            )
+                          }
+                          else if (header.id === "cambiosDeEstado") {
+                            return (
+                              <TableCell key={i} align="right" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                <Tooltip title="Ver en detalle">
+                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id].slice(1)[0].fecha}</Typography>
+                                </Tooltip>
+                              </TableCell>
+                            )
+                          }
+                          return (null);
+                        }
+                        )
+                      }
                     </TableRow>
                   );
                 })}
@@ -264,9 +262,9 @@ class EnhancedTable extends React.Component {
           </Table>
         </div>
         <TablePagination
-          rowsPerPageOptions={[10, 25]}
+          rowsPerPageOptions={[10, 25, 50, 100]}
           component="div"
-          count={data.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

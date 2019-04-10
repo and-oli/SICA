@@ -20,6 +20,7 @@ import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
 import UploadFile from "../UploadFile/UploadFile";
+import DateDetail from "../DateDetail/DateDetail"; 
 
 const drawerWidth = 200;
 
@@ -73,33 +74,48 @@ class ResponsiveDrawer extends React.Component {
             actualTable: "Casos",
             userType: "",
             showUpload: false,
+            showDateDetail: false,
             loading: true,
-            rows: []
+            rowsHeaders: [],
+            rows: [],
+            rowData : ""
         };
 
         // This binding is necessary to make `this` work in the callback
         this.handleClickCasos = this.handleClickCasos.bind(this);
         this.handleClickLotes = this.handleClickLotes.bind(this);
         this.switchUploadView = this.switchUploadView.bind(this);
+        this.switchDateDetailView = this.switchDateDetailView.bind(this);
+        this.doFetchLotes = this.doFetchLotes.bind(this);
+        this.doFetchCasos = this.doFetchCasos.bind(this);
     }
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
     handleClickCasos() {
-        this.setState({ actualTable: "Casos", showUpload: false })
-
+        this.doFetchCasos();
+        this.setState({ actualTable: "Casos", showUpload: false, showDateDetail: false, loading :  true });
     }
 
     handleClickLotes() {
-        this.setState({ actualTable: "Lotes", showUpload: false })
+        this.doFetchLotes();
+        this.setState({ actualTable: "Lotes", showUpload: false, showDateDetail: false, loading :  true });
     }
 
     switchUploadView(value) {
-        this.setState({ showUpload: value })
+        this.setState({ showUpload: value });
     }
 
-    componentDidMount() {
+    switchDateDetailView(value, data){
+        this.setState({ showDateDetail : value, rowData : data });
+    }
+
+    componentDidMount(){
+        this.doFetchCasos();
+    }
+
+    doFetchCasos(){
         return fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
             method: 'GET',
             headers: {
@@ -107,16 +123,85 @@ class ResponsiveDrawer extends React.Component {
             },
         }).then(response => response.json().then(
             (json) => {
-                Object.keys(json.casos[0]).map(headerToAdd => {
-                    if (headerToAdd !== "_id" && headerToAdd !== "__v") {
-                        this.setState(prevState => {
-                            prevState.rows.push({ id: headerToAdd, numeric: false, disablePadding: true, label: headerToAdd });
-                            return ({ rows: prevState.rows });
-                        })
+                if (json.success) {
+                    if (json.casos.length > 0) {
+                        //Table row header
+                        this.setState({rowsHeaders : []});
+                        Object.keys(json.casos[0]).map(headerToAdd => {
+                            if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+                                this.setState(prevState => {
+                                    let labelsplit = headerToAdd.split(/(?=[A-Z])/);
+                                    let labelToShow = "";
+                                    labelsplit.map(word => {
+                                        labelToShow = labelToShow + " " + word;
+                                        return ("");
+                                    })
+                                    prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
+                                    return ({ rowsHeaders: prevState.rowsHeaders });
+                                })
+                            }
+                            return ("");
+                        });
+                        //Table rows information
+                        this.setState({rows : json.casos});
+                        this.setState({ loading: false });
                     }
-                    this.setState({ loading: false });
-                    return ("");
-                })
+                    else {
+                        window.location.reload();
+                    }
+                }
+                else {
+                    if (response.status === 403) {
+                        localStorage.removeItem("SICAToken"); window.location.reload();
+                    }
+                }
+
+            }
+        ));
+    }
+
+    doFetchLotes(){
+        return fetch('https://intellgentcms.herokuapp.com/sica/api/lotes', {
+            method: 'GET',
+            headers: {
+                'x-access-token': localStorage.getItem("SICAToken")
+            },
+        }).then(response => response.json().then(
+            (json) => {
+                if (json.success) {
+                    if (json.lotes.length > 0) {
+                        //Table row header
+                        this.setState({rowsHeaders : []});
+                        Object.keys(json.lotes[0]).map(headerToAdd => {
+                            if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+                                this.setState(prevState => {
+                                    let labelsplit = headerToAdd.split(/(?=[A-Z])/);
+                                    let labelToShow = "";
+                                    labelsplit.map(word => {
+                                        labelToShow = labelToShow + " " + word;
+                                        return ("");
+                                    })
+                                    prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
+                                    return ({ rowsHeaders: prevState.rowsHeaders });
+                                })
+                            }
+                            return ("");
+                        });
+
+                        //Table rows information
+                        this.setState({ loading: false });
+                        this.setState({rows : json.lotes});
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+                else {
+                    if (json.message === "Failed to authenticate token.") {
+                        localStorage.removeItem("SICAToken"); window.location.reload();
+                    }
+                }
+
             }
         ));
     }
@@ -133,11 +218,14 @@ class ResponsiveDrawer extends React.Component {
 
     renderComponents() {
         if (this.state.loading) {
-            return(<span className="loaderTable" id="loaderTable"></span>)
+            return (<span className="loaderTable" id="loaderTable"></span>)
         }
         else {
-            if (!this.state.showUpload) {
-                return (<EnhancedTable rows={this.state.rows} />)
+            if (!this.state.showUpload && !this.state.showDateDetail) {
+                return (<EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView}/>)
+            }
+            else if(this.state.showDateDetail){
+                return( <DateDetail switchDateDetailView={this.switchDateDetailView} data={this.state.rowData}></DateDetail>)
             }
             else {
                 return (
