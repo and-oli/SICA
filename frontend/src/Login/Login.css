@@ -43,6 +43,7 @@
     opacity: 1;
     transform: translateY(-6em);
     padding-top: 12em;
+    margin-top: 40%;
   }
   .profile--open .profile__fields {
     opacity: 1;

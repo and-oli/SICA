@@ -20,7 +20,7 @@ import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
 import UploadFile from "../UploadFile/UploadFile";
-import DateDetail from "../DateDetail/DateDetail"; 
+import DateDetail from "../DateDetail/DateDetail";
 
 const drawerWidth = 200;
 
@@ -78,7 +78,8 @@ class ResponsiveDrawer extends React.Component {
             loading: true,
             rowsHeaders: [],
             rows: [],
-            rowData : ""
+            rowData: "",
+            rowsCopy: []
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -88,6 +89,7 @@ class ResponsiveDrawer extends React.Component {
         this.switchDateDetailView = this.switchDateDetailView.bind(this);
         this.doFetchLotes = this.doFetchLotes.bind(this);
         this.doFetchCasos = this.doFetchCasos.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -95,27 +97,44 @@ class ResponsiveDrawer extends React.Component {
 
     handleClickCasos() {
         this.doFetchCasos();
-        this.setState({ actualTable: "Casos", showUpload: false, showDateDetail: false, loading :  true });
+        this.setState({ actualTable: "Casos", showUpload: false, showDateDetail: false, loading: true });
     }
 
     handleClickLotes() {
         this.doFetchLotes();
-        this.setState({ actualTable: "Lotes", showUpload: false, showDateDetail: false, loading :  true });
+        this.setState({ actualTable: "Lotes", showUpload: false, showDateDetail: false, loading: true });
     }
 
     switchUploadView(value) {
         this.setState({ showUpload: value });
     }
 
-    switchDateDetailView(value, data){
-        this.setState({ showDateDetail : value, rowData : data });
+    switchDateDetailView(value, data) {
+        this.setState({ showDateDetail: value, rowData: data });
     }
 
-    componentDidMount(){
+    handleSearch(e) {
+        if (e.key === 'Enter') {
+                        e.preventDefault();
+            let searchValue = e.target.value;
+            let rowsToShow = [];
+            this.state.rowsCopy.map(row => {
+                this.state.rowsHeaders.map(header => {
+                    if (row[header.id] === searchValue) {
+                        rowsToShow.push(row);
+                    }
+                })
+            });
+            this.setState({ rows: rowsToShow})
+        }
+
+    }
+
+    componentDidMount() {
         this.doFetchCasos();
     }
 
-    doFetchCasos(){
+    doFetchCasos() {
         return fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
             method: 'GET',
             headers: {
@@ -126,7 +145,7 @@ class ResponsiveDrawer extends React.Component {
                 if (json.success) {
                     if (json.casos.length > 0) {
                         //Table row header
-                        this.setState({rowsHeaders : []});
+                        this.setState({ rowsHeaders: [] });
                         Object.keys(json.casos[0]).map(headerToAdd => {
                             if (headerToAdd !== "_id" && headerToAdd !== "__v") {
                                 this.setState(prevState => {
@@ -143,7 +162,7 @@ class ResponsiveDrawer extends React.Component {
                             return ("");
                         });
                         //Table rows information
-                        this.setState({rows : json.casos});
+                        this.setState({ rows: json.casos, rowsCopy : json.casos });
                         this.setState({ loading: false });
                     }
                     else {
@@ -160,7 +179,7 @@ class ResponsiveDrawer extends React.Component {
         ));
     }
 
-    doFetchLotes(){
+    doFetchLotes() {
         return fetch('https://intellgentcms.herokuapp.com/sica/api/lotes', {
             method: 'GET',
             headers: {
@@ -171,7 +190,7 @@ class ResponsiveDrawer extends React.Component {
                 if (json.success) {
                     if (json.lotes.length > 0) {
                         //Table row header
-                        this.setState({rowsHeaders : []});
+                        this.setState({ rowsHeaders: [] });
                         Object.keys(json.lotes[0]).map(headerToAdd => {
                             if (headerToAdd !== "_id" && headerToAdd !== "__v") {
                                 this.setState(prevState => {
@@ -190,7 +209,7 @@ class ResponsiveDrawer extends React.Component {
 
                         //Table rows information
                         this.setState({ loading: false });
-                        this.setState({rows : json.lotes});
+                        this.setState({ rows: json.lotes,  rowsCopy : json.lotes });
                     }
                     else {
                         window.location.reload();
@@ -222,10 +241,10 @@ class ResponsiveDrawer extends React.Component {
         }
         else {
             if (!this.state.showUpload && !this.state.showDateDetail) {
-                return (<EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView}/>)
+                return (<EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView} currentTable={this.state.actualTable} />)
             }
-            else if(this.state.showDateDetail){
-                return( <DateDetail switchDateDetailView={this.switchDateDetailView} data={this.state.rowData}></DateDetail>)
+            else if (this.state.showDateDetail) {
+                return (<DateDetail switchDateDetailView={this.switchDateDetailView} data={this.state.rowData}></DateDetail>)
             }
             else {
                 return (
@@ -280,12 +299,15 @@ class ResponsiveDrawer extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" color="inherit" noWrap>
+                        <Typography variant="h6" color="inherit" noWrap style={{ width: "200px" }}>
                             {this.state.actualTable}
                         </Typography>
                         {
                             this.renderUploadFile(classes)
                         }
+                        <form style={{ marginLeft: "60%" }}>
+                            <input type="text" name="search" placeholder="Buscar..." className="searchBarTable" onKeyDown={this.handleSearch} />
+                        </form>
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>
