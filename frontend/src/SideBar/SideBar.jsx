@@ -90,6 +90,7 @@ class ResponsiveDrawer extends React.Component {
         this.doFetchLotes = this.doFetchLotes.bind(this);
         this.doFetchCasos = this.doFetchCasos.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleResetSearch = this.handleResetSearch.bind(this);
     }
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -115,7 +116,7 @@ class ResponsiveDrawer extends React.Component {
 
     handleSearch(e) {
         if (e.key === 'Enter') {
-                        e.preventDefault();
+            e.preventDefault();
             let searchValue = e.target.value;
             let rowsToShow = [];
             this.state.rowsCopy.map(row => {
@@ -123,11 +124,19 @@ class ResponsiveDrawer extends React.Component {
                     if (row[header.id] === searchValue) {
                         rowsToShow.push(row);
                     }
+                    return null;
                 })
+                return null;
             });
-            this.setState({ rows: rowsToShow})
+            this.setState({ rows: rowsToShow })
         }
 
+    }
+
+    handleResetSearch(){
+        this.setState({rows : this.state.rowsCopy});
+        console.log(this.state.rows);
+        document.getElementById("searchInput").value ="";
     }
 
     componentDidMount() {
@@ -162,7 +171,7 @@ class ResponsiveDrawer extends React.Component {
                             return ("");
                         });
                         //Table rows information
-                        this.setState({ rows: json.casos, rowsCopy : json.casos });
+                        this.setState({ rows: json.casos, rowsCopy: json.casos });
                         this.setState({ loading: false });
                     }
                     else {
@@ -209,7 +218,7 @@ class ResponsiveDrawer extends React.Component {
 
                         //Table rows information
                         this.setState({ loading: false });
-                        this.setState({ rows: json.lotes,  rowsCopy : json.lotes });
+                        this.setState({ rows: json.lotes, rowsCopy: json.lotes });
                     }
                     else {
                         window.location.reload();
@@ -306,8 +315,11 @@ class ResponsiveDrawer extends React.Component {
                             this.renderUploadFile(classes)
                         }
                         <form style={{ marginLeft: "60%" }}>
-                            <input type="text" name="search" placeholder="Buscar..." className="searchBarTable" onKeyDown={this.handleSearch} />
+                            <input type="text" name="search" placeholder="Buscar..." id="searchInput"className="searchBarTable" onKeyDown={this.handleSearch} />
                         </form>
+                        <div>
+                            <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>

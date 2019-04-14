@@ -1,5 +1,5 @@
 .uploadButton{
-    background-color: #01bc4f;
+    background-color: #5e35b1;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -13,6 +13,23 @@
     width: 200px;
     border-radius: 8px;
 }
+
+.resetSearchButton{
+  background-color: #5e35b1;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-left: 20%;
+  width: 190px;
+  border-radius: 8px;
+}
+
 
 #loaderTable {
     position: absolute;
