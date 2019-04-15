@@ -218,11 +218,13 @@
     font-size: 0.75rem;
     height: 2.5rem;
     line-height: 2.5rem;
-    padding: 0 1.5rem;
+    padding: 2px 1.5rem;
     color: white;
     background: #2196f3;
     text-transform: uppercase;
     border-radius: .25rem;
     letter-spacing: .2em;
     transition: background .2s;
+    cursor: pointer;
   }
+

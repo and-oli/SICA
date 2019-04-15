@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Login.css';
-import Logo from "./SICA_Logo.png"
 
 class Login extends Component {
     constructor(props) {
@@ -55,14 +54,14 @@ class Login extends Component {
                     <div className="container ">
                         <div className="profile profile--open">
                             <div className="profile__avatar" id="toggleProfile">
-                                <img src={Logo} alt="SICA" height="120" width="120" className="Logo" />
+                                <img src="./SICA_Logo.png" alt="SICA" height="150" width="120" className="Logo" />
                             </div>
                             <form className="profile__form" onSubmit={this.login}>
                                 <div className="profile__fields">
                                     <div className="field">
                                         <select className="dropdownSelector" onChange={this.handleChangeDropdown}>
-                                            <option value="Comsistelco">Comsistelco</option>
-                                            <option value="Codensa">Codensa</option>
+                                                <option value="Comsistelco">Comsistelco</option>
+                                                <option value="Codensa">Codensa</option>
                                         </select>
                                     </div>
                                     <div className="field">

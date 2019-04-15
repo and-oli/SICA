@@ -15,7 +15,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import EnhancedTable from "../Tables/Table";
 import FolderIcon from '@material-ui/icons/Folder';
-import Logout from "@material-ui/icons/Alarm";
 import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
@@ -123,7 +122,7 @@ class ResponsiveDrawer extends React.Component {
     handleSearch(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            let searchValue = e.target.value;
+            let searchValue = e.target.value.trim();
             let rowsToShow = [];
             this.state.rowsCopy.map(row => {
                 this.state.rowsHeaders.map(header => {
@@ -209,7 +208,7 @@ class ResponsiveDrawer extends React.Component {
                         //Table row header
                         this.setState({ rowsHeaders: [] });
                         Object.keys(json.lotes[0]).map(headerToAdd => {
-                            if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+                            if (headerToAdd !== "__v") {
                                 this.setState(prevState => {
                                     let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                                     let labelToShow = "";
@@ -318,6 +317,8 @@ class ResponsiveDrawer extends React.Component {
         const drawer = (
             <div>
                 <div className={classes.toolbar} />
+
+                <img src="./SICA_Logo.png" alt="SICA Logo" />
                 <Divider />
                 <List>
                     <ListItem button key={"Casos"}>
@@ -335,7 +336,7 @@ class ResponsiveDrawer extends React.Component {
                 <Divider />
                 <List>
                     <ListItem button key={"Logout"}>
-                        <Logout />
+                        <img src="./exit.png" alt="exit image" className="exitImg" />
                         <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
                     </ListItem>
                 </List>
