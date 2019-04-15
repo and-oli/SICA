@@ -60,8 +60,8 @@ class Login extends Component {
                                 <div className="profile__fields">
                                     <div className="field">
                                         <select className="dropdownSelector" onChange={this.handleChangeDropdown}>
-                                                <option value="Comsistelco">Comsistelco</option>
-                                                <option value="Codensa">Codensa</option>
+                                            <option value="Comsistelco">Comsistelco</option>
+                                            <option value="Codensa">Codensa</option>
                                         </select>
                                     </div>
                                     <div className="field">
