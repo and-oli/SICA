@@ -147,9 +147,9 @@ class EnhancedTable extends React.Component {
                     >
                       {
                         this.props.rowsHeaders.map((header, i) => {
-                          if (header.id !== "cambiosDeEstado" && header.id !== "cerrado") {
+                          if (header.id !== "cambiosDeEstado" && header.id !== "cerrado" && header.id !== "URLArchivo") {
                             return (
-                              <TableCell key={i} align="right">{n[header.id]}</TableCell>
+                              <TableCell key={i} align="center">{n[header.id]}</TableCell>
                             )
                           }
                           else if (header.id === "cerrado") {
@@ -159,9 +159,18 @@ class EnhancedTable extends React.Component {
                           }
                           else if (header.id === "cambiosDeEstado") {
                             return (
-                              <TableCell key={i} align="right" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                              <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
                                 <Tooltip title="Ver en detalle">
-                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id].slice(1)[0].fecha}</Typography>
+                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length-1].fecha}</Typography>
+                                </Tooltip>
+                              </TableCell>
+                            )
+                          }
+                          else if (header.id === "URLArchivo") {
+                            return (
+                              <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                <Tooltip title="Descargar">
+                                  <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar lote</a>
                                 </Tooltip>
                               </TableCell>
                             )

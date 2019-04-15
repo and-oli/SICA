@@ -29,7 +29,7 @@ class UploadFile extends React.Component {
             showUpload: false,
             loading: false,
             error: "",
-            success : ""
+            success: ""
         };
 
         this.handleUpload = this.handleUpload.bind(this);
@@ -38,15 +38,29 @@ class UploadFile extends React.Component {
     }
 
     uploadFile = (archivo) => {
-        let formData = new FormData();
-        formData.append("file", archivo);
-        return fetch('https://intellgentcms.herokuapp.com/sica/api/nuevoLote', {
-            method: 'POST',
-            headers: {
-                'x-access-token': localStorage.getItem("SICAToken")
-            },
-            body: formData
-        }).then(response => response.json())
+        if (localStorage.getItem("userType") === "Comsistelco") {
+            let formData = new FormData();
+            formData.append("file", archivo);
+            return fetch('https://intellgentcms.herokuapp.com/sica/api/finalizacionInspeccion', {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("SICAToken")
+                },
+                body: formData
+            }).then(response => response.json())
+        }
+        else if (localStorage.getItem("userType") === "Codensa") {
+            let formData = new FormData();
+            formData.append("file", archivo);
+            return fetch('https://intellgentcms.herokuapp.com/sica/api/nuevoLote', {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("SICAToken")
+                },
+                body: formData
+            }).then(response => response.json())
+        }
+
     }
 
     sendFile(e) {
@@ -55,7 +69,7 @@ class UploadFile extends React.Component {
             this.setState({ loading: true })
             this.uploadFile(this.refs.file.files[0]).then(json2 => {
                 if (json2.success) {
-                    this.setState({ loading: false, error: "" , success : json2.message});
+                    this.setState({ loading: false, error: "", success: json2.message });
                 }
                 else {
                     this.setState({ error: json2.message, loading: false });
@@ -73,6 +87,20 @@ class UploadFile extends React.Component {
 
     handleGoBackToTable() {
         this.props.switchUploadView(false);
+        window.location.reload();
+    }
+
+    renderButtton() {
+        if (this.state.error === "" && this.state.success === "") {
+            return (
+                <button className="acceptButton" onClick={this.sendFile}>Aceptar</button>
+            )
+        }
+        else{
+            return(
+                <button className="acceptButton" onClick={this.handleGoBackToTable}>Volver</button>
+            )
+        }
     }
 
     render() {
@@ -107,7 +135,9 @@ class UploadFile extends React.Component {
                         )
                             :
                             (<div className="cardActionAccept">
-                                <button className="acceptButton" onClick={this.sendFile}>Aceptar</button>
+                                {
+                                    this.renderButtton()
+                                }
                                 <p className="errorText">{this.state.error}</p>
                                 <p className="successText">{this.state.success}</p>
                             </div>)

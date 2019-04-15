@@ -21,6 +21,9 @@ import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
 import UploadFile from "../UploadFile/UploadFile";
 import DateDetail from "../DateDetail/DateDetail";
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const drawerWidth = 200;
 
@@ -79,7 +82,9 @@ class ResponsiveDrawer extends React.Component {
             rowsHeaders: [],
             rows: [],
             rowData: "",
-            rowsCopy: []
+            rowsCopy: [],
+            searching: false,
+            empty: false
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -91,6 +96,7 @@ class ResponsiveDrawer extends React.Component {
         this.doFetchCasos = this.doFetchCasos.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleResetSearch = this.handleResetSearch.bind(this);
+        this.renderResetSearchButton = this.renderResetSearchButton.bind(this);
     }
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -128,15 +134,14 @@ class ResponsiveDrawer extends React.Component {
                 })
                 return null;
             });
-            this.setState({ rows: rowsToShow })
+            this.setState({ rows: rowsToShow, searching: true })
         }
 
     }
 
-    handleResetSearch(){
-        this.setState({rows : this.state.rowsCopy});
-        console.log(this.state.rows);
-        document.getElementById("searchInput").value ="";
+    handleResetSearch() {
+        this.setState({ rows: this.state.rowsCopy, searching: false });
+        document.getElementById("searchInput").value = "";
     }
 
     componentDidMount() {
@@ -175,7 +180,7 @@ class ResponsiveDrawer extends React.Component {
                         this.setState({ loading: false });
                     }
                     else {
-                        window.location.reload();
+                        this.setState({ empty: true, loading: false })
                     }
                 }
                 else {
@@ -221,7 +226,7 @@ class ResponsiveDrawer extends React.Component {
                         this.setState({ rows: json.lotes, rowsCopy: json.lotes });
                     }
                     else {
-                        window.location.reload();
+                        this.setState({ empty: true, loading: false })
                     }
                 }
                 else {
@@ -242,6 +247,13 @@ class ResponsiveDrawer extends React.Component {
                 </div>
             );
         }
+        else if (localStorage.getItem("userType") === "Comsistelco" && this.state.actualTable === "Casos") {
+            return (
+                <div>
+                    <button className="uploadButtonCasos" type="button" onClick={() => { this.switchUploadView(true) }}>Subir finalización de inspecciones</button>
+                </div>
+            );
+        }
     }
 
     renderComponents() {
@@ -249,21 +261,50 @@ class ResponsiveDrawer extends React.Component {
             return (<span className="loaderTable" id="loaderTable"></span>)
         }
         else {
-            if (!this.state.showUpload && !this.state.showDateDetail) {
-                return (<EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView} currentTable={this.state.actualTable} />)
+            if (!this.state.showUpload && !this.state.showDateDetail && !this.state.empty) {
+                return (
+                    <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView} currentTable={this.state.actualTable} />
+                )
             }
             else if (this.state.showDateDetail) {
                 return (<DateDetail switchDateDetailView={this.switchDateDetailView} data={this.state.rowData}></DateDetail>)
             }
-            else {
+            else if (this.state.showUpload) {
                 return (
                     <div>
-                        <UploadFile switchUploadView={this.switchUploadView} />
+                        <UploadFile switchUploadView={this.switchUploadView} currentUser />
                     </div>
                 )
             }
+            else if (this.state.empty) {
+                return (
+                    <div>
+                        <br />
+                        <Grid>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h5" component="h2">
+                                        No hay información para mostrar
+                                </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </div>
+                )
+
+            }
         }
 
+    }
+
+    renderResetSearchButton() {
+        if (this.state.searching) {
+            return (
+                <div>
+                    <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
+                </div>
+            )
+        }
     }
     render() {
         const { classes, theme } = this.props;
@@ -308,18 +349,18 @@ class ResponsiveDrawer extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" color="inherit" noWrap style={{ width: "200px" }}>
+                        <Typography variant="h6" color="inherit" noWrap style={{ width: "100px" }}>
                             {this.state.actualTable}
                         </Typography>
                         {
                             this.renderUploadFile(classes)
                         }
-                        <form style={{ marginLeft: "60%" }}>
-                            <input type="text" name="search" placeholder="Buscar..." id="searchInput"className="searchBarTable" onKeyDown={this.handleSearch} />
+                        <form style={{ marginLeft: "20%" }}>
+                            <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
                         </form>
-                        <div>
-                            <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
-                        </div>
+                        {
+                            this.renderResetSearchButton()
+                        }
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer}>
