@@ -154,14 +154,29 @@ class EnhancedTable extends React.Component {
                           }
                           else if (header.id === "cerrado") {
                             return (
-                              n[header.id] ? (<TableCell key={i} ><Checkbox disabled checked /></TableCell>) : (<TableCell key={i}> <Checkbox disabled /></TableCell>)
+                              n[header.id] ? (
+                                <TableCell key={i} >
+                                  <Tooltip title="Cerrado">
+                                    <Typography>
+                                    </Typography>
+                                  </Tooltip>
+
+                                  <Checkbox disabled checked />
+
+                                </TableCell>
+                              ) : (
+                                  <TableCell key={i}>
+                                    <Tooltip title="No cerrado">
+                                      <Checkbox disabled />
+                                    </Tooltip>
+                                  </TableCell>)
                             )
                           }
                           else if (header.id === "cambiosDeEstado") {
                             return (
                               <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
                                 <Tooltip title="Ver en detalle">
-                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length-1].fecha}</Typography>
+                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
                                 </Tooltip>
                               </TableCell>
                             )

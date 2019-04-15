@@ -165,7 +165,10 @@ class ResponsiveDrawer extends React.Component {
                                 this.setState(prevState => {
                                     let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                                     let labelToShow = "";
-                                    labelsplit.map(word => {
+                                    labelsplit.map((word, i) => {
+                                        if (i === 0) {
+                                            word = word.charAt(0).toUpperCase() + word.slice(1);
+                                        }
                                         labelToShow = labelToShow + " " + word;
                                         return ("");
                                     })
@@ -210,7 +213,10 @@ class ResponsiveDrawer extends React.Component {
                                 this.setState(prevState => {
                                     let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                                     let labelToShow = "";
-                                    labelsplit.map(word => {
+                                    labelsplit.map((word, i) => {
+                                        if (i === 0) {
+                                            word = word.charAt(0).toUpperCase() + word.slice(1);
+                                        }
                                         labelToShow = labelToShow + " " + word;
                                         return ("");
                                     })
