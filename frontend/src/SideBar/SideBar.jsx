@@ -23,8 +23,20 @@ import DateDetail from "../DateDetail/DateDetail";
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Clock from "@material-ui/icons/Alarm";
 
 const drawerWidth = 200;
+
+let data = [
+    {
+        "_id": "123456",
+        "Actividad": "Subir lote",
+        "Usuario": "Codensa",
+        "Fecha": "4/16/2019",
+        "Observaciones": "-",
+        "URLArchivo": "https://storage.googleapis.com/intelligentimgbucket/SICA/ASIGNACI%C3%93N_21032019.xlsx"
+    }
+];
 
 const toolbarStyle = {
     backgroundColor: blue[500]
@@ -96,6 +108,8 @@ class ResponsiveDrawer extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleResetSearch = this.handleResetSearch.bind(this);
         this.renderResetSearchButton = this.renderResetSearchButton.bind(this);
+        this.handleClickActividad = this.handleClickActividad.bind(this);
+        this.doFetchActividad = this.doFetchActividad.bind(this);
     }
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -111,6 +125,11 @@ class ResponsiveDrawer extends React.Component {
         this.setState({ actualTable: "Lotes", showUpload: false, showDateDetail: false, loading: true });
     }
 
+    handleClickActividad() {
+        this.setState({ actualTable: "Actividad", showUpload: false, showDateDetail: false, loading: true });
+        this.doFetchActividad();
+    }
+
     switchUploadView(value) {
         this.setState({ showUpload: value });
     }
@@ -124,15 +143,17 @@ class ResponsiveDrawer extends React.Component {
             e.preventDefault();
             let searchValue = e.target.value.trim();
             let rowsToShow = [];
-            this.state.rowsCopy.map(row => {
-                this.state.rowsHeaders.map(header => {
+
+            for (let i = 0; i < this.state.rowsCopy.length; i++) {
+                for (let j = 0; j < this.state.rowsHeaders.length; j++) {
+                    let row = this.state.rowsCopy[i];
+                    let header = this.state.rowsHeaders[j];
                     if (row[header.id] === searchValue) {
                         rowsToShow.push(row);
+                        break;
                     }
-                    return null;
-                })
-                return null;
-            });
+                }
+            }
             this.setState({ rows: rowsToShow, searching: true })
         }
 
@@ -148,7 +169,7 @@ class ResponsiveDrawer extends React.Component {
     }
 
     doFetchCasos() {
-        return fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
+        fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
             method: 'GET',
             headers: {
                 'x-access-token': localStorage.getItem("SICAToken")
@@ -159,27 +180,30 @@ class ResponsiveDrawer extends React.Component {
                     if (json.casos.length > 0) {
                         //Table row header
                         this.setState({ rowsHeaders: [] });
-                        Object.keys(json.casos[0]).map(headerToAdd => {
+                        for (let j = 0; j < Object.keys(json.casos[0]).length; j++) {
+                            let headerToAdd = Object.keys(json.casos[0])[j];
                             if (headerToAdd !== "_id" && headerToAdd !== "__v") {
                                 this.setState(prevState => {
                                     let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                                     let labelToShow = "";
-                                    labelsplit.map((word, i) => {
+                                    for (let i = 0; i < labelsplit.length; i++) {
+                                        let word = labelsplit[i];
                                         if (i === 0) {
                                             word = word.charAt(0).toUpperCase() + word.slice(1);
                                         }
                                         labelToShow = labelToShow + " " + word;
-                                        return ("");
-                                    })
+                                    }
                                     prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
                                     return ({ rowsHeaders: prevState.rowsHeaders });
                                 })
                             }
-                            return ("");
-                        });
+                        };
+                        this.setState(prevState => {
+                            prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
+                            return ({ rowsHeaders: prevState.rowsHeaders });
+                        })
                         //Table rows information
-                        this.setState({ rows: json.casos, rowsCopy: json.casos });
-                        this.setState({ loading: false });
+                        this.setState({ rows: json.casos, rowsCopy: json.casos, loading: false });
                     }
                     else {
                         this.setState({ empty: true, loading: false })
@@ -187,7 +211,8 @@ class ResponsiveDrawer extends React.Component {
                 }
                 else {
                     if (response.status === 403) {
-                        localStorage.removeItem("SICAToken"); window.location.reload();
+                        localStorage.removeItem("SICAToken");
+                        window.location.reload();
                     }
                 }
 
@@ -196,7 +221,7 @@ class ResponsiveDrawer extends React.Component {
     }
 
     doFetchLotes() {
-        return fetch('https://intellgentcms.herokuapp.com/sica/api/lotes', {
+        fetch('https://intellgentcms.herokuapp.com/sica/api/lotes', {
             method: 'GET',
             headers: {
                 'x-access-token': localStorage.getItem("SICAToken")
@@ -207,41 +232,53 @@ class ResponsiveDrawer extends React.Component {
                     if (json.lotes.length > 0) {
                         //Table row header
                         this.setState({ rowsHeaders: [] });
-                        Object.keys(json.lotes[0]).map(headerToAdd => {
+                        for (let j = 0; j < Object.keys(json.lotes[0]).length; j++) {
+                            let headerToAdd = Object.keys(json.lotes[0])[j];
                             if (headerToAdd !== "__v") {
                                 this.setState(prevState => {
                                     let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                                     let labelToShow = "";
-                                    labelsplit.map((word, i) => {
+                                    for (let i = 0; i < labelsplit.length; i++) {
+                                        let word = labelsplit[i];
                                         if (i === 0) {
                                             word = word.charAt(0).toUpperCase() + word.slice(1);
                                         }
                                         labelToShow = labelToShow + " " + word;
-                                        return ("");
-                                    })
+                                    }
                                     prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
                                     return ({ rowsHeaders: prevState.rowsHeaders });
                                 })
                             }
-                            return ("");
-                        });
+                        };
 
                         //Table rows information
-                        this.setState({ loading: false });
-                        this.setState({ rows: json.lotes, rowsCopy: json.lotes });
+                        this.setState({ rows: json.lotes, rowsCopy: json.lotes, loading: false });
                     }
                     else {
                         this.setState({ empty: true, loading: false })
                     }
                 }
                 else {
-                    if (json.message === "Failed to authenticate token.") {
-                        localStorage.removeItem("SICAToken"); window.location.reload();
+                    if (response.status === 403) {
+                        localStorage.removeItem("SICAToken");
+                        window.location.reload();
                     }
                 }
 
             }
         ));
+    }
+
+    doFetchActividad() {
+        this.setState({ rowsHeaders: [] });
+        let arreglo = []
+        for (let j = 0; j < Object.keys(data[0]).length; j++) {
+            let headerToAdd = Object.keys(data[0])[j];
+            if (headerToAdd !== "__v") {
+                arreglo.push({ id: headerToAdd, numeric: false, disablePadding: true, label: headerToAdd });
+            }
+        }
+        this.setState({ rowsHeaders: arreglo, loading: false, rows: data, rowsCopy: data });
     }
 
     renderUploadFile() {
@@ -255,7 +292,7 @@ class ResponsiveDrawer extends React.Component {
         else if (localStorage.getItem("userType") === "Comsistelco" && this.state.actualTable === "Casos") {
             return (
                 <div>
-                    <button className="uploadButtonCasos" type="button" onClick={() => { this.switchUploadView(true) }}>Subir finalización de inspecciones</button>
+                    <button className="uploadButtonCasos" type="button" onClick={() => { this.switchUploadView(true) }}>Subir ODT</button>
                 </div>
             );
         }
@@ -318,7 +355,7 @@ class ResponsiveDrawer extends React.Component {
             <div>
                 <div className={classes.toolbar} />
 
-                <img src="./SICA_Logo.png" alt="SICA Logo" />
+                <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu"/>
                 <Divider />
                 <List>
                     <ListItem button key={"Casos"}>
@@ -335,8 +372,15 @@ class ResponsiveDrawer extends React.Component {
                 </List>
                 <Divider />
                 <List>
+                    <ListItem button key={"Actividad"}>
+                        <Clock />
+                        <ListItemText primary={"Actividad"} onClick={this.handleClickActividad} />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List>
                     <ListItem button key={"Logout"}>
-                        <img src="./exit.png" alt="exit image" className="exitImg" />
+                        <img src="./exit.png" alt="exit" className="exitImg" />
                         <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
                     </ListItem>
                 </List>

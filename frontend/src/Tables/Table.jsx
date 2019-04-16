@@ -8,10 +8,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import EnhancedTableHead from "./TableHead";
-import "./Table.css"
+import "./Table.css";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Modal from '@material-ui/core/Modal';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -21,6 +23,17 @@ function desc(a, b, orderBy) {
     return 1;
   }
   return 0;
+}
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
 }
 
 function stableSort(array, cmp) {
@@ -48,6 +61,22 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  fab: {
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    position: "fixed",
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  paperModal: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
 });
 
 class EnhancedTable extends React.Component {
@@ -60,9 +89,11 @@ class EnhancedTable extends React.Component {
       selected: [],
       page: 0,
       rowsPerPage: 10,
+      open: false,
     };
 
     this.handleDateDetailView = this.handleDateDetailView.bind(this);
+    this.handleOpenModalUpload = this.handleOpenModalUpload.bind(this);
   }
 
   handleRequestSort = (event, property) => {
@@ -117,110 +148,129 @@ class EnhancedTable extends React.Component {
     this.props.switchDateDetailView(true, rowData);
   }
 
+  handleOpenModalUpload(){
+    this.setState({ open: true });
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { rows, classes } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={rows.length}
-              rowsHeaders={this.props.rowsHeaders}
-            />
-            <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={n._id}
-                    >
-                      {
-                        this.props.rowsHeaders.map((header, i) => {
-                          if (header.id !== "cambiosDeEstado" && header.id !== "cerrado" && header.id !== "URLArchivo") {
-                            return (
-                              <TableCell key={i} align="center">{n[header.id]}</TableCell>
-                            )
-                          }
-                          else if (header.id === "cerrado") {
-                            return (
-                              n[header.id] ? (
-                                <TableCell key={i} >
-                                  <Tooltip title="Cerrado">
-                                    <Typography>
-                                    </Typography>
+      <div>
+        <Paper className={classes.root}>
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={rows.length}
+                rowsHeaders={this.props.rowsHeaders}
+              />
+              <TableBody>
+                {stableSort(rows, getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map(n => {
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={n._id}
+                      >
+                        {
+                          this.props.rowsHeaders.map((header, i) => {
+                            if (header.id !== "cambiosDeEstado" && header.id !== "cerrado" && header.id !== "URLArchivo" && header.id !== "estado") {
+                              return (
+                                <TableCell key={i} align="center">{n[header.id]}</TableCell>
+                              )
+                            }
+                            else if (header.id === "cerrado") {
+                              return (
+                                <TableCell key={i} align="center">{n[header.id].toString()}</TableCell>
+                              )
+                            }
+                            else if (header.id === "cambiosDeEstado") {
+                              return (
+                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                  <Tooltip title="Ver en detalle">
+                                    <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
                                   </Tooltip>
-
-                                  <Checkbox disabled checked />
-
                                 </TableCell>
-                              ) : (
-                                  <TableCell key={i}>
-                                    <Tooltip title="No cerrado">
-                                      <Checkbox disabled />
-                                    </Tooltip>
-                                  </TableCell>)
-                            )
+                              )
+                            }
+                            else if (header.id === "URLArchivo") {
+                              return (
+                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                  <Tooltip title="Descargar">
+                                    <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar archivo</a>
+                                  </Tooltip>
+                                </TableCell>
+                              )
+                            }
+                            else if (header.id === "estado") {
+                              return (
+                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
+                                  <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
+                                </TableCell>
+                              )
+                            }
+                            return (null);
                           }
-                          else if (header.id === "cambiosDeEstado") {
-                            return (
-                              <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                                <Tooltip title="Ver en detalle">
-                                  <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
-                                </Tooltip>
-                              </TableCell>
-                            )
-                          }
-                          else if (header.id === "URLArchivo") {
-                            return (
-                              <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                                <Tooltip title="Descargar">
-                                  <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar lote</a>
-                                </Tooltip>
-                              </TableCell>
-                            )
-                          }
-                          return (null);
+                          )
                         }
-                        )
-                      }
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
-      </Paper>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Paper>
+        <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
+          <AddIcon />
+        </Fab>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+        >
+          <div style={getModalStyle()} className={classes.paperModal}>
+            <Typography variant="h6" id="modal-title">
+              Text in a modal
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+          </div>
+        </Modal>
+      </div>
     );
   }
 }

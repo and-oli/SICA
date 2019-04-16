@@ -1,7 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Login.css';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
-class Login extends Component {
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    formControl: {
+      margin: theme.spacing.unit,
+      marginLeft : theme.spacing.unit * 7, 
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing.unit * 2,
+    },
+  });
+
+class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,6 +70,7 @@ class Login extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         return (
             <div>
                 <div className="login">
@@ -59,10 +82,20 @@ class Login extends Component {
                             <form className="profile__form" onSubmit={this.login}>
                                 <div className="profile__fields">
                                     <div className="field">
-                                        <select className="dropdownSelector" onChange={this.handleChangeDropdown}>
-                                            <option value="Comsistelco">Comsistelco</option>
-                                            <option value="Codensa">Codensa</option>
-                                        </select>
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel shrink htmlFor="age-label-placeholder"> Tipo de usuario</InputLabel>
+                                            <Select
+                                                value={this.state.userType}
+                                                onChange={this.handleChangeDropdown}
+                                                input={<Input name="age" id="age-label-placeholder" />}
+                                                displayEmpty
+                                                name="age"
+                                                className={classes.selectEmpty}
+                                            >
+                                                <MenuItem value="Comsistelco">Comsistelco</MenuItem>
+                                                <MenuItem value="Codensa">Codensa</MenuItem>
+                                            </Select>
+                                        </FormControl>
                                     </div>
                                     <div className="field">
                                         <input type="text" id="fieldUser" className="input" ref="username" required pattern=".*\S.*" />
@@ -97,4 +130,8 @@ class Login extends Component {
     }
 }
 
-export default Login;
+Login.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
+export default withStyles(styles)(Login);

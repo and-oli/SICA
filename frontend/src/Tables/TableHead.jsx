@@ -31,7 +31,6 @@ class EnhancedTableHead extends React.Component {
   };
 
   renderHeader(label) {
-    console.log(label);
     if (label === " U R L Archivo") {
       return ("URL Archivo")
     }

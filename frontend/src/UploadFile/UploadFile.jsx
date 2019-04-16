@@ -29,12 +29,15 @@ class UploadFile extends React.Component {
             showUpload: false,
             loading: false,
             error: "",
-            success: ""
+            success: "",
+            fileSelected : false
         };
 
         this.handleUpload = this.handleUpload.bind(this);
         this.sendFile = this.sendFile.bind(this);
         this.handleGoBackToTable = this.handleGoBackToTable.bind(this);
+        this.renderButtton = this.renderButtton.bind(this);
+        this.handleChangeFile = this.handleChangeFile.bind(this);
     }
 
     uploadFile = (archivo) => {
@@ -90,15 +93,21 @@ class UploadFile extends React.Component {
         window.location.reload();
     }
 
+    handleChangeFile(){
+        if(this.refs.file.files[0]){
+            this.setState({fileSelected : true})
+        }
+    }
+
     renderButtton() {
-        if (this.state.error === "" && this.state.success === "") {
+        if (this.state.error === "" && this.state.success === "" && this.state.fileSelected) {
             return (
                 <button className="acceptButton" onClick={this.sendFile}>Aceptar</button>
             )
         }
-        else{
-            return(
-                <button className="acceptButton" onClick={this.handleGoBackToTable}>Volver</button>
+        else {
+            return (
+                <button className="acceptButton" style={{cursor:" not-allowed", opacity: "0.6"}}>Aceptar</button>
             )
         }
     }
@@ -119,11 +128,10 @@ class UploadFile extends React.Component {
                     </Typography>
                         </CardContent>
                         <CardActions>
-                            <div className="upload-btn-wrapper">
-                                <button className="btnUpload">Abrir explorador</button>
-                                <input id="file-upload" type="file" ref="file" name="myimages" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                            <div>
+                                <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                             </div>
-
                         </CardActions>
                         {this.state.loading ? (
                             <div>

@@ -1,4 +1,10 @@
 .ordenadoText{
     padding-left: 3%;
-    font-size: 16px;
+    font-size: 17px;
+}
+
+.dateDetailGrid{
+    margin: auto;
+    display: block;
+    width: 800px;
 }

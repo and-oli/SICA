@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Arrow from '@material-ui/icons/ArrowBack';
@@ -55,7 +54,7 @@ class DateDetail extends React.Component {
         return (
             <div>
                 <br />
-                <Grid className="subirArchivo">
+                <Grid className="dateDetailGrid">
                     <Card className={classes.card}>
                         <CardContent>
                             <Arrow onClick={this.handleGoBackToTable} className="arrow" />
@@ -75,6 +74,7 @@ class DateDetail extends React.Component {
                                     <TableRow>
                                         <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Fecha</TableCell>
                                         <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Estado</TableCell>
+                                        <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Observaciones</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -91,12 +91,6 @@ class DateDetail extends React.Component {
                                 </TableBody>
                             </Table>
                         </Paper>
-                        <CardActions>
-                            <div className="upload-btn-wrapper">
-                                <button className="btnUpload" onClick={this.handleGoBackToTable}>Volver</button>
-                            </div>
-
-                        </CardActions>
                     </Card>
                 </Grid>
             </div>

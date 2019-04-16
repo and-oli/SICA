@@ -100,12 +100,14 @@
     color: red;
     margin-left: 0%;
     font-size: 20px;
+    text-align: center;
 }
 
 .successText{
     color: green;
     margin-left: 0%;
     font-size: 20px;
+    text-align: center;
 }
 
 .arrow:hover{
@@ -116,4 +118,9 @@ cursor: pointer;
     padding: 0 10px 0 0 !important;
     width: 100%;
     text-align: right;
+}
+
+.inputFile{
+  margin-left: 15%;
+  width: 450px;
 }
