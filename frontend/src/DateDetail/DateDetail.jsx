@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
 import Arrow from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -28,7 +25,7 @@ const styles = theme => ({
     root: {
         width: '90%',
         marginTop: theme.spacing.unit * 3,
-        marginBottom : "10px",
+        marginBottom: "10px",
         marginLeft: "5%",
         overflowX: 'auto',
     },
@@ -46,53 +43,47 @@ class DateDetail extends React.Component {
         this.handleGoBackToTable = this.handleGoBackToTable.bind(this);
     }
     handleGoBackToTable() {
-        this.props.switchDateDetailView(false);
+        this.props.handleClose();
     }
 
     render() {
         const { classes } = this.props;
         return (
             <div>
+                <Arrow onClick={this.handleGoBackToTable} className="arrow" />
                 <br />
-                <Grid className="dateDetailGrid">
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Arrow onClick={this.handleGoBackToTable} className="arrow" />
-                            <br />
-                            <Divider />
-                            <Typography variant="h5" component="h2">
-                                Detalle del caso
-                            </Typography>
-                        </CardContent>
-                        <Typography className="ordenadoText">
-                            <strong>Ordenado: </strong>
-                            {this.props.data.ordenado}
-                        </Typography>
-                        <Paper className={classes.root}>
-                            <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Fecha</TableCell>
-                                        <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Estado</TableCell>
-                                        <TableCell align="center" style={{fontWeight: "bold", fontSize : "16px"}}>Observaciones</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        this.props.data.cambiosDeEstado.map(row => {
-                                            return(
-                                                <TableRow key={row._id}>
-                                                    <TableCell align="center" >{row.fecha}</TableCell>
-                                                    <TableCell align="center">{row.nuevoEstado}</TableCell>
-                                                </TableRow>
-                                            )
-                                        })
-                                    }
-                                </TableBody>
-                            </Table>
-                        </Paper>
-                    </Card>
-                </Grid>
+                <Divider />
+                <Typography variant="h5" component="h2">
+                    Detalle del caso
+                </Typography>
+                <br/>
+                <Typography className="ordenadoText">
+                    <strong>Ordenado: </strong>
+                    {this.props.data.ordenado}
+                </Typography>
+                <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center" style={{ fontWeight: "bold", fontSize: "16px" }}>Fecha</TableCell>
+                                <TableCell align="center" style={{ fontWeight: "bold", fontSize: "16px" }}>Estado</TableCell>
+                                <TableCell align="center" style={{ fontWeight: "bold", fontSize: "16px" }}>Observaciones</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                this.props.data.cambiosDeEstado.map(row => {
+                                    return (
+                                        <TableRow key={row._id}>
+                                            <TableCell align="center" >{row.fecha}</TableCell>
+                                            <TableCell align="center">{row.nuevoEstado}</TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         )
     }

@@ -14,6 +14,8 @@ import "./Table.css";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Modal from '@material-ui/core/Modal';
+import UploadFile from "../UploadFile/UploadFile";
+import DateDetail from "../DateDetail/DateDetail";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,9 +71,17 @@ const styles = theme => ({
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
-  paperModal: {
+  modalUploadFile: {
     position: 'absolute',
-    width: theme.spacing.unit * 50,
+    width: theme.spacing.unit * 80,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
+  modalDateDetail: {
+    position: 'absolute',
+    width: theme.spacing.unit * 120,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
@@ -89,11 +99,10 @@ class EnhancedTable extends React.Component {
       selected: [],
       page: 0,
       rowsPerPage: 10,
-      open: false,
+      openUpload: false,
+      openDateDetail : false,
+      rowData: "",
     };
-
-    this.handleDateDetailView = this.handleDateDetailView.bind(this);
-    this.handleOpenModalUpload = this.handleOpenModalUpload.bind(this);
   }
 
   handleRequestSort = (event, property) => {
@@ -144,16 +153,20 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleDateDetailView(rowData) {
-    this.props.switchDateDetailView(true, rowData);
+  handleOpenDateDetail= (data) => {
+    this.setState({ openDateDetail: true , rowData : data });
   }
 
-  handleOpenModalUpload(){
-    this.setState({ open: true });
+  handleCloseModalDateDetail = () => {
+    this.setState({ openDateDetail: false });
   }
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleOpenModalUpload = () => {
+    this.setState({ openUpload: true });
+  }
+
+  handleCloseModalUpload = () => {
+    this.setState({ openUpload: false });
   };
 
   render() {
@@ -201,7 +214,7 @@ class EnhancedTable extends React.Component {
                               return (
                                 <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
                                   <Tooltip title="Ver en detalle">
-                                    <Typography style={{ color: "#2196f3" }} onClick={this.handleDateDetailView.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
+                                    <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
                                   </Tooltip>
                                 </TableCell>
                               )
@@ -259,15 +272,19 @@ class EnhancedTable extends React.Component {
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
-          open={this.state.open}
+          open={this.state.openUpload}
         >
-          <div style={getModalStyle()} className={classes.paperModal}>
-            <Typography variant="h6" id="modal-title">
-              Text in a modal
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+          <div style={getModalStyle()} className={classes.modalUploadFile}>
+            <UploadFile handleClose={this.handleCloseModalUpload} />
+          </div>
+        </Modal>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.openDateDetail}
+        >
+          <div style={getModalStyle()} className={classes.modalDateDetail}>
+            <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
           </div>
         </Modal>
       </div>

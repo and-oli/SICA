@@ -1,3 +1,4 @@
+    
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,8 +19,6 @@ import FolderIcon from '@material-ui/icons/Folder';
 import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
-import UploadFile from "../UploadFile/UploadFile";
-import DateDetail from "../DateDetail/DateDetail";
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -87,12 +86,9 @@ class ResponsiveDrawer extends React.Component {
             mobileOpen: false,
             actualTable: "Casos",
             userType: "",
-            showUpload: false,
-            showDateDetail: false,
             loading: true,
             rowsHeaders: [],
             rows: [],
-            rowData: "",
             rowsCopy: [],
             searching: false,
             empty: false
@@ -101,8 +97,6 @@ class ResponsiveDrawer extends React.Component {
         // This binding is necessary to make `this` work in the callback
         this.handleClickCasos = this.handleClickCasos.bind(this);
         this.handleClickLotes = this.handleClickLotes.bind(this);
-        this.switchUploadView = this.switchUploadView.bind(this);
-        this.switchDateDetailView = this.switchDateDetailView.bind(this);
         this.doFetchLotes = this.doFetchLotes.bind(this);
         this.doFetchCasos = this.doFetchCasos.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -117,25 +111,17 @@ class ResponsiveDrawer extends React.Component {
 
     handleClickCasos() {
         this.doFetchCasos();
-        this.setState({ actualTable: "Casos", showUpload: false, showDateDetail: false, loading: true });
+        this.setState({ actualTable: "Casos", loading: true });
     }
 
     handleClickLotes() {
         this.doFetchLotes();
-        this.setState({ actualTable: "Lotes", showUpload: false, showDateDetail: false, loading: true });
+        this.setState({ actualTable: "Lotes", loading: true });
     }
 
     handleClickActividad() {
-        this.setState({ actualTable: "Actividad", showUpload: false, showDateDetail: false, loading: true });
+        this.setState({ actualTable: "Actividad", loading: true });
         this.doFetchActividad();
-    }
-
-    switchUploadView(value) {
-        this.setState({ showUpload: value });
-    }
-
-    switchDateDetailView(value, data) {
-        this.setState({ showDateDetail: value, rowData: data });
     }
 
     handleSearch(e) {
@@ -281,41 +267,14 @@ class ResponsiveDrawer extends React.Component {
         this.setState({ rowsHeaders: arreglo, loading: false, rows: data, rowsCopy: data });
     }
 
-    renderUploadFile() {
-        if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "Lotes") {
-            return (
-                <div>
-                    <button className="uploadButton" type="button" onClick={() => { this.switchUploadView(true) }}>Agregar nuevo lote</button>
-                </div>
-            );
-        }
-        else if (localStorage.getItem("userType") === "Comsistelco" && this.state.actualTable === "Casos") {
-            return (
-                <div>
-                    <button className="uploadButtonCasos" type="button" onClick={() => { this.switchUploadView(true) }}>Subir ODT</button>
-                </div>
-            );
-        }
-    }
-
     renderComponents() {
         if (this.state.loading) {
             return (<span className="loaderTable" id="loaderTable"></span>)
         }
         else {
-            if (!this.state.showUpload && !this.state.showDateDetail && !this.state.empty) {
+            if (!this.state.empty) {
                 return (
-                    <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} switchDateDetailView={this.switchDateDetailView} currentTable={this.state.actualTable} />
-                )
-            }
-            else if (this.state.showDateDetail) {
-                return (<DateDetail switchDateDetailView={this.switchDateDetailView} data={this.state.rowData}></DateDetail>)
-            }
-            else if (this.state.showUpload) {
-                return (
-                    <div>
-                        <UploadFile switchUploadView={this.switchUploadView} currentUser />
-                    </div>
+                    <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
                 )
             }
             else if (this.state.empty) {
@@ -403,9 +362,6 @@ class ResponsiveDrawer extends React.Component {
                         <Typography variant="h6" color="inherit" noWrap style={{ width: "100px" }}>
                             {this.state.actualTable}
                         </Typography>
-                        {
-                            this.renderUploadFile(classes)
-                        }
                         <form style={{ marginLeft: "20%" }}>
                             <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
                         </form>

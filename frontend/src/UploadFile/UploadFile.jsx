@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
 import Arrow from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -30,7 +26,7 @@ class UploadFile extends React.Component {
             loading: false,
             error: "",
             success: "",
-            fileSelected : false
+            fileSelected: false
         };
 
         this.handleUpload = this.handleUpload.bind(this);
@@ -89,13 +85,15 @@ class UploadFile extends React.Component {
     }
 
     handleGoBackToTable() {
-        this.props.switchUploadView(false);
-        window.location.reload();
+        this.props.handleClose();
+        if (this.refs.file.files[0]) {
+            window.location.reload();
+        }
     }
 
-    handleChangeFile(){
-        if(this.refs.file.files[0]){
-            this.setState({fileSelected : true})
+    handleChangeFile() {
+        if (this.refs.file.files[0]) {
+            this.setState({ fileSelected: true })
         }
     }
 
@@ -107,51 +105,42 @@ class UploadFile extends React.Component {
         }
         else {
             return (
-                <button className="acceptButton" style={{cursor:" not-allowed", opacity: "0.6"}}>Aceptar</button>
+                <button className="acceptButton" style={{ cursor: " not-allowed", opacity: "0.6" }}>Aceptar</button>
             )
         }
     }
 
     render() {
-        const { classes } = this.props;
         return (
             <div>
+                <Arrow onClick={this.handleGoBackToTable} className="arrow" />
                 <br />
-                <Grid className="subirArchivo">
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Arrow onClick={this.handleGoBackToTable} className="arrow" />
-                            <br />
-                            <Divider />
-                            <Typography variant="h5" component="h2">
-                                Subir un archivo
-                    </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <div>
-                                <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
-                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                            </div>
-                        </CardActions>
-                        {this.state.loading ? (
-                            <div>
-                                <br />
-                                <span className="loader" id="loader"></span>
-                                <br />
-                                <br />
-                            </div>
-                        )
-                            :
-                            (<div className="cardActionAccept">
-                                {
-                                    this.renderButtton()
-                                }
-                                <p className="errorText">{this.state.error}</p>
-                                <p className="successText">{this.state.success}</p>
-                            </div>)
+                <Divider />
+                <Typography variant="h5" component="h2">
+                    Subir un archivo
+                </Typography>
+                <br/>
+                <div>
+                    <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </div>
+                {this.state.loading ? (
+                    <div>
+                        <br />
+                        <span className="loader" id="loader"></span>
+                        <br />
+                        <br />
+                    </div>
+                )
+                    :
+                    (<div className="cardActionAccept">
+                        {
+                            this.renderButtton()
                         }
-                    </Card>
-                </Grid>
+                        <p className="errorText">{this.state.error}</p>
+                        <p className="successText">{this.state.success}</p>
+                    </div>)
+                }
             </div>
         )
     }
