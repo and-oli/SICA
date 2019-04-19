@@ -37,6 +37,31 @@ class UploadFile extends React.Component {
     }
 
     uploadFile = (archivo) => {
+
+        console.log(JSON.stringify({
+            usuario : localStorage.getItem("userType"),
+            observacion : "Nada",
+            concepto : "Nuevo lote",
+            profundidad : 0
+        }));
+
+        fetch("https://intellgentcms.herokuapp.com/sica/api/actividad", {
+            method: "POST",
+            headers: {
+                'x-access-token': localStorage.getItem("SICAToken"),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                usuario : localStorage.getItem("userType"),
+                observacion : "Nada",
+                concepto : "Nuevo lote",
+                profundidad : 0
+            })
+        }).then(response => 
+            console.log(response))
+
+
         if (localStorage.getItem("userType") === "Comsistelco") {
             let formData = new FormData();
             formData.append("file", archivo);
@@ -46,7 +71,7 @@ class UploadFile extends React.Component {
                     'x-access-token': localStorage.getItem("SICAToken")
                 },
                 body: formData
-            }).then(response => response.json())
+            }).then(response => response.json());
         }
         else if (localStorage.getItem("userType") === "Codensa") {
             let formData = new FormData();
@@ -57,7 +82,7 @@ class UploadFile extends React.Component {
                     'x-access-token': localStorage.getItem("SICAToken")
                 },
                 body: formData
-            }).then(response => response.json())
+            }).then(response => response.json());
         }
 
     }
@@ -67,6 +92,7 @@ class UploadFile extends React.Component {
         if (this.refs.file.files[0]) {
             this.setState({ loading: true })
             this.uploadFile(this.refs.file.files[0]).then(json2 => {
+                console.log(json2)
                 if (json2.success) {
                     this.setState({ loading: false, error: "", success: json2.message });
                 }
@@ -119,7 +145,7 @@ class UploadFile extends React.Component {
                 <Typography variant="h5" component="h2">
                     Subir un archivo
                 </Typography>
-                <br/>
+                <br />
                 <div>
                     <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />

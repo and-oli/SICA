@@ -1,4 +1,4 @@
-    
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,19 +23,12 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Clock from "@material-ui/icons/Alarm";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Modal from '@material-ui/core/Modal';
+import UploadFile from "../UploadFile/UploadFile";
 
 const drawerWidth = 200;
-
-let data = [
-    {
-        "_id": "123456",
-        "Actividad": "Subir lote",
-        "Usuario": "Codensa",
-        "Fecha": "4/16/2019",
-        "Observaciones": "-",
-        "URLArchivo": "https://storage.googleapis.com/intelligentimgbucket/SICA/ASIGNACI%C3%93N_21032019.xlsx"
-    }
-];
 
 const toolbarStyle = {
     backgroundColor: blue[500]
@@ -76,7 +69,20 @@ const styles = theme => ({
     },
     title: {
         fontSize: 14,
-    }
+    },
+    fab: {
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2,
+        position: "fixed",
+    },
+    modalUploadFile: {
+        position: 'absolute',
+        width: theme.spacing.unit * 80,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+        outline: 'none',
+    },
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -84,47 +90,41 @@ class ResponsiveDrawer extends React.Component {
         super(props);
         this.state = {
             mobileOpen: false,
-            actualTable: "Casos",
+            actualTable: "casos",
             userType: "",
             loading: true,
             rowsHeaders: [],
             rows: [],
             rowsCopy: [],
             searching: false,
-            empty: false
+            empty: false,
+            openUpload: false
         };
-
-        // This binding is necessary to make `this` work in the callback
-        this.handleClickCasos = this.handleClickCasos.bind(this);
-        this.handleClickLotes = this.handleClickLotes.bind(this);
-        this.doFetchLotes = this.doFetchLotes.bind(this);
-        this.doFetchCasos = this.doFetchCasos.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleResetSearch = this.handleResetSearch.bind(this);
-        this.renderResetSearchButton = this.renderResetSearchButton.bind(this);
-        this.handleClickActividad = this.handleClickActividad.bind(this);
-        this.doFetchActividad = this.doFetchActividad.bind(this);
     }
+
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
-    handleClickCasos() {
-        this.doFetchCasos();
-        this.setState({ actualTable: "Casos", loading: true });
+    handleClickCasos = () => {
+        this.setState({ actualTable: "casos", loading: true }, () => {
+            this.doFetch();
+        });
     }
 
-    handleClickLotes() {
-        this.doFetchLotes();
-        this.setState({ actualTable: "Lotes", loading: true });
+    handleClickLotes = () => {
+        this.setState({ actualTable: "lotes", loading: true }, () => {
+            this.doFetch();
+        });
     }
 
-    handleClickActividad() {
-        this.setState({ actualTable: "Actividad", loading: true });
-        this.doFetchActividad();
+    handleClickActividad = () => {
+        this.setState({ actualTable: "actividades", loading: true }, () => {
+            this.doFetch();
+        });
     }
 
-    handleSearch(e) {
+    handleSearch = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             let searchValue = e.target.value.trim();
@@ -145,51 +145,65 @@ class ResponsiveDrawer extends React.Component {
 
     }
 
-    handleResetSearch() {
+    handleResetSearch = () => {
         this.setState({ rows: this.state.rowsCopy, searching: false });
         document.getElementById("searchInput").value = "";
     }
 
+    handleOpenModalUpload = () => {
+        this.setState({ openUpload: true });
+    }
+
+    handleCloseModalUpload = () => {
+        this.setState({ openUpload: false });
+    };
+
     componentDidMount() {
-        this.doFetchCasos();
+        this.doFetch();
     }
 
-    doFetchCasos() {
-        fetch('https://intellgentcms.herokuapp.com/sica/api/casos', {
+    doFetch = () => {
+        fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}`, {
             method: 'GET',
             headers: {
                 'x-access-token': localStorage.getItem("SICAToken")
             },
         }).then(response => response.json().then(
-            (json) => {
+            (json) => { 
+                let tableInfo = Object.keys(json)[1];
+
                 if (json.success) {
-                    if (json.casos.length > 0) {
-                        //Table row header
+                    if (json[tableInfo].length > 0) {
+
                         this.setState({ rowsHeaders: [] });
-                        for (let j = 0; j < Object.keys(json.casos[0]).length; j++) {
-                            let headerToAdd = Object.keys(json.casos[0])[j];
+                        let newRowHeaders = [];
+
+                        for (let j = 0; j < Object.keys(json[tableInfo][0]).length; j++) {
+                            let headerToAdd = Object.keys(json[tableInfo][0])[j];
+
                             if (headerToAdd !== "_id" && headerToAdd !== "__v") {
-                                this.setState(prevState => {
-                                    let labelsplit = headerToAdd.split(/(?=[A-Z])/);
-                                    let labelToShow = "";
-                                    for (let i = 0; i < labelsplit.length; i++) {
-                                        let word = labelsplit[i];
-                                        if (i === 0) {
-                                            word = word.charAt(0).toUpperCase() + word.slice(1);
-                                        }
-                                        labelToShow = labelToShow + " " + word;
+                                let labelsplit = headerToAdd.split(/(?=[A-Z])/);
+                                let labelToShow = "";
+                                for (let i = 0; i < labelsplit.length; i++) {
+                                    let word = labelsplit[i];
+                                    if (i === 0) {
+                                        word = word.charAt(0).toUpperCase() + word.slice(1);
                                     }
-                                    prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
-                                    return ({ rowsHeaders: prevState.rowsHeaders });
-                                })
+                                    labelToShow = labelToShow + " " + word;
+                                }
+                                newRowHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
+
+                                this.setState({ rowsHeaders: newRowHeaders });
                             }
                         };
-                        this.setState(prevState => {
-                            prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
-                            return ({ rowsHeaders: prevState.rowsHeaders });
-                        })
-                        //Table rows information
-                        this.setState({ rows: json.casos, rowsCopy: json.casos, loading: false });
+                        if (tableInfo === "casos") {
+                            this.setState(prevState => {
+                                prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
+                                return ({ rowsHeaders: prevState.rowsHeaders });
+                            })
+                        }
+                        
+                        this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
                     }
                     else {
                         this.setState({ empty: true, loading: false })
@@ -206,68 +220,8 @@ class ResponsiveDrawer extends React.Component {
         ));
     }
 
-    doFetchLotes() {
-        fetch('https://intellgentcms.herokuapp.com/sica/api/lotes', {
-            method: 'GET',
-            headers: {
-                'x-access-token': localStorage.getItem("SICAToken")
-            },
-        }).then(response => response.json().then(
-            (json) => {
-                if (json.success) {
-                    if (json.lotes.length > 0) {
-                        //Table row header
-                        this.setState({ rowsHeaders: [] });
-                        for (let j = 0; j < Object.keys(json.lotes[0]).length; j++) {
-                            let headerToAdd = Object.keys(json.lotes[0])[j];
-                            if (headerToAdd !== "__v") {
-                                this.setState(prevState => {
-                                    let labelsplit = headerToAdd.split(/(?=[A-Z])/);
-                                    let labelToShow = "";
-                                    for (let i = 0; i < labelsplit.length; i++) {
-                                        let word = labelsplit[i];
-                                        if (i === 0) {
-                                            word = word.charAt(0).toUpperCase() + word.slice(1);
-                                        }
-                                        labelToShow = labelToShow + " " + word;
-                                    }
-                                    prevState.rowsHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
-                                    return ({ rowsHeaders: prevState.rowsHeaders });
-                                })
-                            }
-                        };
-
-                        //Table rows information
-                        this.setState({ rows: json.lotes, rowsCopy: json.lotes, loading: false });
-                    }
-                    else {
-                        this.setState({ empty: true, loading: false })
-                    }
-                }
-                else {
-                    if (response.status === 403) {
-                        localStorage.removeItem("SICAToken");
-                        window.location.reload();
-                    }
-                }
-
-            }
-        ));
-    }
-
-    doFetchActividad() {
-        this.setState({ rowsHeaders: [] });
-        let arreglo = []
-        for (let j = 0; j < Object.keys(data[0]).length; j++) {
-            let headerToAdd = Object.keys(data[0])[j];
-            if (headerToAdd !== "__v") {
-                arreglo.push({ id: headerToAdd, numeric: false, disablePadding: true, label: headerToAdd });
-            }
-        }
-        this.setState({ rowsHeaders: arreglo, loading: false, rows: data, rowsCopy: data });
-    }
-
-    renderComponents() {
+    renderComponents = () => {
+        const { classes } = this.props;
         if (this.state.loading) {
             return (<span className="loaderTable" id="loaderTable"></span>)
         }
@@ -290,6 +244,18 @@ class ResponsiveDrawer extends React.Component {
                                 </CardContent>
                             </Card>
                         </Grid>
+                        <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
+                            <AddIcon />
+                        </Fab>
+                        <Modal
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                            open={this.state.openUpload}
+                        >
+                            <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} className={classes.modalUploadFile}>
+                                <UploadFile handleClose={this.handleCloseModalUpload} />
+                            </div>
+                        </Modal>
                     </div>
                 )
 
@@ -297,8 +263,13 @@ class ResponsiveDrawer extends React.Component {
         }
 
     }
+    renderActualTableName() {
+        let tableName = this.state.actualTable;
+        let tableNameToShow = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+        return (tableNameToShow)
+    }
 
-    renderResetSearchButton() {
+    renderResetSearchButton = () => {
         if (this.state.searching) {
             return (
                 <div>
@@ -307,14 +278,14 @@ class ResponsiveDrawer extends React.Component {
             )
         }
     }
+    
     render() {
         const { classes, theme } = this.props;
-
         const drawer = (
             <div>
                 <div className={classes.toolbar} />
 
-                <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu"/>
+                <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu" />
                 <Divider />
                 <List>
                     <ListItem button key={"Casos"}>
@@ -331,9 +302,9 @@ class ResponsiveDrawer extends React.Component {
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button key={"Actividad"}>
+                    <ListItem button key={"Actividades"}>
                         <Clock />
-                        <ListItemText primary={"Actividad"} onClick={this.handleClickActividad} />
+                        <ListItemText primary={"Actividades"} onClick={this.handleClickActividad} />
                     </ListItem>
                 </List>
                 <Divider />
@@ -359,8 +330,10 @@ class ResponsiveDrawer extends React.Component {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" color="inherit" noWrap style={{ width: "100px" }}>
-                            {this.state.actualTable}
+                        <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
+                            {
+                                this.renderActualTableName()
+                            }
                         </Typography>
                         <form style={{ marginLeft: "20%" }}>
                             <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
