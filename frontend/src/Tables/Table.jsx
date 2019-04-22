@@ -11,8 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import EnhancedTableHead from "./TableHead";
 import "./Table.css";
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Modal from '@material-ui/core/Modal';
 import UploadFile from "../UploadFile/UploadFile";
 import DateDetail from "../DateDetail/DateDetail";
@@ -100,7 +98,7 @@ class EnhancedTable extends React.Component {
       page: 0,
       rowsPerPage: 10,
       openUpload: false,
-      openDateDetail : false,
+      openDateDetail: false,
       rowData: "",
     };
   }
@@ -153,8 +151,8 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleOpenDateDetail= (data) => {
-    this.setState({ openDateDetail: true , rowData : data });
+  handleOpenDateDetail = (data) => {
+    this.setState({ openDateDetail: true, rowData: data });
   }
 
   handleCloseModalDateDetail = () => {
@@ -266,9 +264,6 @@ class EnhancedTable extends React.Component {
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
           />
         </Paper>
-        <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
-          <AddIcon />
-        </Fab>
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"

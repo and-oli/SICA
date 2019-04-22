@@ -169,9 +169,9 @@ class ResponsiveDrawer extends React.Component {
                 'x-access-token': localStorage.getItem("SICAToken")
             },
         }).then(response => response.json().then(
-            (json) => { 
+            (json) => {
                 let tableInfo = Object.keys(json)[1];
-
+                console.log(json)
                 if (json.success) {
                     if (json[tableInfo].length > 0) {
 
@@ -202,7 +202,7 @@ class ResponsiveDrawer extends React.Component {
                                 return ({ rowsHeaders: prevState.rowsHeaders });
                             })
                         }
-                        
+
                         this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
                     }
                     else {
@@ -220,15 +220,91 @@ class ResponsiveDrawer extends React.Component {
         ));
     }
 
-    renderComponents = () => {
+    renderUploadFileButton = () => {
         const { classes } = this.props;
+
+        if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "actividades") {
+            return (
+                <div>
+                    <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
+                        <AddIcon />
+                    </Fab>
+                    <Modal
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                        open={this.state.openUpload}
+                    >
+                        <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} className={classes.modalUploadFile}>
+                            <UploadFile handleClose={this.handleCloseModalUpload} />
+                        </div>
+                    </Modal>
+                </div>
+            )
+        }
+    }
+
+    renderActividades = () => {
+        for (let i = 0; i < this.state.rows.length; i++) {
+            let row = this.state.rows[i];
+            return(
+                <div>
+                    <p><strong>{row["usuario"]}</strong> {row["fecha"]}</p>
+                    <p className="conceptoActividad"><strong>Concepto:</strong> {row["concepto"]} <strong>Observación:</strong> {this.showText(row["observacion"] , "Obs")}</p>
+                    <span style={{fontSize : "20px"}}><strong>Archivo: </strong></span> 
+                    {
+                        row["URLArchivo"] === ""?(
+                            <span>No disponible</span>
+                        ):(
+                            <span className="downloadAvailable" href={row["URLArchivo"]}>Descargar</span>
+                        ) 
+                    }                    
+                    <Divider/>
+                </div>
+            )
+        }
+    }
+
+    showText(text, type){
+        
+        if(text === "" && type === "Obs"){
+            return("Ninguna")
+        }
+        else if(text === "" && type === "URL"){
+            return("No disponible")
+        }
+        else{
+            return(text)
+        }
+        
+    }
+
+    renderComponents = () => {
         if (this.state.loading) {
             return (<span className="loaderTable" id="loaderTable"></span>)
         }
         else {
-            if (!this.state.empty) {
+            if (!this.state.empty && this.state.actualTable !== "actividades") {
                 return (
                     <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+                )
+            }
+            else if (!this.state.empty && this.state.actualTable === "actividades") {
+                return (
+                    <div>
+                        <br />
+                        <Grid>
+                            <Card>
+                                <CardContent>
+                                    {
+                                        this.renderActividades()
+                                    }
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        {
+                            this.renderUploadFileButton()
+                        }
+                    </div>
                 )
             }
             else if (this.state.empty) {
@@ -240,23 +316,15 @@ class ResponsiveDrawer extends React.Component {
                                 <CardContent>
                                     <Typography variant="h5" component="h2">
                                         No hay información para mostrar
-                                </Typography>
+                                    </Typography>
                                 </CardContent>
                             </Card>
                         </Grid>
-                        <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
-                            <AddIcon />
-                        </Fab>
-                        <Modal
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                            open={this.state.openUpload}
-                        >
-                            <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} className={classes.modalUploadFile}>
-                                <UploadFile handleClose={this.handleCloseModalUpload} />
-                            </div>
-                        </Modal>
+                        {
+                            this.renderUploadFileButton()
+                        }
                     </div>
+
                 )
 
             }
@@ -278,7 +346,7 @@ class ResponsiveDrawer extends React.Component {
             )
         }
     }
-    
+
     render() {
         const { classes, theme } = this.props;
         const drawer = (
