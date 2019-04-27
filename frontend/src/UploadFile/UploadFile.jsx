@@ -121,11 +121,12 @@ class UploadFile extends React.Component {
         return (
             <div>
                 <Arrow onClick={this.handleGoBackToTable} className="arrow" />
-                <br />
-                <Divider />
-                <Typography variant="h5" component="h2">
+                <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"relative",left:"50%",transform:"translateX(-50%)"}}>
                     Subir un archivo
                 </Typography>
+                <br />
+                <Divider />
+
                 <br />
                 <div>
                     <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}

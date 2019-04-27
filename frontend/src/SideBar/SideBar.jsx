@@ -171,7 +171,6 @@ class ResponsiveDrawer extends React.Component {
         }).then(response => response.json().then(
             (json) => {
                 let tableInfo = Object.keys(json)[1];
-                console.log(json)
                 if (json.success) {
                     if (json[tableInfo].length > 0) {
 
@@ -250,14 +249,14 @@ class ResponsiveDrawer extends React.Component {
                 <div>
                     <p><strong>{row["usuario"]}</strong> {row["fecha"]}</p>
                     <p className="conceptoActividad"><strong>Concepto:</strong> {row["concepto"]} <strong>Observación:</strong> {this.showText(row["observacion"] , "Obs")}</p>
-                    <span style={{fontSize : "20px"}}><strong>Archivo: </strong></span> 
+                    <span style={{fontSize : "20px"}}><strong>Archivo: </strong></span>
                     {
                         row["URLArchivo"] === ""?(
                             <span>No disponible</span>
                         ):(
-                            <span className="downloadAvailable" href={row["URLArchivo"]}>Descargar</span>
-                        ) 
-                    }                    
+                            <a className="downloadAvailable" href={row["URLArchivo"]}>Descargar</a>
+                        )
+                    }
                     <Divider/>
                 </div>
             )
@@ -265,7 +264,7 @@ class ResponsiveDrawer extends React.Component {
     }
 
     showText(text, type){
-        
+
         if(text === "" && type === "Obs"){
             return("Ninguna")
         }
@@ -275,7 +274,7 @@ class ResponsiveDrawer extends React.Component {
         else{
             return(text)
         }
-        
+
     }
 
     renderComponents = () => {
