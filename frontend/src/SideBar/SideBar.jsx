@@ -25,436 +25,420 @@ import CardContent from '@material-ui/core/CardContent';
 import Clock from "@material-ui/icons/Alarm";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Modal from '@material-ui/core/Modal';
-import UploadFile from "../UploadFile/UploadFile";
-
+import NewActivityModal from "../Activities/NewActivityModal";
+import MainActivity from "../Activities/MainActivity";
 const drawerWidth = 200;
 
 const toolbarStyle = {
-    backgroundColor: blue[500]
+  backgroundColor: blue[500]
 }
 
 const styles = theme => ({
-    root: {
-        display: 'flex',
+  root: {
+    display: 'flex',
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
+  },
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
     },
-    appBar: {
-        marginLeft: drawerWidth,
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
+  },
+  menuButton: {
+    marginRight: 20,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
-    menuButton: {
-        marginRight: 20,
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing.unit * 3,
-    },
-    card: {
-        minWidth: 275,
-    },
-    title: {
-        fontSize: 14,
-    },
-    fab: {
-        bottom: theme.spacing.unit * 2,
-        right: theme.spacing.unit * 2,
-        position: "fixed",
-    },
-    modalUploadFile: {
-        position: 'absolute',
-        width: theme.spacing.unit * 80,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-        outline: 'none',
-    },
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+  card: {
+    minWidth: 275,
+  },
+  title: {
+    fontSize: 14,
+  },
+  fab: {
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    position: "fixed",
+  },
+  modalUploadActivity: {
+    position: 'absolute',
+    width: theme.spacing.unit * 80,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
 });
 
 class ResponsiveDrawer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            mobileOpen: false,
-            actualTable: "casos",
-            userType: "",
-            loading: true,
-            rowsHeaders: [],
-            rows: [],
-            rowsCopy: [],
-            searching: false,
-            empty: false,
-            openUpload: false
-        };
-    }
-
-    handleDrawerToggle = () => {
-        this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  constructor(props) {
+    super(props);
+    this.state = {
+      mobileOpen: false,
+      actualTable: "actividades",
+      userType: "",
+      loading: true,
+      rowsHeaders: [],
+      rows: [],
+      rowsCopy: [],
+      searching: false,
+      empty: false,
+      openUpload: false
     };
+  }
 
-    handleClickCasos = () => {
-        this.setState({ actualTable: "casos", loading: true }, () => {
-            this.doFetch();
-        });
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
+
+  handleClickCasos = () => {
+    this.setState({ actualTable: "casos", loading: true }, () => {
+      this.doFetch();
+    });
+  }
+
+  handleClickLotes = () => {
+    this.setState({ actualTable: "lotes", loading: true }, () => {
+      this.doFetch();
+    });
+  }
+
+  handleClickActividad = () => {
+    this.setState({ actualTable: "actividades", loading: true }, () => {
+      this.doFetch();
+    });
+  }
+
+  handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let searchValue = e.target.value.trim();
+      let rowsToShow = [];
+
+      for (let i = 0; i < this.state.rowsCopy.length; i++) {
+        for (let j = 0; j < this.state.rowsHeaders.length; j++) {
+          let row = this.state.rowsCopy[i];
+          let header = this.state.rowsHeaders[j];
+          if (row[header.id] === searchValue) {
+            rowsToShow.push(row);
+            break;
+          }
+        }
+      }
+      this.setState({ rows: rowsToShow, searching: true })
     }
 
-    handleClickLotes = () => {
-        this.setState({ actualTable: "lotes", loading: true }, () => {
-            this.doFetch();
-        });
-    }
+  }
 
-    handleClickActividad = () => {
-        this.setState({ actualTable: "actividades", loading: true }, () => {
-            this.doFetch();
-        });
-    }
+  handleResetSearch = () => {
+    this.setState({ rows: this.state.rowsCopy, searching: false });
+    document.getElementById("searchInput").value = "";
+  }
 
-    handleSearch = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            let searchValue = e.target.value.trim();
-            let rowsToShow = [];
+  handleOpenModalUpload = () => {
+    this.setState({ openUpload: true });
+  }
 
-            for (let i = 0; i < this.state.rowsCopy.length; i++) {
-                for (let j = 0; j < this.state.rowsHeaders.length; j++) {
-                    let row = this.state.rowsCopy[i];
-                    let header = this.state.rowsHeaders[j];
-                    if (row[header.id] === searchValue) {
-                        rowsToShow.push(row);
-                        break;
-                    }
+  handleCloseModalUpload = () => {
+    this.setState({ openUpload: false });
+    window.location.reload();
+  };
+
+  componentDidMount() {
+    this.doFetch();
+  }
+
+  doFetch = () => {
+    fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': localStorage.getItem("SICAToken")
+      },
+    }).then(response => response.json().then(
+      (json) => {
+        let tableInfo = Object.keys(json)[1];
+        if (json.success) {
+          if (json[tableInfo].length > 0) {
+
+            this.setState({ rowsHeaders: [] });
+            let newRowHeaders = [];
+
+            for (let j = 0; j < Object.keys(json[tableInfo][0]).length; j++) {
+              let headerToAdd = Object.keys(json[tableInfo][0])[j];
+
+              if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+                let labelsplit = headerToAdd.split(/(?=[A-Z])/);
+                let labelToShow = "";
+                for (let i = 0; i < labelsplit.length; i++) {
+                  let word = labelsplit[i];
+                  if (i === 0) {
+                    word = word.charAt(0).toUpperCase() + word.slice(1);
+                  }
+                  labelToShow = labelToShow + " " + word;
                 }
+                newRowHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
+
+                this.setState({ rowsHeaders: newRowHeaders });
+              }
+            };
+            if (tableInfo === "casos") {
+              this.setState(prevState => {
+                prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
+                return ({ rowsHeaders: prevState.rowsHeaders });
+              })
             }
-            this.setState({ rows: rowsToShow, searching: true })
+
+            this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
+          }
+          else {
+            this.setState({ empty: true, loading: false })
+          }
+        }
+        else {
+          if (response.status === 403) {
+            localStorage.removeItem("SICAToken");
+            window.location.reload();
+          }
         }
 
+      }
+    ));
+  }
+
+  renderUploadActivityButton = () => {
+    const { classes } = this.props;
+
+    if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "actividades") {
+      return (
+        <div>
+          <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
+            <AddIcon />
+          </Fab>
+          <NewActivityModal
+            open={this.state.openUpload}
+            handleCloseModalUpload = {this.handleCloseModalUpload}
+            depth = {0}
+            nuevoLote = {true}
+            concept = {"Nuevo lote"}
+            route = {"nuevoLote"}
+            >
+            </NewActivityModal>
+          </div>
+        )
+      }
     }
-
-    handleResetSearch = () => {
-        this.setState({ rows: this.state.rowsCopy, searching: false });
-        document.getElementById("searchInput").value = "";
-    }
-
-    handleOpenModalUpload = () => {
-        this.setState({ openUpload: true });
-    }
-
-    handleCloseModalUpload = () => {
-        this.setState({ openUpload: false });
-    };
-
-    componentDidMount() {
-        this.doFetch();
-    }
-
-    doFetch = () => {
-        fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}`, {
-            method: 'GET',
-            headers: {
-                'x-access-token': localStorage.getItem("SICAToken")
-            },
-        }).then(response => response.json().then(
-            (json) => {
-                let tableInfo = Object.keys(json)[1];
-                if (json.success) {
-                    if (json[tableInfo].length > 0) {
-
-                        this.setState({ rowsHeaders: [] });
-                        let newRowHeaders = [];
-
-                        for (let j = 0; j < Object.keys(json[tableInfo][0]).length; j++) {
-                            let headerToAdd = Object.keys(json[tableInfo][0])[j];
-
-                            if (headerToAdd !== "_id" && headerToAdd !== "__v") {
-                                let labelsplit = headerToAdd.split(/(?=[A-Z])/);
-                                let labelToShow = "";
-                                for (let i = 0; i < labelsplit.length; i++) {
-                                    let word = labelsplit[i];
-                                    if (i === 0) {
-                                        word = word.charAt(0).toUpperCase() + word.slice(1);
-                                    }
-                                    labelToShow = labelToShow + " " + word;
-                                }
-                                newRowHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
-
-                                this.setState({ rowsHeaders: newRowHeaders });
-                            }
-                        };
-                        if (tableInfo === "casos") {
-                            this.setState(prevState => {
-                                prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
-                                return ({ rowsHeaders: prevState.rowsHeaders });
-                            })
-                        }
-
-                        this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
-                    }
-                    else {
-                        this.setState({ empty: true, loading: false })
-                    }
-                }
-                else {
-                    if (response.status === 403) {
-                        localStorage.removeItem("SICAToken");
-                        window.location.reload();
-                    }
-                }
-
-            }
-        ));
-    }
-
-    renderUploadFileButton = () => {
-        const { classes } = this.props;
-
-        if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "actividades") {
-            return (
-                <div>
-                    <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
-                        <AddIcon />
-                    </Fab>
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.openUpload}
-                    >
-                        <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} className={classes.modalUploadFile}>
-                            <UploadFile handleClose={this.handleCloseModalUpload} />
-                        </div>
-                    </Modal>
-                </div>
-            )
-        }
-    }
-
     renderActividades = () => {
-        for (let i = 0; i < this.state.rows.length; i++) {
-            let row = this.state.rows[i];
-            return(
-                <div>
-                    <p><strong>{row["usuario"]}</strong> {row["fecha"]}</p>
-                    <p className="conceptoActividad"><strong>Concepto:</strong> {row["concepto"]} <strong>Observación:</strong> {this.showText(row["observacion"] , "Obs")}</p>
-                    <span style={{fontSize : "20px"}}><strong>Archivo: </strong></span>
-                    {
-                        row["URLArchivo"] === ""?(
-                            <span>No disponible</span>
-                        ):(
-                            <a className="downloadAvailable" href={row["URLArchivo"]}>Descargar</a>
-                        )
-                    }
-                    <Divider/>
-                </div>
-            )
-        }
+      return this.state.rows.map( (r,i)=>
+        <MainActivity row = {r} key = {i}/>
+      )
     }
 
     showText(text, type){
 
-        if(text === "" && type === "Obs"){
-            return("Ninguna")
-        }
-        else if(text === "" && type === "URL"){
-            return("No disponible")
-        }
-        else{
-            return(text)
-        }
+      if(text === "" && type === "Obs"){
+        return("Ninguna")
+      }
+      else if(text === "" && type === "URL"){
+        return("No disponible")
+      }
+      else{
+        return(text)
+      }
 
     }
 
     renderComponents = () => {
-        if (this.state.loading) {
-            return (<span className="loaderTable" id="loaderTable"></span>)
+      if (this.state.loading) {
+        return (<span className="loaderTable" id="loaderTable"></span>)
+      }
+      else {
+        if (!this.state.empty && this.state.actualTable !== "actividades") {
+          return (
+            <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+          )
         }
-        else {
-            if (!this.state.empty && this.state.actualTable !== "actividades") {
-                return (
-                    <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
-                )
-            }
-            else if (!this.state.empty && this.state.actualTable === "actividades") {
-                return (
-                    <div>
-                        <br />
-                        <Grid>
-                            <Card>
-                                <CardContent>
-                                    {
-                                        this.renderActividades()
-                                    }
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        {
-                            this.renderUploadFileButton()
-                        }
-                    </div>
-                )
-            }
-            else if (this.state.empty) {
-                return (
-                    <div>
-                        <br />
-                        <Grid>
-                            <Card>
-                                <CardContent>
-                                    <Typography variant="h5" component="h2">
-                                        No hay información para mostrar
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        {
-                            this.renderUploadFileButton()
-                        }
-                    </div>
+        else if (!this.state.empty && this.state.actualTable === "actividades") {
+          return (
+            <div>
+              <br />
+              <Grid>
+                {
+                  this.renderActividades()
+                }
 
-                )
-
-            }
+              </Grid>
+              {
+                this.renderUploadActivityButton()
+              }
+            </div>
+          )
         }
+        else if (this.state.empty) {
+          return (
+            <div>
+              <br />
+              <Grid>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" component="h2">
+                      No hay información para mostrar
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {
+                this.renderUploadActivityButton()
+              }
+            </div>
+
+          )
+
+        }
+      }
 
     }
     renderActualTableName() {
-        let tableName = this.state.actualTable;
-        let tableNameToShow = tableName.charAt(0).toUpperCase() + tableName.slice(1);
-        return (tableNameToShow)
+      let tableName = this.state.actualTable;
+      let tableNameToShow = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+      return (tableNameToShow)
     }
 
     renderResetSearchButton = () => {
-        if (this.state.searching) {
-            return (
-                <div>
-                    <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
-                </div>
-            )
-        }
+      if (this.state.searching) {
+        return (
+          <div>
+            <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
+          </div>
+        )
+      }
     }
 
     render() {
-        const { classes, theme } = this.props;
-        const drawer = (
-            <div>
-                <div className={classes.toolbar} />
+      const { classes, theme } = this.props;
+      const drawer = (
+        <div>
+          <div className={classes.toolbar} />
 
-                <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu" />
-                <Divider />
-                <List>
-                    <ListItem button key={"Casos"}>
-                        <AssignmentIcon />
-                        <ListItemText primary={"Casos"} onClick={this.handleClickCasos} />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem button key={"Lotes"}>
-                        <FolderIcon />
-                        <ListItemText primary={"Lotes"} onClick={this.handleClickLotes} />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem button key={"Actividades"}>
-                        <Clock />
-                        <ListItemText primary={"Actividades"} onClick={this.handleClickActividad} />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem button key={"Logout"}>
-                        <img src="./exit.png" alt="exit" className="exitImg" />
-                        <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
-                    </ListItem>
-                </List>
-            </div>
-        );
+          <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu" />
+          <Divider />
+          <List>
+            <ListItem button key={"Actividades"}>
+              <Clock />
+              <ListItemText primary={"Actividades"} onClick={this.handleClickActividad} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key={"Casos"}>
+              <AssignmentIcon />
+              <ListItemText primary={"Casos"} onClick={this.handleClickCasos} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key={"Lotes"}>
+              <FolderIcon />
+              <ListItemText primary={"Lotes"} onClick={this.handleClickLotes} />
+            </ListItem>
+          </List>
+          <Divider />
 
-        return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar style={toolbarStyle}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="Open drawer"
-                            onClick={this.handleDrawerToggle}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
-                            {
-                                this.renderActualTableName()
-                            }
-                        </Typography>
-                        <form style={{ marginLeft: "20%" }}>
-                            <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
-                        </form>
-                        {
-                            this.renderResetSearchButton()
-                        }
-                    </Toolbar>
-                </AppBar>
-                <nav className={classes.drawer}>
-                    {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                    <Hidden smUp implementation="css">
-                        <Drawer
-                            container={this.props.container}
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={this.state.mobileOpen}
-                            onClose={this.handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css">
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
+          <List>
+            <ListItem button key={"Logout"}>
+              <img src="./exit.png" alt="exit" className="exitImg" />
+              <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
+            </ListItem>
+          </List>
+          <Divider />
+
+        </div>
+      );
+
+      return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar position="fixed" className={classes.appBar}>
+            <Toolbar style={toolbarStyle}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerToggle}
+                className={classes.menuButton}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
+                  {
+                    this.renderActualTableName()
+                  }
+                </Typography>
+                <form style={{ marginLeft: "20%" }}>
+                  <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
+                </form>
+                {
+                  this.renderResetSearchButton()
+                }
+              </Toolbar>
+            </AppBar>
+            <nav className={classes.drawer}>
+              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+              <Hidden smUp implementation="css">
+                <Drawer
+                  container={this.props.container}
+                  variant="temporary"
+                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                  open={this.state.mobileOpen}
+                  onClose={this.handleDrawerToggle}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                  >
+                    {drawer}
+                  </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                  <Drawer
+                    classes={{
+                      paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                    >
+                      {drawer}
+                    </Drawer>
+                  </Hidden>
                 </nav>
                 <main className={classes.content}>
-                    <br />
-                    {
-                        this.renderComponents()
-                    }
+                  <br />
+                  {
+                    this.renderComponents()
+                  }
                 </main>
-            </div>
-        );
-    }
-}
+              </div>
+            );
+          }
+        }
 
-ResponsiveDrawer.propTypes = {
-    classes: PropTypes.object.isRequired,
-    // Injected by the documentation to work in an iframe.
-    // You won't need it on your project.
-    container: PropTypes.object,
-    theme: PropTypes.object.isRequired,
-};
+        ResponsiveDrawer.propTypes = {
+          classes: PropTypes.object.isRequired,
+          // Injected by the documentation to work in an iframe.
+          // You won't need it on your project.
+          container: PropTypes.object,
+          theme: PropTypes.object.isRequired,
+        };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+        export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);

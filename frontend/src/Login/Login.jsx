@@ -15,7 +15,7 @@ const styles = theme => ({
     },
     formControl: {
       margin: theme.spacing.unit,
-      marginLeft : theme.spacing.unit * 7, 
+      marginLeft : theme.spacing.unit * 7,
       minWidth: 120,
     },
     selectEmpty: {
@@ -83,13 +83,13 @@ class Login extends React.Component {
                                 <div className="profile__fields">
                                     <div className="field">
                                         <FormControl className={classes.formControl}>
-                                            <InputLabel shrink htmlFor="age-label-placeholder"> Tipo de usuario</InputLabel>
+                                            <InputLabel shrink htmlFor="username-tag"> Tipo de usuario</InputLabel>
                                             <Select
                                                 value={this.state.userType}
                                                 onChange={this.handleChangeDropdown}
-                                                input={<Input name="age" id="age-label-placeholder" />}
+                                                input={<Input name="username-tag" id="username-tag" />}
                                                 displayEmpty
-                                                name="age"
+                                                name="username-tag"
                                                 className={classes.selectEmpty}
                                             >
                                                 <MenuItem value="Comsistelco">Comsistelco</MenuItem>

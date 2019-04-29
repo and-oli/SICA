@@ -12,7 +12,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EnhancedTableHead from "./TableHead";
 import "./Table.css";
 import Modal from '@material-ui/core/Modal';
-import UploadFile from "../UploadFile/UploadFile";
 import DateDetail from "../DateDetail/DateDetail";
 
 function desc(a, b, orderBy) {
@@ -68,14 +67,6 @@ const styles = theme => ({
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
-  },
-  modalUploadFile: {
-    position: 'absolute',
-    width: theme.spacing.unit * 80,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    outline: 'none',
   },
   modalDateDetail: {
     position: 'absolute',
@@ -269,9 +260,6 @@ class EnhancedTable extends React.Component {
           aria-describedby="simple-modal-description"
           open={this.state.openUpload}
         >
-          <div style={getModalStyle()} className={classes.modalUploadFile}>
-            <UploadFile handleClose={this.handleCloseModalUpload} />
-          </div>
         </Modal>
         <Modal
           aria-labelledby="simple-modal-title"

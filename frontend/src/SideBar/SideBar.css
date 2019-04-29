@@ -60,17 +60,17 @@
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
   }
-  
+
   @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
   }
-  
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
+
   /* Add animation to "page content" */
   .animate-bottom {
     position: relative;
@@ -79,14 +79,14 @@
     animation-name: animatebottom;
     animation-duration: 1s
   }
-  
+
   @-webkit-keyframes animatebottom {
-    from { bottom:-100px; opacity:0 } 
+    from { bottom:-100px; opacity:0 }
     to { bottom:0px; opacity:1 }
   }
-  
-  @keyframes animatebottom { 
-    from{ bottom:-100px; opacity:0 } 
+
+  @keyframes animatebottom {
+    from{ bottom:-100px; opacity:0 }
     to{ bottom:0; opacity:1 }
   }
 
@@ -96,7 +96,7 @@
     border-radius: 4px;
     font-size: 16px;
     background-color: white;
-    background-position: 10px 10px; 
+    background-position: 10px 10px;
     background-repeat: no-repeat;
     padding: 12px 20px 12px 5px;
     cursor: text;
@@ -117,13 +117,14 @@
   .conceptoActividad{
     font-size: 20px;
   }
-  
+
   .downloadAvailable {
     display: inline-block;
     vertical-align: top;
     cursor: pointer;
     color: #2196f3;
-    text-decoration: underline #2196f3;   
+    text-decoration: underline #2196f3;
   }
-
-  
+  .downloadAvailable:hover {
+    cursor: pointer;   
+  }
