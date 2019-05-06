@@ -60,11 +60,7 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
-  fab: {
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-    position: "fixed",
-  },
+
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
@@ -157,7 +153,16 @@ class EnhancedTable extends React.Component {
   handleCloseModalUpload = () => {
     this.setState({ openUpload: false });
   };
-
+  leerFecha = (serial)=>{
+    const num = Number.parseInt(serial);
+    if(num ){
+      if(serial.length === 5){
+        const date = new Date(Math.round((num - 25569)*86400*1000)+3600*24*1000);
+        return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+      }
+    }
+    return serial
+  }
   render() {
     const { rows, classes } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -165,111 +170,109 @@ class EnhancedTable extends React.Component {
 
     return (
       <div>
-        <Paper className={classes.root}>
-          <div className={classes.tableWrapper}>
-            <Table className={classes.table} aria-labelledby="tableTitle">
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={this.handleSelectAllClick}
-                onRequestSort={this.handleRequestSort}
-                rowCount={rows.length}
-                rowsHeaders={this.props.rowsHeaders}
-              />
-              <TableBody>
-                {stableSort(rows, getSorting(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map(n => {
-                    return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={n._id}
-                      >
-                        {
-                          this.props.rowsHeaders.map((header, i) => {
-                            if (header.id !== "cambiosDeEstado" && header.id !== "cerrado" && header.id !== "URLArchivo" && header.id !== "estado") {
-                              return (
-                                <TableCell key={i} align="center">{n[header.id]}</TableCell>
-                              )
-                            }
-                            else if (header.id === "cerrado") {
-                              return (
-                                <TableCell key={i} align="center">{n[header.id].toString()}</TableCell>
-                              )
-                            }
-                            else if (header.id === "cambiosDeEstado") {
-                              return (
-                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                                  <Tooltip title="Ver en detalle">
-                                    <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
-                                  </Tooltip>
-                                </TableCell>
-                              )
-                            }
-                            else if (header.id === "URLArchivo") {
-                              return (
-                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                                  <Tooltip title="Descargar">
-                                    <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar archivo</a>
-                                  </Tooltip>
-                                </TableCell>
-                              )
-                            }
-                            else if (header.id === "estado") {
-                              return (
-                                <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
-                                  <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
-                                </TableCell>
-                              )
-                            }
-                            return (null);
-                          }
-                          )
-                        }
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 49 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            backIconButtonProps={{
-              'aria-label': 'Previous Page',
-            }}
-            nextIconButtonProps={{
-              'aria-label': 'Next Page',
-            }}
-            onChangePage={this.handleChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
-          />
-        </Paper>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openUpload}
-        >
-        </Modal>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openDateDetail}
-        >
-          <div style={getModalStyle()} className={classes.modalDateDetail}>
-            <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
-          </div>
-        </Modal>
+      <Paper className={classes.root}>
+      <div className={classes.tableWrapper}>
+      <Table className={classes.table} aria-labelledby="tableTitle">
+      <EnhancedTableHead
+      numSelected={selected.length}
+      order={order}
+      orderBy={orderBy}
+      onSelectAllClick={this.handleSelectAllClick}
+      onRequestSort={this.handleRequestSort}
+      rowCount={rows.length}
+      rowsHeaders={this.props.rowsHeaders}
+      />
+      <TableBody>
+      {stableSort(rows, getSorting(order, orderBy))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map(n => {
+          return (
+            <TableRow
+            hover
+            tabIndex={-1}
+            key={n._id}
+            >
+            {
+              this.props.rowsHeaders.map((header, i) => {
+
+                if (header.id === "cerrado") {
+                  return (
+                    <TableCell key={i} align="center">{n[header.id]?"Sí":"No"}</TableCell>
+                  )
+                }
+                else if (header.id === "cambiosDeEstado") {
+                  return (
+                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                    <Tooltip title="Ver en detalle">
+                    <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
+                    </Tooltip>
+                    </TableCell>
+                  )
+                }
+                else if (header.id === "URLArchivo") {
+                  return (
+                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                    <Tooltip title="Descargar">
+                    <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar archivo</a>
+                    </Tooltip>
+                    </TableCell>
+                  )
+                }
+                else if (header.id === "estado") {
+                  return (
+                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
+                    <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
+                    </TableCell>
+                  )
+                }
+                return (
+                  <TableCell key={i} align="center">{this.leerFecha(n[header.id]).toString()}</TableCell>
+                )
+              }
+            )
+          }
+          </TableRow>
+        );
+      })}
+      {emptyRows > 0 && (
+        <TableRow style={{ height: 49 * emptyRows }}>
+        <TableCell colSpan={6} />
+        </TableRow>
+      )}
+      </TableBody>
+      </Table>
+      </div>
+      <TablePagination
+      rowsPerPageOptions={[10, 25, 50, 100,500]}
+      component="div"
+      count={rows.length}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      backIconButtonProps={{
+        'aria-label': 'Previous Page',
+      }}
+      nextIconButtonProps={{
+        'aria-label': 'Next Page',
+      }}
+      onChangePage={this.handleChangePage}
+      onChangeRowsPerPage={this.handleChangeRowsPerPage}
+      />
+      </Paper>
+      <Modal
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+      open={this.state.openUpload}
+      >
+      </Modal>
+      <Modal
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+      open={this.state.openDateDetail}
+      >
+      <div style={getModalStyle()} className={classes.modalDateDetail}>
+      <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
+      </div>
+      </Modal>
       </div>
     );
   }

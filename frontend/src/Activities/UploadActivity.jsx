@@ -34,7 +34,7 @@ class NewActivity extends React.Component {
   uploadFile = (archivo) => {
     let formData = new FormData();
     formData.append("file", archivo);
-    return fetch('https://intellgentcms.herokuapp.com/sica/api/'+this.props.route, {
+    return fetch('http://localhost:3001/sica/api/'+this.props.route, {
       method: 'POST',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
@@ -55,8 +55,8 @@ class NewActivity extends React.Component {
     if(this.state.fileSelected) {
       let fileResult = await this.uploadFile(this.refs.file.files[0]);
       if(fileResult.success){
-        URLArchivo = fileResult.URLArchivo;
-        fetch("https://intellgentcms.herokuapp.com/sica/api/actividad", {
+        const {URLArchivo, idLote} = fileResult;
+        fetch("http://localhost:3001/sica/api/actividad", {
           method: "POST",
           headers: {
             'x-access-token': localStorage.getItem("SICAToken"),
@@ -69,7 +69,8 @@ class NewActivity extends React.Component {
             concepto: this.props.concept,
             profundidad: this.props.depth,
             idActividadPadre:this.props.parentId,
-            URLArchivo
+            URLArchivo,
+            idLote
           })
         }).then(response => response.json()).then(
           json=>

@@ -27,6 +27,12 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import NewActivityModal from "../Activities/NewActivityModal";
 import MainActivity from "../Activities/MainActivity";
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import InputBase from '@material-ui/core/InputBase';
+import Paper from '@material-ui/core/Paper';
+import SearchIcon from '@material-ui/icons/Search';
+import EditCasesModal from "../EditCases/EditCasesModal"
 const drawerWidth = 200;
 
 const toolbarStyle = {
@@ -69,9 +75,12 @@ const styles = theme => ({
   title: {
     fontSize: 14,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
   fab: {
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    bottom: theme.spacing.unit * 4,
+    right: theme.spacing.unit * 4,
     position: "fixed",
   },
   modalUploadActivity: {
@@ -82,6 +91,10 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
     outline: 'none',
   },
+  input: {
+  marginLeft: 8,
+  flex: 1,
+},
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -97,7 +110,8 @@ class ResponsiveDrawer extends React.Component {
       rowsCopy: [],
       searching: false,
       empty: false,
-      openUpload: false
+      openUpload: false,
+      openEdit:false
     };
   }
 
@@ -133,7 +147,7 @@ class ResponsiveDrawer extends React.Component {
         for (let j = 0; j < this.state.rowsHeaders.length; j++) {
           let row = this.state.rowsCopy[i];
           let header = this.state.rowsHeaders[j];
-          if (row[header.id] === searchValue) {
+          if (header.id !=="estado" &&row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
             rowsToShow.push(row);
             break;
           }
@@ -180,7 +194,7 @@ class ResponsiveDrawer extends React.Component {
             for (let j = 0; j < Object.keys(json[tableInfo][0]).length; j++) {
               let headerToAdd = Object.keys(json[tableInfo][0])[j];
 
-              if (headerToAdd !== "_id" && headerToAdd !== "__v") {
+              if ( (this.state.actualTable==="lotes" || headerToAdd !== "_id") && headerToAdd !== "__v") {
                 let labelsplit = headerToAdd.split(/(?=[A-Z])/);
                 let labelToShow = "";
                 for (let i = 0; i < labelsplit.length; i++) {
@@ -225,7 +239,7 @@ class ResponsiveDrawer extends React.Component {
     if (localStorage.getItem("userType") === "Codensa" && this.state.actualTable === "actividades") {
       return (
         <div>
-          <Fab color="primary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
+          <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={this.handleOpenModalUpload}>
             <AddIcon />
           </Fab>
           <NewActivityModal
@@ -243,202 +257,220 @@ class ResponsiveDrawer extends React.Component {
     }
     renderActividades = () => {
       return this.state.rows.map( (r,i)=>
-        <MainActivity row = {r} key = {i}/>
-      )
+      <MainActivity row = {r} key = {i}/>
+    )
+  }
+
+  showText(text, type){
+
+    if(text === "" && type === "Obs"){
+      return("Ninguna")
+    }
+    else if(text === "" && type === "URL"){
+      return("No disponible")
+    }
+    else{
+      return(text)
     }
 
-    showText(text, type){
+  }
 
-      if(text === "" && type === "Obs"){
-        return("Ninguna")
-      }
-      else if(text === "" && type === "URL"){
-        return("No disponible")
-      }
-      else{
-        return(text)
-      }
-
+  renderComponents = () => {
+    if (this.state.loading) {
+      return (<span className="loaderTable" id="loaderTable"></span>)
     }
-
-    renderComponents = () => {
-      if (this.state.loading) {
-        return (<span className="loaderTable" id="loaderTable"></span>)
+    else {
+      if (!this.state.empty && this.state.actualTable !== "actividades") {
+        return (
+          <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+        )
       }
-      else {
-        if (!this.state.empty && this.state.actualTable !== "actividades") {
-          return (
-            <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
-          )
-        }
-        else if (!this.state.empty && this.state.actualTable === "actividades") {
-          return (
-            <div>
-              <br />
-              <Grid>
-                {
-                  this.renderActividades()
-                }
-
-              </Grid>
-              {
-                this.renderUploadActivityButton()
-              }
-            </div>
-          )
-        }
-        else if (this.state.empty) {
-          return (
-            <div>
-              <br />
-              <Grid>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" component="h2">
-                      No hay información para mostrar
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              {
-                this.renderUploadActivityButton()
-              }
-            </div>
-
-          )
-
-        }
-      }
-
-    }
-    renderActualTableName() {
-      let tableName = this.state.actualTable;
-      let tableNameToShow = tableName.charAt(0).toUpperCase() + tableName.slice(1);
-      return (tableNameToShow)
-    }
-
-    renderResetSearchButton = () => {
-      if (this.state.searching) {
+      else if (!this.state.empty && this.state.actualTable === "actividades") {
         return (
           <div>
-            <button className="resetSearchButton" onClick={this.handleResetSearch}>Borrar búsqueda</button>
+            <br />
+            <Grid>
+              {
+                this.renderActividades()
+              }
+
+            </Grid>
+            {
+              this.renderUploadActivityButton()
+            }
           </div>
         )
       }
+      else if (this.state.empty) {
+        return (
+          <div>
+            <br />
+            <Grid>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    No hay información para mostrar
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            {
+              this.renderUploadActivityButton()
+            }
+          </div>
+
+        )
+
+      }
     }
 
-    render() {
-      const { classes, theme } = this.props;
-      const drawer = (
+  }
+  renderActualTableName() {
+    let tableName = this.state.actualTable;
+    let tableNameToShow = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+    return (tableNameToShow)
+  }
+
+  renderResetSearchButton = () => {
+    const { classes, theme } = this.props;
+
+    if (this.state.searching) {
+      return (
         <div>
-          <div className={classes.toolbar} />
+          <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleResetSearch}>
+            Borrar búsqueda
+          </Button>
+        </div>
+      )
+    }
+  }
 
-          <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu" />
-          <Divider />
-          <List>
-            <ListItem button key={"Actividades"}>
-              <Clock />
-              <ListItemText primary={"Actividades"} onClick={this.handleClickActividad} />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button key={"Casos"}>
-              <AssignmentIcon />
-              <ListItemText primary={"Casos"} onClick={this.handleClickCasos} />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button key={"Lotes"}>
-              <FolderIcon />
-              <ListItemText primary={"Lotes"} onClick={this.handleClickLotes} />
-            </ListItem>
-          </List>
-          <Divider />
+  render() {
+    const { classes, theme } = this.props;
+    const drawer = (
+      <div>
+        <div className={classes.toolbar} />
 
-          <List>
-            <ListItem button key={"Logout"}>
-              <img src="./exit.png" alt="exit" className="exitImg" />
-              <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
-            </ListItem>
-          </List>
-          <Divider />
+        <img src="./SICA_Logo.png" alt="SICA Logo" className="sicaLogoMenu" />
+        <Divider />
+        <List>
+          <ListItem button key={"Actividades"}>
+            <Clock />
+            <ListItemText primary={"Actividades"} onClick={this.handleClickActividad} />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key={"Casos"}>
+            <AssignmentIcon />
+            <ListItemText primary={"Casos"} onClick={this.handleClickCasos} />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key={"Lotes"}>
+            <FolderIcon />
+            <ListItemText primary={"Lotes"} onClick={this.handleClickLotes} />
+          </ListItem>
+        </List>
+        <Divider />
 
+        <List>
+          <ListItem button key={"Logout"}>
+            <img src="./exit.png" alt="exit" className="exitImg" />
+            <ListItemText primary={"Salir"} onClick={() => { localStorage.removeItem("SICAToken"); window.location.reload(); }} />
+          </ListItem>
+        </List>
+        <Divider />
+
+      </div>
+    );
+
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar style={toolbarStyle}>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
+                {
+                  this.renderActualTableName()
+                }
+              </Typography>
+              {this.state.actualTable === "casos"&&
+              <div>
+              <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
+                 <Icon>edit_icon</Icon>
+               </Fab>
+               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{this.setState({openEdit:false}) }}/>
+             </div>
+            }
+              {this.state.actualTable !== "actividades"&&
+                <Paper className={classes.root} elevation={1}>
+                     <InputBase className={classes.input} placeholder="Buscar" onKeyDown={this.handleSearch} id = "searchInput"/>
+                     <IconButton className={classes.iconButton} aria-label="Search">
+                       <SearchIcon />
+                     </IconButton>
+                   </Paper>
+            }
+
+          {
+            this.renderResetSearchButton()
+          }
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer}>
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={this.props.container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+          <main className={classes.content}>
+            <br />
+            {
+              this.renderComponents()
+            }
+          </main>
         </div>
       );
+    }
+  }
 
-      return (
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar style={toolbarStyle}>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classes.menuButton}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
-                  {
-                    this.renderActualTableName()
-                  }
-                </Typography>
-                <form style={{ marginLeft: "20%" }}>
-                  <input type="text" name="search" placeholder="Buscar..." id="searchInput" className="searchBarTable" onKeyDown={this.handleSearch} />
-                </form>
-                {
-                  this.renderResetSearchButton()
-                }
-              </Toolbar>
-            </AppBar>
-            <nav className={classes.drawer}>
-              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-              <Hidden smUp implementation="css">
-                <Drawer
-                  container={this.props.container}
-                  variant="temporary"
-                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                  open={this.state.mobileOpen}
-                  onClose={this.handleDrawerToggle}
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  >
-                    {drawer}
-                  </Drawer>
-                </Hidden>
-                <Hidden xsDown implementation="css">
-                  <Drawer
-                    classes={{
-                      paper: classes.drawerPaper,
-                    }}
-                    variant="permanent"
-                    open
-                    >
-                      {drawer}
-                    </Drawer>
-                  </Hidden>
-                </nav>
-                <main className={classes.content}>
-                  <br />
-                  {
-                    this.renderComponents()
-                  }
-                </main>
-              </div>
-            );
-          }
-        }
+  ResponsiveDrawer.propTypes = {
+    classes: PropTypes.object.isRequired,
+    // Injected by the documentation to work in an iframe.
+    // You won't need it on your project.
+    container: PropTypes.object,
+    theme: PropTypes.object.isRequired,
+  };
 
-        ResponsiveDrawer.propTypes = {
-          classes: PropTypes.object.isRequired,
-          // Injected by the documentation to work in an iframe.
-          // You won't need it on your project.
-          container: PropTypes.object,
-          theme: PropTypes.object.isRequired,
-        };
-
-        export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+  export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);

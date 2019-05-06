@@ -47,6 +47,10 @@ class MainActivity extends React.Component {
         <CardContent>
           <p><strong>{row["usuario"]}</strong> {row["fecha"]}</p>
           <p ><strong>Concepto:</strong> {row["concepto"]} </p>
+          {
+            (row["idLote"])&&(<p ><strong>Id del lote:</strong> {this.showText(row["idLote"] , "Obs")}</p>)
+          }
+
           <p ><strong>Observación:</strong> {this.showText(row["observacion"] , "Obs")}</p>
 
           <div style = {{position:"relative"}}> <strong>Archivo: </strong>
@@ -61,7 +65,6 @@ class MainActivity extends React.Component {
             <span className="downloadAvailable" onClick = {this.handleSwitch}>{this.state.showActivities?"Ocultar":"Ver"} respuestas</span>
           </span>
         </div>
-        <Divider/>
         {
           this.state.showActivities && (<div className = "activities-wrapper" >
             {this.renderActividades()}

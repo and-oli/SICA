@@ -1,0 +1,13 @@
+.ids-wrapper{
+  max-height :100px;
+   width:70%;
+   margin:0 auto;
+   overflow-y: auto;
+   border-radius: 3px;
+   border: 1px #c9c9c9 solid;
+}
+.button-wrapper{
+  margin-top: 10px;
+}
+.edit-case-modal{
+}
