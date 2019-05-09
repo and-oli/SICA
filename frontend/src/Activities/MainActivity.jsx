@@ -5,15 +5,23 @@ import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import Activity from './Activity';
 import NewActivityModal from './NewActivityModal';
+import ModifiedCasesModal from '../EditCases/ModifiedCasesModal';
 
 class MainActivity extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showActivities:false,
-      openUpload: false
+      openUpload: false,
+      showResultModal:false
     };
 
+  }
+  closeResultModal = ()=>{
+    this.setState({ showResultModal: false });
+  }
+  openResultModal = ()=>{
+    this.setState({ showResultModal: true });
   }
   handleOpenModalUpload = () => {
     this.setState({ openUpload: true });
@@ -53,17 +61,28 @@ class MainActivity extends React.Component {
 
           <p ><strong>Observación:</strong> {this.showText(row["observacion"] , "Obs")}</p>
 
-          <div style = {{position:"relative"}}> <strong>Archivo: </strong>
+          <div style = {{position:"relative"}}> <strong style={{display:"inline"}}>Archivo: </strong>
+
           {
-            row["URLArchivo"] === ""?(
+            (row["URLArchivo"] === ""||!row["URLArchivo"])?(
               <span>No disponible</span>
             ):(
               <a className="downloadAvailable" href={row["URLArchivo"]}>Descargar</a>
             )
           }
-          <span className="text-right">
-            <span className="downloadAvailable" onClick = {this.handleSwitch}>{this.state.showActivities?"Ocultar":"Ver"} respuestas</span>
-          </span>
+          {
+            (row["cambiosCasos"] && row["cambiosCasos"].length>0 )&&(
+              <div className="downloadAvailable" onClick = {this.openResultModal}>Mostrar resultado</div>
+            )
+          }
+          {
+            (row["concepto"] !== "Cambio manual a estado de casos" )&&(
+              <span className="text-right">
+                <span className="downloadAvailable" onClick = {this.handleSwitch}>{this.state.showActivities?"Ocultar":"Ver"} respuestas</span>
+              </span>
+            )
+          }
+
         </div>
         {
           this.state.showActivities && (<div className = "activities-wrapper" >
@@ -80,10 +99,10 @@ class MainActivity extends React.Component {
             depth = {1}
             nuevoLote = {false}
             parentId  = {row._id}
-            >
-            </NewActivityModal>
+            />
           </div>)
         }
+        <ModifiedCasesModal closeResultModal = {this.closeResultModal} open = {this.state.showResultModal} results = {row["cambiosCasos"]} culo = {true}/>
 
       </CardContent>
     </Card>

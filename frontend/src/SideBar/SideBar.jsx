@@ -120,21 +120,21 @@ class ResponsiveDrawer extends React.Component {
   };
 
   handleClickCasos = () => {
-    this.setState({ actualTable: "casos", loading: true }, () => {
-      this.doFetch();
-    });
+    this.setState({ actualTable: "casos", loading: true, searching:false },
+      this.doFetch
+    );
   }
 
   handleClickLotes = () => {
-    this.setState({ actualTable: "lotes", loading: true }, () => {
-      this.doFetch();
-    });
+    this.setState({ actualTable: "lotes", loading: true, searching:false },
+      this.doFetch
+    );
   }
 
   handleClickActividad = () => {
-    this.setState({ actualTable: "actividades", loading: true }, () => {
-      this.doFetch();
-    });
+    this.setState({ actualTable: "actividades", loading: true, searching:false },
+      this.doFetch
+    );
   }
 
   handleSearch = (e) => {
@@ -210,12 +210,21 @@ class ResponsiveDrawer extends React.Component {
               }
             };
             if (tableInfo === "casos") {
-              this.setState(prevState => {
-                prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
-                return ({ rowsHeaders: prevState.rowsHeaders });
-              })
-            }
+              if(!this.state.rowsHeaders.find(rh=>rh.id==="estado")){
+                this.setState(prevState => {
+                  prevState.rowsHeaders.push({ id: "estado", numeric: false, disablePadding: true, label: "Estado" });
+                  return ({ rowsHeaders: prevState.rowsHeaders });
+                })
+              }
 
+            }
+            if(tableInfo === "actividades"){
+              json[tableInfo].sort((r1,r2)=>{
+                  return  ( new Date(r2.fecha).getTime()-new Date(r1.fecha).getTime())
+              })
+              return this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
+
+            }
             this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false });
           }
           else {
@@ -306,13 +315,7 @@ class ResponsiveDrawer extends React.Component {
           <div>
             <br />
             <Grid>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    No hay información para mostrar
-                  </Typography>
-                </CardContent>
-              </Card>
+            <span className = "no-la-hay">No hay información para mostrar</span>
             </Grid>
             {
               this.renderUploadActivityButton()
@@ -409,7 +412,7 @@ class ResponsiveDrawer extends React.Component {
               <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
                  <Icon>edit_icon</Icon>
                </Fab>
-               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{this.setState({openEdit:false}) }}/>
+               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
              </div>
             }
               {this.state.actualTable !== "actividades"&&

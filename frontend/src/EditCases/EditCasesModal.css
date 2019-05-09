@@ -9,5 +9,7 @@
 .button-wrapper{
   margin-top: 10px;
 }
-.edit-case-modal{
+.modified-cases-content{
+  max-height: 70vh;
+  overflow: auto;
 }

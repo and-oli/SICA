@@ -225,6 +225,7 @@ class EnhancedTable extends React.Component {
                     </TableCell>
                   )
                 }
+
                 return (
                   <TableCell key={i} align="center">{this.leerFecha(n[header.id]).toString()}</TableCell>
                 )

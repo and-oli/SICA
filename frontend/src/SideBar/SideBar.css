@@ -29,7 +29,13 @@
   width: 140px;
   border-radius: 8px;
 }
-
+.no-la-hay{
+  color:white;
+  position: relative;
+  left: 50%;
+  display: inline-block;
+  transform: translateX(-50%);
+}
 .resetSearchButton{
   background-color: #5e35b1;
   border: none;
@@ -119,12 +125,12 @@
   }
 
   .downloadAvailable {
-    display: inline-block;
-    vertical-align: top;
     cursor: pointer;
     color: #2196f3;
+    -webkit-text-decoration: underline #2196f3;
     text-decoration: underline #2196f3;
-  }
+    margin-top: 11px;
+}
   .downloadAvailable:hover {
-    cursor: pointer;   
+    cursor: pointer;
   }

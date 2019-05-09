@@ -46,9 +46,9 @@ class EnhancedTableHead extends React.Component {
       <TableHead>
         <TableRow>
           {this.props.rowsHeaders.map(
-            row => (
+            (row,i) => (
               <CustomTableCell
-                key={row.id}
+                key={i}
                 align={'center'}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}

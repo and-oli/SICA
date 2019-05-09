@@ -72,11 +72,12 @@ class DateDetail extends React.Component {
                         </TableHead>
                         <TableBody>
                             {
-                                this.props.data.cambiosDeEstado.map(row => {
+                                this.props.data.cambiosDeEstado.map((row,i) => {
                                     return (
-                                        <TableRow key={row._id}>
+                                      <TableRow key={i}>
                                             <TableCell align="center" >{row.fecha}</TableCell>
                                             <TableCell align="center">{row.nuevoEstado}</TableCell>
+                                            <TableCell align="center">{row.observacion}</TableCell>
                                         </TableRow>
                                     )
                                 })

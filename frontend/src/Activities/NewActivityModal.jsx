@@ -27,7 +27,7 @@ const styles = theme => ({
     outline: 'none',
   },
 });
-const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones"}
+const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones","Otro":"otro"}
 
 class NewActivityModal extends React.Component{
   constructor(props) {
@@ -35,14 +35,18 @@ class NewActivityModal extends React.Component{
     this.state = {
       concept:"",
       observation:"",
-      route:""
+      route:"",
+      userType:""
     };
+  }
+  componentDidMount(){
+    this.setState({userType:localStorage.getItem("userType")})
   }
   handleObsChange = ()=>{
     this.setState({observation:this.observation.value})
   }
   handleChangeDropdown =(e)=> {
-    this.setState({ concept: e.target.value,route: conceptsRoutes[ e.target.value]});
+      this.setState({ concept: e.target.value,route: conceptsRoutes[ e.target.value]});
   }
   render(){
     const { classes } = this.props;
@@ -52,9 +56,9 @@ class NewActivityModal extends React.Component{
         aria-describedby="simple-modal-description"
         open={this.props.open}
         >
-          <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} className={classes.modalUploadActivity}>
+          <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position:"relative" }} className={classes.modalUploadActivity}>
             <Arrow onClick={this.props.handleCloseModalUpload} className="arrow" />
-            <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"relative",left:"50%",transform:"translateX(-50%)"}}>
+            <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"absolute",left:"50%",transform:"translateX(-50%)"}}>
               {this.props.nuevoLote?("Nuevo lote"):("Nueva respuesta")}
             </Typography>
             <br />
@@ -72,8 +76,18 @@ class NewActivityModal extends React.Component{
                       name="concept"
                       style = {{width:"100%"}}
                       >
+                      {
+                        this.state.userType ==="Comsistelco"&&
                         <MenuItem value="Gestión terceros">Gestión terceros</MenuItem>
+                      }
+                      {
+                        this.state.userType ==="Comsistelco"&&
                         <MenuItem value="Finalización inspecciones">Finalización inspecciones</MenuItem>
+                      }
+                      {
+                        this.state.userType ==="Codensa"&&
+                        <MenuItem value="Otro">Otro</MenuItem>
+                      }
 
                       </Select>
                     </div>

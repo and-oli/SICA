@@ -35,7 +35,6 @@ const styles = theme => ({
     float:"right"
   },
 });
-const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones"}
 
 class EditCasesModal extends React.Component{
   constructor(props) {
@@ -43,7 +42,7 @@ class EditCasesModal extends React.Component{
     this.state = {
       cases:[],
       error:"",
-      newState:"Preguntarle",
+      newState:"Estado 1",
       loading:false,
       success:null
     };
@@ -95,7 +94,7 @@ class EditCasesModal extends React.Component{
   }
   renderIds = ()=>{
     return this.state.cases.map((c,i)=>{
-      return(<div>{c}</div>)
+      return(<div key = {i}>{c}</div>)
     }
   )
 }
@@ -110,7 +109,7 @@ handleOk= ()=>{
   this.setState({ loading: true, error: "", success:null })
 
   if(obs!==""){
-    fetch("http://localhost:3001/sica/api/cambiarEstadosACasos", {
+    fetch("https://intellgentcms.herokuapp.com/sica/api/cambiarEstadosACasos", {
       method: "POST",
       headers: {
         'x-access-token': localStorage.getItem("SICAToken"),
@@ -118,8 +117,8 @@ handleOk= ()=>{
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        usuario: localStorage.getItem("userType"),
-        casos:this.states.cases,
+        usuario: "Usuario "+localStorage.getItem("userType"),
+        casos:this.state.cases,
         estado:this.state.newState,
         observacion:obs
       })
@@ -167,9 +166,9 @@ render(){
               name="newState"
               style = {{width:"100%"}}
               >
-                <MenuItem value="Preguntarle">Preguntarle</MenuItem>
-                <MenuItem value="a">a</MenuItem>
-                <MenuItem value="freddy">freddy</MenuItem>
+                <MenuItem value="Estado 1">Estado 1</MenuItem>
+                <MenuItem value="Estado 2">Estado 2</MenuItem>
+                <MenuItem value="Estado 3">Estado 3</MenuItem>
 
               </Select>
             <TextField
@@ -200,7 +199,7 @@ render(){
           {
             this.state.cases.length > 0 &&
             <div className = "ids-wrapper" >
-              Casos seleccionados:
+              {`Casos seleccionados (${this.state.cases.length}):`}
 
               {this.renderIds()}
 
@@ -210,7 +209,7 @@ render(){
           <div style ={{color:"green"}}>{this.state.success}</div>
           {
             this.state.loading?(
-              <div>
+              <div style = {{margin:"10px"}}>
                 <br />
                 <span className="loader" id="loader"></span>
                 <br />
