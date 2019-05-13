@@ -210,7 +210,7 @@ componentDidMount() {
 }
 
 doFetch = () => {
-  fetch(`http://localhost:3001/sica/api/${this.state.actualTable}`, {
+  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -383,7 +383,7 @@ renderResetSearchButton = () => {
 }
 doLogout = ()=>{
 
-  fetch(`http://localhost:3001/sica/api/reiniciarNotificaciones`, {
+  fetch(`https://intellgentcms.herokuapp.com/sica/api/reiniciarNotificaciones`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
