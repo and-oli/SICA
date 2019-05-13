@@ -42,7 +42,7 @@ class EditCasesModal extends React.Component{
     this.state = {
       cases:[],
       error:"",
-      newState:"Estado 1",
+      newState:"ASIGNACIÓN INCORRECTA",
       loading:false,
       success:null
     };
@@ -109,7 +109,7 @@ handleOk= ()=>{
   this.setState({ loading: true, error: "", success:null })
 
   if(obs!==""){
-    fetch("https://intellgentcms.herokuapp.com/sica/api/cambiarEstadosACasos", {
+    fetch("http://localhost:3001/sica/api/cambiarEstadosACasos", {
       method: "POST",
       headers: {
         'x-access-token': localStorage.getItem("SICAToken"),
@@ -166,9 +166,15 @@ render(){
               name="newState"
               style = {{width:"100%"}}
               >
-                <MenuItem value="Estado 1">Estado 1</MenuItem>
-                <MenuItem value="Estado 2">Estado 2</MenuItem>
-                <MenuItem value="Estado 3">Estado 3</MenuItem>
+
+                <MenuItem value="ASIGNACIÓN INCORRECTA">ASIGNACIÓN INCORRECTA</MenuItem>
+                <MenuItem value="CARGADA EPICA">CARGADA EPICA</MenuItem>
+                <MenuItem value="PARA ASIGNACIÓN LOCAL">PARA ASIGNACIÓN LOCAL</MenuItem>
+                <MenuItem value="PARA CARGUE">PARA CARGUE</MenuItem>
+                <MenuItem value="PARA CARGUE ODT">PARA CARGUE ODT</MenuItem>
+                <MenuItem value="PARA COBRO">PARA COBRO</MenuItem>
+                <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
+                <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
 
               </Select>
             <TextField

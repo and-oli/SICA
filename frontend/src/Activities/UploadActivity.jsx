@@ -35,7 +35,7 @@ class NewActivity extends React.Component {
     let formData = new FormData();
     formData.append("file", archivo);
     formData.append("observacion", this.props.observation);
-    return fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.props.route}`, {
+    return fetch(`http://localhost:3001/sica/api/${this.props.route}`, {
       method: 'POST',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
@@ -53,11 +53,11 @@ class NewActivity extends React.Component {
   ) {
     this.setState({ loading: true })
     let URLArchivo = ""
-    if(this.state.fileSelected) {
+    if(this.refs.file.files[0]) {
       let fileResult = await this.uploadFile(this.refs.file.files[0]);
       if(fileResult.success){
         const {URLArchivo, idLote} = fileResult;
-        fetch("https://intellgentcms.herokuapp.com/sica/api/actividad", {
+        fetch("http://localhost:3001/sica/api/actividad", {
           method: "POST",
           headers: {
             'x-access-token': localStorage.getItem("SICAToken"),
@@ -74,8 +74,13 @@ class NewActivity extends React.Component {
             idLote
           })
         }).then(response => response.json()).then(
-          json=>
-          this.setState({ loading: false, error: "", success: json.message })
+          json=>{
+            if(json.success){
+              this.setState({ loading: false, error: "", success: json.message })
+            }else{
+              this.setState({ loading: false, error: json.message, success: "" })
+            }
+          }
         )
       }
       else{
@@ -83,7 +88,9 @@ class NewActivity extends React.Component {
         return
       }
     }
-
+    else {
+      this.setState({ error: "Debe insertar un archivo" })
+    }
   }
   else {
     this.setState({ error: "Debe ingresar todos los campos" })
@@ -107,7 +114,7 @@ renderButtton() {
       <button className="acceptButton" onClick={this.props.handleCloseModalUpload}>Volver</button>
     )
   }
-  if (this.state.fileSelected || !this.state.nuevoLote ) {
+  if (this.state.fileSelected ) {
     return (
       <button className="acceptButton" onClick={this.sendFile}>Aceptar</button>
     )
@@ -125,29 +132,34 @@ render() {
 
       <br />
       <div>
-        <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-        </div>
-        {this.state.loading ? (
-          <div>
-            <br />
-            <span className="loader" id="loader"></span>
-            <br />
-            <br />
+        {
+          this.props.otro?
+          <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
+            accept="*" />:
+            <input className="inputFile" id="file-upload" type="file" ref="file" name="myimages" onChange={this.handleChangeFile}
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            }
           </div>
-        )
-        :
-        (<div className="cardActionAccept">
-          {
-            this.renderButtton()
-          }
-          <p className="errorText">{this.state.error}</p>
-          <p className="successText">{this.state.success}</p>
-        </div>)
-      }
-    </div>
-  )
-}
+          {this.state.loading ? (
+            <div>
+              <br />
+              <span className="loader" id="loader"></span>
+              <br />
+              <br />
+            </div>
+          )
+          :
+          (<div className="cardActionAccept">
+            {
+              this.renderButtton()
+            }
+            <p className="errorText">{this.state.error}</p>
+            <p className="successText">{this.state.success}</p>
+          </div>)
+        }
+      </div>
+    )
+  }
 }
 
 NewActivity.propTypes = {

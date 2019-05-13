@@ -153,12 +153,17 @@ class EnhancedTable extends React.Component {
   handleCloseModalUpload = () => {
     this.setState({ openUpload: false });
   };
-  leerFecha = (serial)=>{
+  interpretar = (serial)=>{
+    if(!serial) return ""
     const num = Number.parseInt(serial);
     if(num ){
       if(serial.length === 5){
-        const date = new Date(Math.round((num - 25569)*86400*1000)+3600*24*1000);
-        return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+        const milis = Math.round((num - 25569)*86400*1000)+3600*24*1000
+        if( 1262322000000<milis && milis<1735707600000)
+        {
+          const date = new Date(milis);
+          return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+        }
       }
     }
     return serial
@@ -218,16 +223,16 @@ class EnhancedTable extends React.Component {
                     </TableCell>
                   )
                 }
-                else if (header.id === "estado") {
-                  return (
-                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
-                    <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
-                    </TableCell>
-                  )
-                }
+                // else if (header.id === "estado") {
+                //   return (
+                //     <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
+                //     <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
+                //     </TableCell>
+                //   )
+                // }
 
                 return (
-                  <TableCell key={i} align="center">{this.leerFecha(n[header.id]).toString()}</TableCell>
+                  <TableCell key={i} align="center">{this.interpretar(n[header.id]).toString()}</TableCell>
                 )
               }
             )

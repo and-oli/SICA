@@ -1,0 +1,22 @@
+.consolidate-data-wrapper{
+
+}
+.consolidate-data-wrapper-title{
+  margin: 10px;
+  font-weight: bold;
+}
+.consolidate-select{
+  width:40%;
+  margin: 10px
+}
+.consolidate-dates-wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+.consolidate-button-wrapper{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.consolidate-button{
+}

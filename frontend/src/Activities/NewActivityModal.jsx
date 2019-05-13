@@ -27,7 +27,7 @@ const styles = theme => ({
     outline: 'none',
   },
 });
-const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones","Otro":"otro"}
+const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones","Otro":"otro","Remitir para cargue de ODT":"remitirOdt"}
 
 class NewActivityModal extends React.Component{
   constructor(props) {
@@ -36,7 +36,8 @@ class NewActivityModal extends React.Component{
       concept:"",
       observation:"",
       route:"",
-      userType:""
+      userType:"",
+      otro:false
     };
   }
   componentDidMount(){
@@ -46,7 +47,8 @@ class NewActivityModal extends React.Component{
     this.setState({observation:this.observation.value})
   }
   handleChangeDropdown =(e)=> {
-      this.setState({ concept: e.target.value,route: conceptsRoutes[ e.target.value]});
+      const otro = e.target.value ==="Otro"
+      this.setState({ concept: e.target.value,route: conceptsRoutes[ e.target.value],otro});
   }
   render(){
     const { classes } = this.props;
@@ -82,6 +84,10 @@ class NewActivityModal extends React.Component{
                       }
                       {
                         this.state.userType ==="Comsistelco"&&
+                        <MenuItem value="Remitir para cargue de ODT">Remitir para cargue de ODT</MenuItem>
+                      }
+                      {
+                        this.state.userType ==="Comsistelco"&&
                         <MenuItem value="Finalización inspecciones">Finalización inspecciones</MenuItem>
                       }
                       {
@@ -112,6 +118,7 @@ class NewActivityModal extends React.Component{
                 route = {(this.props.route||this.state.route)}
                 nuevoLote = {this.props.nuevoLote}
                 handleCloseModalUpload={this.props.handleCloseModalUpload}
+                otro = {this.state.otro}
               />
             </div>
           </Modal>

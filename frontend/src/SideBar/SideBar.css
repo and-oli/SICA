@@ -134,3 +134,8 @@
   .downloadAvailable:hover {
     cursor: pointer;
   }
+.summary-button{
+  float: right;
+  position: relative;
+  left: 20%;
+}
