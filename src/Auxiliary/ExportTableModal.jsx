@@ -158,8 +158,8 @@ class ExportTableModal extends React.Component{
       <MenuItem value="ASIGNACIÓN INCORRECTA">ASIGNACIÓN INCORRECTA</MenuItem>
       <MenuItem value="CARGADA EPICA">CARGADA EPICA</MenuItem>
       <MenuItem value="PARA ASIGNACIÓN LOCAL">PARA ASIGNACIÓN LOCAL</MenuItem>
-      <MenuItem value="PARA CARGUE">PARA CARGUE</MenuItem>
-      <MenuItem value="PARA CARGUE ODT">PARA CARGUE ODT</MenuItem>
+      <MenuItem value="REMITIDO PARA CARGUE">REMITIDO PARA CARGUE</MenuItem>
+      <MenuItem value="REMITIDO PARA CARGUE ODT">REMITIDO PARA CARGUE ODT</MenuItem>
       <MenuItem value="PARA COBRO">PARA COBRO</MenuItem>
       <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
       <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
