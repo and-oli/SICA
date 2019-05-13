@@ -12,13 +12,12 @@
     "@material-ui/styles": "^3.0.0-alpha.10"
   },
   "scripts": {
-  	    "dev": "react-scripts start",
-    "start": "serve -s build",
+ "dev": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-        "heroku-postbuild": "npm run build"
-  },
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+    },
   "eslintConfig": {
     "extends": "react-app"
   },

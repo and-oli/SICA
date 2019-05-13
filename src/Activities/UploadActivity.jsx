@@ -52,7 +52,6 @@ class NewActivity extends React.Component {
     &&this.props.observation.trim() !==""
   ) {
     this.setState({ loading: true })
-    let URLArchivo = ""
     if(this.refs.file.files[0]) {
       let fileResult = await this.uploadFile(this.refs.file.files[0]);
       if(fileResult.success){

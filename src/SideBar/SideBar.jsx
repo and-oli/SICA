@@ -20,8 +20,6 @@ import AssignmentIcon from '@material-ui/icons/Description';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Clock from "@material-ui/icons/Alarm";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import Fab from '@material-ui/core/Fab';

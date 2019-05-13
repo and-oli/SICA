@@ -162,11 +162,18 @@ class EnhancedTable extends React.Component {
         if( 1262322000000<milis && milis<1735707600000)
         {
           const date = new Date(milis);
-          return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+          return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`.toString()
         }
       }
     }
-    return serial
+    if(serial.length >80){
+      return(
+        <Tooltip title={serial}>
+        <Typography   >{serial.substring(0,80)+"..."}</Typography>
+        </Tooltip>
+        )
+    }
+    return serial.toString()
   }
   render() {
     const { rows, classes } = this.props;
@@ -232,7 +239,7 @@ class EnhancedTable extends React.Component {
                 // }
 
                 return (
-                  <TableCell key={i} align="center">{this.interpretar(n[header.id]).toString()}</TableCell>
+                  <TableCell key={i} align="center">{this.interpretar(n[header.id])}</TableCell>
                 )
               }
             )

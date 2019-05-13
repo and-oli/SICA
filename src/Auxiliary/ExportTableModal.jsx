@@ -13,7 +13,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import exportToCSV from './ExportToCSV';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import './ExportTable.css';
 
 const styles = theme => ({
