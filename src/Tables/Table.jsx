@@ -168,7 +168,7 @@ class EnhancedTable extends React.Component {
     }
     if(serial.length >80){
       return(
-        <Tooltip title={serial}>
+        <Tooltip title={serial} interactive>
         <Typography   >{serial.substring(0,80)+"..."}</Typography>
         </Tooltip>
         )
