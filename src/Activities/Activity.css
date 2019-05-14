@@ -1,4 +1,6 @@
-
+.align-to-right{
+  float: right;
+}
 .activities-wrapper{
   margin: 10px 0 0 100px;
   padding:  20px;
@@ -10,6 +12,10 @@
 }
 body{
   background-color: red!important;
+}
+.send-down{
+  position: relative;
+  top:100px
 }
 .activity{
 

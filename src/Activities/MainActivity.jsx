@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Activity from './Activity';
 import NewActivityModal from './NewActivityModal';
 import ModifiedCasesModal from '../EditCases/ModifiedCasesModal';
+import DeleteModal from './DeleteModal';
 
 class MainActivity extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class MainActivity extends React.Component {
     this.state = {
       showActivities:false,
       openUpload: false,
-      showResultModal:false
+      showResultModal:false,
+      deleteModal:false,
     };
 
   }
@@ -28,7 +30,13 @@ class MainActivity extends React.Component {
   handleCloseModalUpload = () => {
     this.setState({ openUpload: false });
     window.location.reload();
-  };
+  }
+  cancelDelete = ()=>{
+    this.setState({ deleteModal: false });
+  }
+  showDeleteModal = ()=>{
+    this.setState({deleteModal : true });
+  }
   showText(text, type){
 
     if(text === "" && type === "Obs"){
@@ -52,7 +60,12 @@ class MainActivity extends React.Component {
     return (
       <Card  style = {{marginBottom:"20px"}}>
         <CardContent>
-          <p><strong>{row["usuario"]}</strong> {row["fecha"]}</p>
+          <span><strong>{row["usuario"]}</strong> {row["fecha"]}</span>
+          {
+            row["idLote"]&&
+            <span className="downloadAvailable align-to-right" onClick = {this.showDeleteModal} >Borrar</span>
+          }
+
           <p ><strong>Concepto:</strong> {row["concepto"]} </p>
           {
             (row["idLote"])&&(<p ><strong>Id del lote:</strong> {this.showText(row["idLote"] , "Obs")}</p>)
@@ -101,7 +114,8 @@ class MainActivity extends React.Component {
             />
           </div>)
         }
-        <ModifiedCasesModal closeResultModal = {this.closeResultModal} open = {this.state.showResultModal} results = {row["cambiosCasos"]} culo = {true}/>
+        <DeleteModal cancelDelete= {this.cancelDelete} open = {this.state.deleteModal} activity ={row}/>
+        <ModifiedCasesModal closeResultModal = {this.closeResultModal} open = {this.state.showResultModal} results = {row["cambiosCasos"]} />
 
       </CardContent>
     </Card>
