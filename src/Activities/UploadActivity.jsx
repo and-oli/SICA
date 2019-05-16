@@ -75,9 +75,9 @@ class NewActivity extends React.Component {
         }).then(response => response.json()).then(
           json=>{
             if(json.success){
-              this.setState({ loading: false, error: "", success: json.message })
+              this.setState({ loading: false, error: "", success: fileResult.message })
             }else{
-              this.setState({ loading: false, error: json.message, success: "" })
+              this.setState({ loading: false, error: fileResult.message, success: "" })
             }
           }
         )

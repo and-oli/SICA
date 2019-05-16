@@ -147,7 +147,7 @@ handleClickActividad = () => {
 handleSearch = (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
-    const searchValue = e.target.value.trim();
+    const searchValue = e.target.value;
     if(searchValue.trim()!==""){
       let rowsToShow = [];
       for (let i = 0; i < this.state.rowsCopy.length; i++) {
@@ -254,6 +254,7 @@ doFetch = () => {
             json[tableInfo].sort((r1,r2)=>{
               return  ( new Date(r2.fecha).getTime()-new Date(r1.fecha).getTime())
             })
+
             return this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false,notifications:json.notifications });
           }
 

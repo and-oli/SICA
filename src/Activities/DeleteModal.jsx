@@ -51,7 +51,7 @@ class DelteModal extends React.Component{
     }).then(response => response.json()).then(
       json=>{
         if(json.success){
-          this.setState({ loading: false, error: "", success: json.message })
+          this.setState({ loading: false, error: "", success: json.message+ ". Por favor refresque la aplicación" })
         }else{
           this.setState({ loading: false, error: json.message, success: "" })
         }
@@ -66,14 +66,17 @@ class DelteModal extends React.Component{
         aria-describedby="simple-modal-description"
         open={this.props.open}
         >
-          <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position:"relative", height:"300px" }} className={classes.modalUploadActivity}>
-            <Arrow onClick={this.props.cancelDelete} className="arrow" />
-            <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"absolute",left:"50%",transform:"translateX(-50%)", }}>
-            ¿Desea borrar esta actividad y toda la inofrmación asociada?
-            </Typography>
+          <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position:"relative"}} className={classes.modalUploadActivity}>
+            <div>
+
+              <Arrow onClick={this.props.cancelDelete} className="arrow" />
+              <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"absolute",left:"50%",transform:"translateX(-50%)", }}>
+                ¿Desea borrar esta actividad y toda la información asociada?
+              </Typography>
+            </div>
             <br />
             {this.state.loading ? (
-              <div>
+              <div style = {{marginTop:"90px"}}>
                 <br />
                 <span className="loader" id="loader"></span>
                 <br />
@@ -83,29 +86,34 @@ class DelteModal extends React.Component{
             :
 
             this.state.success === "" &&(
+              <div className ="delete-vertical-align" >
 
-              <div className = "consolidate-button-wrapper send-down">
+                <div className = "consolidate-button-wrapper delete-button-wrapper">
 
-              <Button variant="contained" color="secondary" onClick ={this.props.cancelDelete} className = "consolidate-button">
-                  Cancelar
-              </Button>
-              <Button variant="contained" color="primary" onClick ={this.delete} className = "consolidate-button">
-              Borrar
-              </Button>
-              <p className="errorText">{this.state.error}</p>
-              <p className="successText">{this.state.success}</p>
-            </div>
-          )
-              }
+                  <Button variant="contained" color="secondary" onClick ={this.props.cancelDelete} className = "consolidate-button">
+                    Cancelar
+                  </Button>
+                  <Button variant="contained" color="primary" onClick ={this.delete} className = "consolidate-button">
+                    Borrar
+                  </Button>
+                </div>
+              </div>
+
+            )
+          }
+
+          <div style = {{marginTop:"90px"}}>
+            <p className="successText">{this.state.success}</p>
+            <p className="errorText">{this.state.error}</p>
+          </div>
 
 
 
+        </div>
+      </Modal>
 
-            </div>
-          </Modal>
+    )
+  }
+}
 
-        )
-      }
-    }
-
-    export default withStyles(styles, { withTheme: true })(DelteModal);
+export default withStyles(styles, { withTheme: true })(DelteModal);

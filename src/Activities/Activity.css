@@ -13,9 +13,16 @@
 body{
   background-color: red!important;
 }
-.send-down{
-  position: relative;
-  top:100px
+.delete-vertical-align{
+  margin-top: 40px;
+  display: flex;
+ align-items: center;
+ justify-content: center;
+ height:100px;
+}
+.delete-button-wrapper{
+  height: auto;
+  width: 100%;
 }
 .activity{
 

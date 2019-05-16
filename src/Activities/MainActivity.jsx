@@ -62,7 +62,7 @@ class MainActivity extends React.Component {
         <CardContent>
           <span><strong>{row["usuario"]}</strong> {row["fecha"]}</span>
           {
-            row["idLote"]&&
+            row["idLote"]&&localStorage.getItem("userType") === "Comsistelco"&&
             <span className="downloadAvailable align-to-right" onClick = {this.showDeleteModal} >Borrar</span>
           }
 

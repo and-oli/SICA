@@ -34,7 +34,7 @@ class Activity extends React.Component {
                 (row["URLArchivo"] === ""||!row["URLArchivo"])?(
                   <span>No disponible</span>
                 ):(
-                  <a className="downloadAvailable" href={row["URLArchivo"]}>Descargar</a>
+                  <a className="downloadAvailable" href={row["URLArchivo"]} >Descargar</a>
                 )
               }
               {

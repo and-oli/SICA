@@ -21,7 +21,7 @@ function exportToCsv(filename, rows) {
         csvFile += processRow(rows[i]);
     }
 
-    var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+    var blob = new Blob([csvFile], { type: 'data:text/csv;charset=utf-8,%EF%BB%BF' });
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, filename);
     } else {
