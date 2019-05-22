@@ -44,7 +44,8 @@ class EditCasesModal extends React.Component{
       error:"",
       newState:"ASIGNACIÓN INCORRECTA",
       loading:false,
-      success:null
+      success:null,
+      casosRestantes:null
     };
   }
   checkForDuplicates = (newCases)=>{
@@ -125,7 +126,7 @@ handleOk= ()=>{
     }).then(response => response.json()).then(
       json=>{
         if(json.success){
-          this.setState({ loading: false, error: "", success: json.message })
+          this.setState({ loading: false, error: "", success: json.message, casosRestantes:json.casosRestantes })
         }
         else{
           this.setState({ loading: false, error: json.message, success:null  })
@@ -138,6 +139,13 @@ handleOk= ()=>{
     this.setState({ loading: false, error: "Ingrese una observación", success:null })
   }
 
+}
+renderCasosrestantes = ()=>{
+  let restantes = ""
+  for(let i = 0;i< this.state.casosRestantes.length; i++){
+    restantes += this.state.casosRestantes[i]+", "
+  }
+  return restantes
 }
 render(){
   const { classes } = this.props;
@@ -157,15 +165,17 @@ render(){
           <Divider />
           <FormControl className="new-activity-properties">
             <InputLabel shrink htmlFor="state-label-placeholder"> Nuevo estado</InputLabel>
+            {
+              localStorage.getItem("userType")==="Comsistelco"?(
 
-            <Select
-              value={this.state.newState}
-              onChange={this.handleChangeDropdown}
-              input={<Input name="newState" id="state-label-placeholder" />}
-              displayEmpty
-              name="newState"
-              style = {{width:"100%"}}
-              >
+                <Select
+                value={this.state.newState}
+                onChange={this.handleChangeDropdown}
+                input={<Input name="newState" id="state-label-placeholder" />}
+                displayEmpty
+                name="newState"
+                style = {{width:"100%"}}
+                >
 
                 <MenuItem value="ASIGNACIÓN INCORRECTA">ASIGNACIÓN INCORRECTA</MenuItem>
                 <MenuItem value="CARGADA EPICA">CARGADA EPICA</MenuItem>
@@ -176,7 +186,23 @@ render(){
                 <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
                 <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
 
+                </Select>
+              ):
+              <Select
+              value={this.state.newState}
+              onChange={this.handleChangeDropdown}
+              input={<Input name="newState" id="state-label-placeholder" />}
+              displayEmpty
+              name="newState"
+              style = {{width:"100%"}}
+              >
+              <MenuItem value="GESTIONADO CODENSA">GESTIONADO CODENSA</MenuItem>
+              <MenuItem value="DESASIGNADO CODENSA">DESASIGNADO CODENSA</MenuItem>
+              <MenuItem value="DEVUELTO CODENSA">DEVUELTO CODENSA</MenuItem>
+
               </Select>
+
+            }
             <TextField
               label="Ordenados "
               multiline
@@ -240,6 +266,14 @@ render(){
                 </Button>
               )
           }
+          {(this.state.success!==""&&this.state.casosRestantes)&&(
+            <div style ={{overflow: "auto",textAlign: "left"}}>
+              Los siguientes casos no estaban en el sistema:{
+
+                this.renderCasosrestantes()
+              }
+            </div>
+          )}
 
         </div>
       </Modal>

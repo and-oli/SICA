@@ -1,6 +1,6 @@
 function exportToCsv(filename, rows) {
     var processRow = function (row) {
-        var finalVal = '';
+        var finalVal =  "\uFEFF";
         for (var j = 0; j < row.length; j++) {
             var innerValue = row[j] === null ? '' : row[j].toString();
             if (row[j] instanceof Date) {
@@ -20,11 +20,15 @@ function exportToCsv(filename, rows) {
     for (var i = 0; i < rows.length; i++) {
         csvFile += processRow(rows[i]);
     }
-
-    var blob = new Blob([csvFile], { type: 'data:text/csv;charset=utf-8,%EF%BB%BF' });
+    var csvContent = "...csv content...";
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    var blob = new Blob([csvFile], { type: "data:text/csv;charset=utf-8,\uFEFF" + encodedUri });
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, filename);
+        console.log("hehe");
     } else {
+      console.log("juju");
         var link = document.createElement("a");
         if (link.download !== undefined) { // feature detection
             // Browsers that support HTML5 download attribute

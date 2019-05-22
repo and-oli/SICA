@@ -188,6 +188,9 @@ generateSummaryData=()=>{
                         <MenuItem value="PARA COBRO">PARA COBRO</MenuItem>
                         <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
                         <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
+                        <MenuItem value="GESTIONADO CODENSA">GESTIONADO CODENSA</MenuItem>
+                        <MenuItem value="DESASIGNADO CODENSA">DESASIGNADO CODENSA</MenuItem>
+                        <MenuItem value="DEVUELTO CODENSA">DEVUELTO CODENSA</MenuItem>
                       </Select>
                     </FormControl>
 

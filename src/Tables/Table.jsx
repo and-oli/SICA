@@ -216,7 +216,10 @@ class EnhancedTable extends React.Component {
                   return (
                     <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
                     <Tooltip title="Ver en detalle">
-                    <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
+                      {
+                        n[header.id]&&
+                        <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
+                      }
                     </Tooltip>
                     </TableCell>
                   )

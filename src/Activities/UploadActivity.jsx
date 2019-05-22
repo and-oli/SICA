@@ -22,7 +22,8 @@ class NewActivity extends React.Component {
       loading: false,
       error: "",
       success: "",
-      fileSelected: false
+      fileSelected: false,
+      casosRestantes:null
     };
 
     this.handleUpload = this.handleUpload.bind(this);
@@ -75,7 +76,7 @@ class NewActivity extends React.Component {
         }).then(response => response.json()).then(
           json=>{
             if(json.success){
-              this.setState({ loading: false, error: "", success: fileResult.message })
+              this.setState({ loading: false, error: "", success: fileResult.message,casosRestantes:fileResult.casosRestantes })
             }else{
               this.setState({ loading: false, error: fileResult.message, success: "" })
             }
@@ -88,11 +89,11 @@ class NewActivity extends React.Component {
       }
     }
     else {
-      this.setState({ error: "Debe insertar un archivo" })
+      this.setState({ error: "Debe insertar un archivo" , loading:false})
     }
   }
   else {
-    this.setState({ error: "Debe ingresar todos los campos" })
+    this.setState({ error: "Debe ingresar todos los campos", loading:false })
   }
 }
 
@@ -123,7 +124,13 @@ renderButtton() {
   )
 
 }
-
+renderCasosrestantes = ()=>{
+  let restantes = ""
+  for(let i = 0;i< this.state.casosRestantes.length; i++){
+    restantes += this.state.casosRestantes[i]+", "
+  }
+  return restantes
+}
 render() {
   return (
     <div>
@@ -154,6 +161,14 @@ render() {
             }
             <p className="errorText">{this.state.error}</p>
             <p className="successText">{this.state.success}</p>
+            {(this.state.success!==""&&this.state.casosRestantes)&&(
+              <div style ={{overflow: "auto",textAlign: "left"}}>
+                Los siguientes casos no estaban en el sistema:{
+
+                  this.renderCasosrestantes()
+                }
+              </div>
+            )}
           </div>)
         }
       </div>
