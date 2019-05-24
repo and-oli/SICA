@@ -37,6 +37,7 @@ class NewClusterModal extends React.Component{
       loading:false,
       error:"",
       success:"",
+      casosRestantes:null,
     };
   }
   renderButtton() {
@@ -65,7 +66,8 @@ class NewClusterModal extends React.Component{
       body: formData
     }).then(response => response.json()).then(json=>{
       if(json.success){
-        this.setState({success:json.message,loading:false})
+        console.log(json);
+        this.setState({success:json.message,loading:false, casosRestantes:json.casosRestantes})
       }else{
         this.setState({error:json.message,loading:false})
       }
@@ -73,6 +75,13 @@ class NewClusterModal extends React.Component{
   }
   handleChangeFile = ()=>{
       this.setState({fileSelected:this.refs.file.files[0]})
+  }
+  renderCasosrestantes = ()=>{
+    let restantes = ""
+    for(let i = 0;i< this.state.casosRestantes.length; i++){
+      restantes += this.state.casosRestantes[i]+", "
+    }
+    return restantes
   }
   render(){
     const { classes } = this.props;
@@ -114,6 +123,14 @@ class NewClusterModal extends React.Component{
                 </div>)
               }
             </div>
+            {(this.state.success!==""&&this.state.casosRestantes)&&(
+              <div style ={{overflow: "auto",textAlign: "left"}}>
+                Los siguientes casos no estaban en el sistema ({this.state.casosRestantes.length}):{
+
+                  this.renderCasosrestantes()
+                }
+              </div>
+            )}
           </div>
         </Modal>
 

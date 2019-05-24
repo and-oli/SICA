@@ -159,7 +159,7 @@ class EnhancedTable extends React.Component {
     if(num ){
       if(serial.length === 5){
         const milis = Math.round((num - 25569)*86400*1000)+3600*24*1000
-        if( 1262322000000<milis && milis<1735707600000)
+        if( 1527173971106<milis && milis<1735707600000)
         {
           const date = new Date(milis);
           return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`.toString()

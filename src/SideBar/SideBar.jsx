@@ -235,7 +235,7 @@ doFetch = () => {
                 }
                 labelToShow = labelToShow + " " + word;
               }
-              newRowHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow });
+              newRowHeaders.push({ id: headerToAdd, numeric: false, disablePadding: true, label: labelToShow, original:headerToAdd });
 
               this.setState({ rowsHeaders: newRowHeaders });
             }
