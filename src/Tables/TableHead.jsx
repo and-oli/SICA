@@ -14,6 +14,8 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: blue[300],
     color: theme.palette.common.white,
+    position:'sticky',
+    top: "64px",
   },
   body: {
     fontSize: 14,

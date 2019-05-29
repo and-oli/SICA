@@ -83,10 +83,11 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    bottom: theme.spacing.unit * 4,
+    bottom: theme.spacing.unit * 7,
     right: theme.spacing.unit * 4,
     position: "fixed",
   },
+
   modalUploadActivity: {
     position: 'absolute',
     width: theme.spacing.unit * 80,
@@ -125,9 +126,13 @@ class ResponsiveDrawer extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
-
-  handleClickCasos = () => {
+  casesQuery = (state) => {
     this.setState({ actualTable: "casos", loading: true, searching:false },
+    ()=>this.doFetch("estado="+state)
+  );
+}
+  handleClickCasos = () => {
+    this.setState({ actualTable: "resumen", loading: true, searching:false },
     this.doFetch
   );
 }
@@ -156,11 +161,11 @@ handleSearch = (e) => {
           let header = this.state.rowsHeaders[j];
           if( row[header.id]){
 
-          if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
-            rowsToShow.push(row);
-            break;
+            if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
+              rowsToShow.push(row);
+              break;
+            }
           }
-        }
         }
       }
       this.setState({ rows: rowsToShow, searching: true })
@@ -177,10 +182,10 @@ handleSearchClick = () => {
         let row = this.state.rowsCopy[i];
         let header = this.state.rowsHeaders[j];
         if( row[header.id]){
-        if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
-          rowsToShow.push(row);
-          break;
-        }
+          if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
+            rowsToShow.push(row);
+            break;
+          }
         }
       }
     }
@@ -207,8 +212,9 @@ componentDidMount() {
   this.doFetch();
 }
 
-doFetch = () => {
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}`, {
+doFetch = (pQuery) => {
+  const query = (pQuery||"")
+  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}?${query}`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -324,7 +330,7 @@ renderComponents = () => {
   else {
     if (!this.state.empty && this.state.actualTable !== "actividades") {
       return (
-        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} casesQuery ={this.casesQuery}/>
       )
     }
     else if (!this.state.empty && this.state.actualTable === "actividades") {
@@ -495,6 +501,7 @@ render() {
               <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
                 <Icon>edit_icon</Icon>
               </Fab>
+                <Icon  className="arrow-back" onClick = {this.handleClickCasos}>arrow_back</Icon>
               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
             </div>
           }

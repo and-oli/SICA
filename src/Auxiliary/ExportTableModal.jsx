@@ -60,7 +60,7 @@ class ExportTableModal extends React.Component{
         if( 1262322000000<milis && milis<1735707600000)
         {
           const date = new Date(milis);
-          return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+          return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`.toString()
         }
       }
     }
@@ -80,17 +80,12 @@ class ExportTableModal extends React.Component{
       let insideRange = currentTime <= upperLimit && currentTime >= lowerLimit;
       if((rc.estado.toLowerCase().trim()===this.state.filterState.toLowerCase().trim() || this.state.filterState.toLowerCase() ==="todos")
       && insideRange  ){
-
-        const keys = Object.keys(rc);
-        for(let j = 0; j<keys.length;j++)
-        {
-          let k = keys[j]
-          if(k!=="__v"&&k!=="_id"){
-            if(k==="cambiosDeEstado"){
-              newRow.push(rc[k][rc[k].length-1].fecha)
-            }else{
-              newRow.push(this.interpretar(rc[k]))
-            }
+        for(let header of this.props.rowsHeaders){
+            let k = header.original;
+          if(k==="cambiosDeEstado"){
+            newRow.push(rc[k][rc[k].length-1].fecha)
+          }else{
+            newRow.push(this.interpretar(rc[k]))
           }
         }
         data.push(newRow)
@@ -125,7 +120,6 @@ generateSummaryData=()=>{
     if( insideRange  ){
       dataObj[rc.estado] = dataObj[rc.estado]? dataObj[rc.estado]+1:1
     }
-
   }
   for(let dataKey in dataObj){
     data.push([dataKey,dataObj[dataKey]])
@@ -163,7 +157,7 @@ generateSummaryData=()=>{
             <br />
             <Divider />
             <div className = "consolidate-data-wrapper">
-              <div className = "consolidate-data-wrapper-title">Seleccione las fechas y el estado del consolidado</div>
+              <div className = "consolidate-data-wrapper-title">Seleccione las fechas de última modificación y el estado de los casos en el consolidado</div>
               <div className = "consolidate-select">
                 <FormControl className={classes.formControl}>
                   <InputLabel
@@ -224,9 +218,9 @@ generateSummaryData=()=>{
                     <Button variant="contained" color="primary" onClick ={this.viewSummary} className = "consolidate-button">
                       Ver resumen
                     </Button>
-                    <Button variant="contained" color="primary" onClick ={this.exportSummary} className = "consolidate-button">
+                    {/* <Button variant="contained" color="primary" onClick ={this.exportSummary} className = "consolidate-button">
                       Descargar resumen
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>

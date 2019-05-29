@@ -58,7 +58,6 @@ const styles = theme => ({
     minWidth: 1020,
   },
   tableWrapper: {
-    overflowX: 'auto',
   },
 
   extendedIcon: {
@@ -109,26 +108,6 @@ class EnhancedTable extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleClick = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    this.setState({ selected: newSelected });
-  };
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -156,6 +135,7 @@ class EnhancedTable extends React.Component {
   interpretar = (serial)=>{
     if(!serial) return ""
     const num = Number.parseInt(serial);
+
     if(num ){
       if(serial.length === 5){
         const milis = Math.round((num - 25569)*86400*1000)+3600*24*1000
@@ -165,13 +145,17 @@ class EnhancedTable extends React.Component {
           return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`.toString()
         }
       }
+    }else if(this.props.currentTable === "resumen"){//Hay certeza de que se trata del estado pues no es un numero
+      return (
+          <a className = "downloadAvailable" onClick = {()=>{this.props.casesQuery(serial)}} >{serial.toString()}</a>
+      )
     }
     if(serial.length >80){
       return(
         <Tooltip title={serial} interactive>
-        <Typography   >{serial.substring(0,80)+"..."}</Typography>
+          <Typography   >{serial.substring(0,80)+"..."}</Typography>
         </Tooltip>
-        )
+      )
     }
     return serial.toString()
   }
@@ -182,120 +166,120 @@ class EnhancedTable extends React.Component {
 
     return (
       <div>
-      <Paper className={classes.root}>
-      <div className={classes.tableWrapper}>
-      <Table className={classes.table} aria-labelledby="tableTitle">
-      <EnhancedTableHead
-      numSelected={selected.length}
-      order={order}
-      orderBy={orderBy}
-      onSelectAllClick={this.handleSelectAllClick}
-      onRequestSort={this.handleRequestSort}
-      rowCount={rows.length}
-      rowsHeaders={this.props.rowsHeaders}
-      />
-      <TableBody>
-      {stableSort(rows, getSorting(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map(n => {
-          return (
-            <TableRow
-            hover
-            tabIndex={-1}
-            key={n._id}
+        <Paper className={classes.root}>
+          <div className={classes.tableWrapper} >
+            <Table className={classes.table} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={rows.length}
+                rowsHeaders={this.props.rowsHeaders}
+              />
+              <TableBody>
+                {stableSort(rows, getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((n,i) => {
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={i}
+                        >
+                          {
+                            this.props.rowsHeaders.map((header, i) => {
+
+                              if (header.id === "cerrado") {
+                                return (
+                                  <TableCell key={i} align="center">{n[header.id]?"Sí":"No"}</TableCell>
+                                )
+                              }
+                              else if (header.id === "cambiosDeEstado") {
+                                return (
+                                  <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                    <Tooltip title="Ver en detalle">
+                                      {
+                                        n[header.id]&&
+                                        <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
+                                      }
+                                    </Tooltip>
+                                  </TableCell>
+                                )
+                              }
+                              else if (header.id === "URLArchivo") {
+                                return (
+                                  <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
+                                    <Tooltip title="Descargar">
+                                      <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar archivo</a>
+                                    </Tooltip>
+                                  </TableCell>
+                                )
+                              }
+                              // else if (header.id === "estado") {
+                              //   return (
+                              //     <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
+                              //     <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
+                              //     </TableCell>
+                              //   )
+                              // }
+
+                              return (
+                                <TableCell key={i} align="center">{this.interpretar(n[header.id])}</TableCell>
+                              )
+                            }
+                          )
+                        }
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 49 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50, 100,500]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              backIconButtonProps={{
+                'aria-label': 'Previous Page',
+              }}
+              nextIconButtonProps={{
+                'aria-label': 'Next Page',
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </Paper>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.openUpload}
             >
-            {
-              this.props.rowsHeaders.map((header, i) => {
+            </Modal>
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={this.state.openDateDetail}
+              >
+                <div style={getModalStyle()} className={classes.modalDateDetail}>
+                  <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
+                </div>
+              </Modal>
+            </div>
+          );
+        }
+      }
 
-                if (header.id === "cerrado") {
-                  return (
-                    <TableCell key={i} align="center">{n[header.id]?"Sí":"No"}</TableCell>
-                  )
-                }
-                else if (header.id === "cambiosDeEstado") {
-                  return (
-                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                    <Tooltip title="Ver en detalle">
-                      {
-                        n[header.id]&&
-                        <Typography style={{ color: "#2196f3" }} onClick={this.handleOpenDateDetail.bind(this, n)}  >{n[header.id][n[header.id].length - 1].fecha}</Typography>
-                      }
-                    </Tooltip>
-                    </TableCell>
-                  )
-                }
-                else if (header.id === "URLArchivo") {
-                  return (
-                    <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }} className="dateLink">
-                    <Tooltip title="Descargar">
-                    <a style={{ color: "#2196f3" }} href={n[header.id]} >Descargar archivo</a>
-                    </Tooltip>
-                    </TableCell>
-                  )
-                }
-                // else if (header.id === "estado") {
-                //   return (
-                //     <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
-                //     <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
-                //     </TableCell>
-                //   )
-                // }
+      EnhancedTable.propTypes = {
+        classes: PropTypes.object.isRequired,
+      };
 
-                return (
-                  <TableCell key={i} align="center">{this.interpretar(n[header.id])}</TableCell>
-                )
-              }
-            )
-          }
-          </TableRow>
-        );
-      })}
-      {emptyRows > 0 && (
-        <TableRow style={{ height: 49 * emptyRows }}>
-        <TableCell colSpan={6} />
-        </TableRow>
-      )}
-      </TableBody>
-      </Table>
-      </div>
-      <TablePagination
-      rowsPerPageOptions={[10, 25, 50, 100,500]}
-      component="div"
-      count={rows.length}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      backIconButtonProps={{
-        'aria-label': 'Previous Page',
-      }}
-      nextIconButtonProps={{
-        'aria-label': 'Next Page',
-      }}
-      onChangePage={this.handleChangePage}
-      onChangeRowsPerPage={this.handleChangeRowsPerPage}
-      />
-      </Paper>
-      <Modal
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      open={this.state.openUpload}
-      >
-      </Modal>
-      <Modal
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      open={this.state.openDateDetail}
-      >
-      <div style={getModalStyle()} className={classes.modalDateDetail}>
-      <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
-      </div>
-      </Modal>
-      </div>
-    );
-  }
-}
-
-EnhancedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(EnhancedTable);
+      export default withStyles(styles)(EnhancedTable);

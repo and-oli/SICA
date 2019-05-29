@@ -13,7 +13,18 @@
     width: 200px;
     border-radius: 8px;
 }
-
+.arrow-back{
+top: 100px;
+left: 225px;
+position: fixed;
+color:white;
+font-weight: bolder;
+background-color:rgba(122, 122, 122,0.3);
+border-radius: '50%';
+}
+.arrow-back:hover{
+cursor: pointer;
+}
 .uploadButtonCasos{
   background-color: #5e35b1;
   border: none;

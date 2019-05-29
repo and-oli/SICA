@@ -26,9 +26,7 @@ function exportToCsv(filename, rows) {
     var blob = new Blob([csvFile], { type: "data:text/csv;charset=utf-8,\uFEFF" + encodedUri });
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, filename);
-        console.log("hehe");
     } else {
-      console.log("juju");
         var link = document.createElement("a");
         if (link.download !== undefined) { // feature detection
             // Browsers that support HTML5 download attribute
