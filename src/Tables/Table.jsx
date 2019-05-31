@@ -145,11 +145,12 @@ class EnhancedTable extends React.Component {
           return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`.toString()
         }
       }
-    }else if(this.props.currentTable === "resumen"){//Hay certeza de que se trata del estado pues no es un numero
-      return (
-          <a className = "downloadAvailable" onClick = {()=>{this.props.casesQuery(serial)}} >{serial.toString()}</a>
-      )
     }
+    // else if(this.props.currentTable === "resumen"){//Hay certeza de que se trata del estado pues no es un numero
+    //   return (
+    //       <a className = "downloadAvailable" onClick = {()=>{this.props.casesQuery(serial)}} >{serial.toString()}</a>
+    //   )
+    // }
     if(serial.length >80){
       return(
         <Tooltip title={serial} interactive>

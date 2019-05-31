@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import EnhancedTable from "../Tables/Table";
 import FolderIcon from '@material-ui/icons/Folder';
 import AssignmentIcon from '@material-ui/icons/Description';
+import ListIcon from '@material-ui/icons/List';
 import blue from '@material-ui/core/colors/blue';
 import "./SideBar.css"
 import Grid from '@material-ui/core/Grid';
@@ -35,6 +36,11 @@ import Badge from '@material-ui/core/Badge';
 import EditCasesModal from "../EditCases/EditCasesModal"
 import ExportTableModal from '../Auxiliary/ExportTableModal';
 import NewClusterModal from '../NewCluster/NewClusterModal';
+import Summary from '../Tables/Summary';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Collapse from '@material-ui/core/Collapse';
 
 
 const drawerWidth = 200;
@@ -120,21 +126,27 @@ class ResponsiveDrawer extends React.Component {
       notifications:0,
       consolidateModal:false,
       clusterModal:false,
+      openCasesMenu:false,
     };
   }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
-  casesQuery = (state) => {
+  casesQuery = (state,f1,f2) => {
     this.setState({ actualTable: "casos", loading: true, searching:false },
-    ()=>this.doFetch("estado="+state)
+    ()=>this.doFetch(`estado=${state}&f1=${f1}&f2=${f2}`)
   );
 }
-  handleClickCasos = () => {
-    this.setState({ actualTable: "resumen", loading: true, searching:false },
-    this.doFetch
-  );
+handleClickCasos = () => {
+  this.setState({ actualTable: "selectCases", searching:false, empty:false }
+);
+}
+
+handleClickConsolidate= () => {
+  this.setState({ actualTable: "resumen", loading: true, searching:false },
+  this.doFetch
+);
 }
 
 handleClickLotes = () => {
@@ -214,6 +226,7 @@ componentDidMount() {
 
 doFetch = (pQuery) => {
   const query = (pQuery||"")
+  this.setState({loading:true})
   fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}?${query}`, {
     method: 'GET',
     headers: {
@@ -328,12 +341,25 @@ renderComponents = () => {
     return (<span className="loaderTable" id="loaderTable"></span>)
   }
   else {
-    if (!this.state.empty && this.state.actualTable !== "actividades") {
+    if (this.state.empty) {
       return (
-        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} casesQuery ={this.casesQuery}/>
+        <div>
+          <br />
+          <Grid>
+            <span className = "no-la-hay">No hay información para mostrar</span>
+          </Grid>
+          {
+            this.renderUploadActivityButton()
+          }
+        </div>
       )
     }
-    else if (!this.state.empty && this.state.actualTable === "actividades") {
+    else if (this.state.actualTable !== "actividades" && this.state.actualTable !== "selectCases") {
+      return (
+        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+      )
+    }
+    else if ( this.state.actualTable === "actividades") {
       return (
         <div>
           <br />
@@ -349,21 +375,12 @@ renderComponents = () => {
         </div>
       )
     }
-    else if (this.state.empty) {
-      return (
-        <div>
-          <br />
-          <Grid>
-            <span className = "no-la-hay">No hay información para mostrar</span>
-          </Grid>
-          {
-            this.renderUploadActivityButton()
-          }
-        </div>
-
-      )
-
+    else{
+      return <div>
+        <Summary casesQuery ={this.casesQuery}/>
+      </div>
     }
+
   }
 
 }
@@ -410,6 +427,11 @@ closeClusterModal =()=>{
 showClusterModal =()=>{
   this.setState({clusterModal:true})
 }
+toggleCasesMenu  =()=>{
+  this.setState(
+    prevState=> {return {openCasesMenu:!prevState.openCasesMenu}}
+  )
+}
 render() {
 
 
@@ -440,12 +462,35 @@ render() {
       </List>
       <Divider />
       <List>
-        <ListItem button key={"Casos"}>
+        <ListItem button onClick={this.toggleCasesMenu  } >
           <AssignmentIcon />
-          <ListItemText primary={"Casos"} onClick={this.handleClickCasos} />
+          <ListItemText primary="Casos" />
+          {this.state.openCasesMenu ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
       </List>
+        <Collapse in={this.state.openCasesMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <List>
+              <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
+                <ListIcon />
+                <ListItemText primary={"Resumen"} onClick={this.handleClickConsolidate} />
+              </ListItem>
+            </List>
+            <List>
+              <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
+                <SearchIcon/>
+                <ListItemText primary={"Ver casos"} onClick={this.handleClickCasos} />
+              </ListItem>
+            </List>
+          </List>
+        </Collapse>
+
+
+
       <Divider />
+
+
+
       <List>
         <ListItem button key={"Lotes"}>
           <FolderIcon />
@@ -501,7 +546,7 @@ render() {
               <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
                 <Icon>edit_icon</Icon>
               </Fab>
-                <Icon  className="arrow-back" onClick = {this.handleClickCasos}>arrow_back</Icon>
+              <Icon  className="arrow-back" onClick = {this.handleClickCasos}>arrow_back</Icon>
               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
             </div>
           }
