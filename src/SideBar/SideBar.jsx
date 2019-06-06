@@ -139,7 +139,7 @@ class ResponsiveDrawer extends React.Component {
   );
 }
 handleClickCasos = () => {
-  this.setState({ actualTable: "selectCases", searching:false, empty:false }
+  this.setState({ actualTable: "Seleccionar casos", searching:false, empty:false }
 );
 }
 
@@ -227,7 +227,7 @@ componentDidMount() {
 doFetch = (pQuery) => {
   const query = (pQuery||"")
   this.setState({loading:true})
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}?${query}`, {
+  fetch(`http://localhost:3001/sica/api/${this.state.actualTable}?${query}`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -354,7 +354,7 @@ renderComponents = () => {
         </div>
       )
     }
-    else if (this.state.actualTable !== "actividades" && this.state.actualTable !== "selectCases") {
+    else if (this.state.actualTable !== "actividades" && this.state.actualTable !== "Seleccionar casos") {
       return (
         <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
       )
@@ -405,7 +405,7 @@ renderResetSearchButton = () => {
 }
 doLogout = ()=>{
 
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/reiniciarNotificaciones`, {
+  fetch(`http://localhost:3001/sica/api/reiniciarNotificaciones`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -550,7 +550,7 @@ render() {
               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
             </div>
           }
-          {this.state.actualTable !== "actividades"&&
+          {this.state.actualTable !== "actividades"&&this.state.actualTable !== "Seleccionar casos"&&
           <Paper className={classes.root} elevation={1}>
             <InputBase className={classes.input} placeholder="Buscar" onKeyDown={this.handleSearch} id = "searchInput"/>
             <IconButton className={classes.iconButton} aria-label="Search"  onClick={this.handleSearchClick}>

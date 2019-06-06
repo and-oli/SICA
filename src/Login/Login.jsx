@@ -40,7 +40,7 @@ class Login extends React.Component {
         e.preventDefault();
         let data = { username: this.refs.username.value, password: this.refs.password.value };
         //fetch('/api/authenticate', {
-        fetch(`https://intellgentcms.herokuapp.com/sica/api/authenticateSICA${this.state.userType}`, {
+        fetch(`http://localhost:3001/sica/api/authenticateSICA${this.state.userType}`, {
 
             method: 'POST',
             headers: {
