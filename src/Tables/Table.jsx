@@ -82,7 +82,7 @@ class EnhancedTable extends React.Component {
       orderBy: 'calories',
       selected: [],
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 50,
       openUpload: false,
       openDateDetail: false,
       rowData: "",
@@ -133,6 +133,7 @@ class EnhancedTable extends React.Component {
     this.setState({ openUpload: false });
   };
   interpretar = (serial)=>{
+    if(serial===0) return serial
     if(!serial) return ""
     const num = Number.parseInt(serial);
 
@@ -146,11 +147,11 @@ class EnhancedTable extends React.Component {
         }
       }
     }
-    // else if(this.props.currentTable === "resumen"){//Hay certeza de que se trata del estado pues no es un numero
-    //   return (
-    //       <a className = "downloadAvailable" onClick = {()=>{this.props.casesQuery(serial)}} >{serial.toString()}</a>
-    //   )
-    // }
+    else if(this.props.currentTable === "resumen"){//Hay certeza de que se trata del estado pues no es un numero
+      return (
+          <a className = "downloadAvailable" onClick = {()=>{this.props.casesQuery(serial)}} >{serial.toString()}</a>
+      )
+    }
     if(serial.length >80){
       return(
         <Tooltip title={serial} interactive>
@@ -243,21 +244,25 @@ class EnhancedTable extends React.Component {
                 </TableBody>
               </Table>
             </div>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 50, 100,500]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              backIconButtonProps={{
-                'aria-label': 'Previous Page',
-              }}
-              nextIconButtonProps={{
-                'aria-label': 'Next Page',
-              }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
+            {
+              this.props.currentTable !== "casos"&&
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50, 100,500]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                  'aria-label': 'Previous Page',
+                }}
+                nextIconButtonProps={{
+                  'aria-label': 'Next Page',
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
+            }
+
           </Paper>
           <Modal
             aria-labelledby="simple-modal-title"

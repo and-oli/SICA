@@ -36,12 +36,15 @@ import Badge from '@material-ui/core/Badge';
 import EditCasesModal from "../EditCases/EditCasesModal"
 import ExportTableModal from '../Auxiliary/ExportTableModal';
 import NewClusterModal from '../NewCluster/NewClusterModal';
-import Summary from '../Tables/Summary';
+import CaseSelect from '../Tables/CaseSelect';
+import SummarySelect from '../Tables/SummarySelect';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Collapse from '@material-ui/core/Collapse';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 
 const drawerWidth = 200;
 
@@ -89,8 +92,18 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    bottom: theme.spacing.unit * 7,
-    right: theme.spacing.unit * 4,
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    position: "fixed",
+  },
+  left: {
+    bottom: theme.spacing.unit * 2,
+    right: "45%",
+    position: "fixed",
+  },
+  right: {
+    bottom: theme.spacing.unit * 2,
+    right: "38%",
     position: "fixed",
   },
 
@@ -127,16 +140,59 @@ class ResponsiveDrawer extends React.Component {
       consolidateModal:false,
       clusterModal:false,
       openCasesMenu:false,
+      stateT:"",
+      f1:"",
+      f2:"",
+      type:"",
+      page:0,
+      queryAttribute:"ordenado",
+      queryAttributeValue:""
     };
   }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
-  casesQuery = (state,f1,f2) => {
-    this.setState({ actualTable: "casos", loading: true, searching:false },
-    ()=>this.doFetch(`estado=${state}&f1=${f1}&f2=${f2}`)
+  casesQuery = (stateT,f1,f2,type) => {
+    if(f1){
+      this.setState({ actualTable: "casos", loading: true, searching:false,stateT,f1,f2,type },
+      ()=>this.doFetch(`estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}`)
+    );
+  }
+  else{
+    this.setState({ actualTable: "casos", loading: true, searching:false,stateT },
+    ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}`)
   );
+}
+
+}
+summaryQuery = (f1,f2,type) => {
+  this.setState({ actualTable: "resumen", loading: true, searching:false,f1,f2,type },
+  ()=>this.doFetch(`f1=${f1}&f2=${f2}&type=${type}`)
+);
+}
+
+nextPage = ()=>{
+  if(!this.state.empty){
+  const searchQuery = this.state.searching?`&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`:""
+  const idQuery = this.state.rowsCopy[this.state.rowsCopy.length-1]?`&lastId=${this.state.rowsCopy[this.state.rowsCopy.length-1]._id}`:""
+
+  this.setState((prevState)=>{return {page:prevState.page+1};},
+  this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}`))
+}
+
+}
+prevPage = ()=>{
+
+  if(this.state.page !== 0){
+    if(this.state.empty){
+        this.setState( {page:1})
+    }
+    const searchQuery = this.state.searching?`&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`:""
+    const idQuery = this.state.rowsCopy[0]?`&firstId=${this.state.rowsCopy[0]._id}`:""
+    this.setState((prevState)=>{return {page:prevState.page-1}},
+    this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}`))
+  }
 }
 handleClickCasos = () => {
   this.setState({ actualTable: "Seleccionar casos", searching:false, empty:false }
@@ -144,11 +200,9 @@ handleClickCasos = () => {
 }
 
 handleClickConsolidate= () => {
-  this.setState({ actualTable: "resumen", loading: true, searching:false },
-  this.doFetch
+  this.setState({ actualTable: "Seleccionar resumen", searching:false, empty:false }
 );
 }
-
 handleClickLotes = () => {
   this.setState({ actualTable: "lotes", loading: true, searching:false },
   this.doFetch
@@ -160,19 +214,52 @@ handleClickActividad = () => {
   this.doFetch
 );
 }
-
+handleChangeAttributeQueryDropdown =(e)=>{
+  this.setState({queryAttribute:e.target.value})
+}
 handleSearch = (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
     const searchValue = e.target.value;
     if(searchValue.trim()!==""){
+      if(this.state.actualTable ==="casos"){
+        this.setState({ queryAttributeValue: searchValue, searching:true },
+          ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`)
+        );
+      }else{
+        let rowsToShow = [];
+        for (let i = 0; i < this.state.rowsCopy.length; i++) {
+          for (let j = 0; j < this.state.rowsHeaders.length; j++) {
+            let row = this.state.rowsCopy[i];
+            let header = this.state.rowsHeaders[j];
+            if( row[header.id]){
+
+              if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
+                rowsToShow.push(row);
+                break;
+              }
+            }
+          }
+        }
+        this.setState({ rows: rowsToShow, searching: true })
+      }
+    }
+  }
+}
+handleSearchClick = () => {
+  let searchValue = document.getElementById("searchInput").value;
+  if(searchValue.trim()!==""){
+    if(this.state.actualTable ==="casos"){
+      this.setState({ queryAttributeValue: searchValue, searching:true },
+        ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`)
+      );
+    }else{
       let rowsToShow = [];
       for (let i = 0; i < this.state.rowsCopy.length; i++) {
         for (let j = 0; j < this.state.rowsHeaders.length; j++) {
           let row = this.state.rowsCopy[i];
           let header = this.state.rowsHeaders[j];
           if( row[header.id]){
-
             if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
               rowsToShow.push(row);
               break;
@@ -184,31 +271,17 @@ handleSearch = (e) => {
     }
   }
 }
-handleSearchClick = () => {
-  let searchValue = document.getElementById("searchInput").value;
-  if(searchValue.trim()!==""){
-
-    let rowsToShow = [];
-    for (let i = 0; i < this.state.rowsCopy.length; i++) {
-      for (let j = 0; j < this.state.rowsHeaders.length; j++) {
-        let row = this.state.rowsCopy[i];
-        let header = this.state.rowsHeaders[j];
-        if( row[header.id]){
-          if ( row[header.id].toString().toLowerCase().includes(searchValue.toLowerCase()) ) {
-            rowsToShow.push(row);
-            break;
-          }
-        }
-      }
-    }
-    this.setState({ rows: rowsToShow, searching: true })
-  }
-}
 
 
 handleResetSearch = () => {
-  this.setState({ rows: this.state.rowsCopy, searching: false });
   document.getElementById("searchInput").value = "";
+  if(this.state.actualTable ==="casos"){
+    this.setState({  searching:false },
+      ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}`)
+    );
+  }else{
+    this.setState({ rows: this.state.rowsCopy, searching: false });
+  }
 }
 
 handleOpenModalUpload = () => {
@@ -280,7 +353,7 @@ doFetch = (pQuery) => {
           this.setState({ rows: json[tableInfo], rowsCopy: json[tableInfo], loading: false, empty: false,notifications:json.notifications });
         }
         else {
-          this.setState({ empty: true, loading: false })
+          this.setState({ empty: true, loading: false,rows: [], rowsCopy: [] })
         }
       }
       else {
@@ -354,9 +427,9 @@ renderComponents = () => {
         </div>
       )
     }
-    else if (this.state.actualTable !== "actividades" && this.state.actualTable !== "Seleccionar casos") {
+    else if (this.state.actualTable !== "actividades" && this.state.actualTable !== "Seleccionar casos"&& this.state.actualTable !== "Seleccionar resumen") {
       return (
-        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} />
+        <EnhancedTable rowsHeaders={this.state.rowsHeaders} rows={this.state.rows} currentTable={this.state.actualTable} casesQuery ={this.casesQuery}/>
       )
     }
     else if ( this.state.actualTable === "actividades") {
@@ -375,9 +448,14 @@ renderComponents = () => {
         </div>
       )
     }
+    else if ( this.state.actualTable === "Seleccionar resumen") {
+      return <div>
+        <SummarySelect summaryQuery ={this.summaryQuery}/>
+      </div>
+    }
     else{
       return <div>
-        <Summary casesQuery ={this.casesQuery}/>
+        <CaseSelect casesQuery ={this.casesQuery}/>
       </div>
     }
 
@@ -468,22 +546,22 @@ render() {
           {this.state.openCasesMenu ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
       </List>
-        <Collapse in={this.state.openCasesMenu} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <List>
-              <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
-                <ListIcon />
-                <ListItemText primary={"Resumen"} onClick={this.handleClickConsolidate} />
-              </ListItem>
-            </List>
-            <List>
-              <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
-                <SearchIcon/>
-                <ListItemText primary={"Ver casos"} onClick={this.handleClickCasos} />
-              </ListItem>
-            </List>
+      <Collapse in={this.state.openCasesMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <List>
+            <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
+              <ListIcon />
+              <ListItemText primary={"Resumen"} onClick={this.handleClickConsolidate} />
+            </ListItem>
           </List>
-        </Collapse>
+          <List>
+            <ListItem button key={"Casos"} style = {{paddingLeft:"30px"}}>
+              <SearchIcon/>
+              <ListItemText primary={"Ver casos"} onClick={this.handleClickCasos} />
+            </ListItem>
+          </List>
+        </List>
+      </Collapse>
 
 
 
@@ -541,74 +619,125 @@ render() {
                 this.renderActualTableName()
               }
             </Typography>
-            {this.state.actualTable === "casos"&&
+            {(this.state.actualTable === "Seleccionar casos")&&
             <div>
               <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
                 <Icon>edit_icon</Icon>
               </Fab>
-              <Icon  className="arrow-back" onClick = {this.handleClickCasos}>arrow_back</Icon>
               <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
             </div>
           }
-          {this.state.actualTable !== "actividades"&&this.state.actualTable !== "Seleccionar casos"&&
-          <Paper className={classes.root} elevation={1}>
-            <InputBase className={classes.input} placeholder="Buscar" onKeyDown={this.handleSearch} id = "searchInput"/>
-            <IconButton className={classes.iconButton} aria-label="Search"  onClick={this.handleSearchClick}>
-              <SearchIcon/>
-            </IconButton>
-          </Paper>
-
+          {(this.state.actualTable === "casos")&&
+          <div>
+            <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
+              <Icon>edit_icon</Icon>
+            </Fab>
+            <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
+            <Fab color="primary" aria-label="Edit" className={classes.left} onClick = {this.prevPage}>
+              <Icon>keyboard_arrow_left</Icon>
+            </Fab>
+            <Fab color="primary" aria-label="Edit" className={classes.right} onClick = {this.nextPage}>
+              <Icon>keyboard_arrow_right</Icon>
+            </Fab>
+            <Icon  className="arrow-back" onClick = {this.handleClickCasos}>arrow_back</Icon>
+            <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
+          </div>
         }
+        {this.state.actualTable === "casos"&&
+        <span className = "select-info-wrapper">
+          <span className = "select-info">{this.state.stateT}</span>
+          <span className = "select-info">Fecha de {this.state.type?"asignación ":"última modificación "}entre</span>
+          <span className = "select-info">{this.state.f1}</span>
+          <span className = "select-info">y</span>
+          <span className = "select-info">{this.state.f2}</span>
+        </span>
+      }
+      {this.state.actualTable === "casos"&&
+      <Select
+        value={this.state.queryAttribute}
+        onChange={this.handleChangeAttributeQueryDropdown}
+        input={<Input name="newState" id="state-label-placeholder" />}
+        displayEmpty
+        name="newState"
+        className = "attributeSelector"
+        >
+          <MenuItem value="ordenado">ORDENADO</MenuItem>
+          <MenuItem value="motivo">MOTIVO</MenuItem>
+          <MenuItem value="nroCuenta">NÚMERO CUENTA</MenuItem>
+          <MenuItem value="servicioElectrico">SERVICIO_ELÉCTRICO</MenuItem>
+          <MenuItem value="fechaDeOperacionEnTerreno">FECHA DE OPERACIÓN EN TERRENO</MenuItem>
+          <MenuItem value="asignacion">ASIGNACIÓN</MenuItem>
+          <MenuItem value="desResultado">DES_RESULTADO</MenuItem>
+          <MenuItem value="contrato">CONTRATO</MenuItem>
+          <MenuItem value="clasificacionFinal">CLASIFICACION FINAL</MenuItem>
+          <MenuItem value="grupo">GRUPO</MenuItem>
+          <MenuItem value="factorEncontrado">FACTOR ENCONTRADO</MenuItem>
+          <MenuItem value="hallazgosAgrupadosLast">HALLAZGOS AGRUPADOS LAST</MenuItem>
+          <MenuItem value="observacionSolicitud">OBSERVACION SOLICITUD</MenuItem>
+          <MenuItem value="obsInsp">OBS INSP</MenuItem>
+          <MenuItem value="areaCrea">AREA CREA</MenuItem>
 
-        {
-          this.renderResetSearchButton()
-        }
-        {
-          (this.state.actualTable === "casos"&&!this.state.loading&&!this.state.empty)&&
-          <Button variant="contained" color="primary" className="summary-button" onClick={this.generateConsolidate}>
-            Generar consolidado
-          </Button>
-        }
+        </Select>
 
-        <ExportTableModal open = {this.state.consolidateModal} rowsCopy = {this.state.rowsCopy} rowsHeaders = {this.state.rowsHeaders} closeConsolidateModal = {this.closeConsolidateModal}/>
-      </Toolbar>
-    </AppBar>
-    <nav className={classes.drawer}>
-      <Hidden smUp implementation="css">
-        <Drawer
-          container={this.props.container}
-          variant="temporary"
-          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-          open={this.state.mobileOpen}
-          onClose={this.handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <br />
-          {
-            this.renderComponents()
-          }
-        </main>
-      </div>
-    );
-  }
+      }
+      {this.state.actualTable !== "actividades"&&this.state.actualTable !== "Seleccionar casos"&&this.state.actualTable !== "Seleccionar resumen"&&
+      <Paper className={classes.root} elevation={1}>
+        <InputBase className={classes.input} placeholder="Buscar" onKeyDown={this.handleSearch} id = "searchInput"/>
+        <IconButton className={classes.iconButton} aria-label="Search"  onClick={this.handleSearchClick}>
+          <SearchIcon/>
+        </IconButton>
+      </Paper>
+
+    }
+    {
+      this.renderResetSearchButton()
+    }
+    {
+      (this.state.actualTable === "casos"&&!this.state.loading&&!this.state.empty)&&
+      <Button variant="contained" color="primary" className="summary-button" onClick={this.generateConsolidate}>
+        Generar consolidado
+      </Button>
+    }
+
+    <ExportTableModal open = {this.state.consolidateModal} rowsCopy = {this.state.rowsCopy} rowsHeaders = {this.state.rowsHeaders} closeConsolidateModal = {this.closeConsolidateModal}/>
+  </Toolbar>
+</AppBar>
+<nav className={classes.drawer}>
+  <Hidden smUp implementation="css">
+    <Drawer
+      container={this.props.container}
+      variant="temporary"
+      anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+      open={this.state.mobileOpen}
+      onClose={this.handleDrawerToggle}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+      >
+        {drawer}
+      </Drawer>
+    </Hidden>
+    <Hidden xsDown implementation="css">
+      <Drawer
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        variant="permanent"
+        open
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
+    </nav>
+    <main className={classes.content}>
+      <br />
+      {
+        this.renderComponents()
+      }
+    </main>
+  </div>
+);
+}
 }
 
 ResponsiveDrawer.propTypes = {

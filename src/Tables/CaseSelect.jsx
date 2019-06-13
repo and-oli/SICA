@@ -35,12 +35,13 @@ const styles = theme => ({
   },
 });
 
-class Summary extends React.Component{
+class CaseSelect extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
       summaryData : [],
-      filterState: "Todos"
+      filterState: "Todos",
+      type:"0"
     };
   }
 
@@ -48,9 +49,11 @@ class Summary extends React.Component{
     this.setState({filterState:e.target.value})
   }
 
-
+  handleTypeChangeDropdown= (e)=>{
+    this.setState({type:e.target.value})
+  }
  ok = ()=>{
-   this.props.casesQuery(this.state.filterState,document.querySelector("#date-1").value,document.querySelector("#date-2").value )
+   this.props.casesQuery(this.state.filterState,document.querySelector("#date-1").value,document.querySelector("#date-2").value,this.state.type )
  }
   render(){
     const { classes } = this.props;
@@ -62,7 +65,7 @@ class Summary extends React.Component{
             <br />
             <Divider />
             <div className = "consolidate-data-wrapper">
-              <div className = "consolidate-data-wrapper-title">Seleccione las fechas de última modificación y el estado de los casos que desea ver</div>
+              <div className = "consolidate-data-wrapper-title">Seleccione las fechas y el estado de los casos que desea ver</div>
               <div className = "consolidate-select">
                 <FormControl className={classes.formControl}>
                   <InputLabel
@@ -92,7 +95,24 @@ class Summary extends React.Component{
                         <MenuItem value="DEVUELTO CODENSA">DEVUELTO CODENSA</MenuItem>
                       </Select>
                     </FormControl>
+                    <FormControl className={classes.formControl} >
+                      <InputLabel
+                        htmlFor="state-label-placeholder"
+                        >
+                          Filtrar por
+                        </InputLabel>
 
+                        <Select
+                          value={this.state.type}
+                          onChange={this.handleTypeChangeDropdown}
+                          input={<Input name="newState" id="state-label-placeholder" />}
+                          displayEmpty
+                          name="newState"
+                          >
+                            <MenuItem value="0">FECHA DE ASIGNACIÓN</MenuItem>
+                            <MenuItem value="1">ÚLTIMA MODIFICACIÓN</MenuItem>
+                          </Select>
+                        </FormControl>
                   </div>
                   <div className = "consolidate-dates-wrapper">
                     <TextField
@@ -131,4 +151,4 @@ class Summary extends React.Component{
         }
       }
 
-      export default withStyles(styles, { withTheme: true })(Summary);
+      export default withStyles(styles, { withTheme: true })(CaseSelect);

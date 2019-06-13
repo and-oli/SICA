@@ -6,8 +6,10 @@
   font-weight: bold;
 }
 .consolidate-select{
-  width:40%;
-  margin: 10px
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+
 }
 .consolidate-dates-wrapper{
   display: flex;
