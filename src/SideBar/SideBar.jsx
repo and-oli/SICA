@@ -680,6 +680,12 @@ render() {
         </Select>
 
       }
+      {
+        (this.state.actualTable === "casos"&&!this.state.loading&&!this.state.empty)&&
+        <Button variant="contained" color="primary" className="summary-button" onClick={this.generateConsolidate}>
+          Generar consolidado
+        </Button>
+      }
       {this.state.actualTable !== "actividades"&&this.state.actualTable !== "Seleccionar casos"&&this.state.actualTable !== "Seleccionar resumen"&&
       <Paper className={classes.root} elevation={1}>
         <InputBase className={classes.input} placeholder="Buscar" onKeyDown={this.handleSearch} id = "searchInput"/>
@@ -692,12 +698,7 @@ render() {
     {
       this.renderResetSearchButton()
     }
-    {
-      (this.state.actualTable === "casos"&&!this.state.loading&&!this.state.empty)&&
-      <Button variant="contained" color="primary" className="summary-button" onClick={this.generateConsolidate}>
-        Generar consolidado
-      </Button>
-    }
+
 
     <ExportTableModal open = {this.state.consolidateModal} rowsCopy = {this.state.rowsCopy} rowsHeaders = {this.state.rowsHeaders} closeConsolidateModal = {this.closeConsolidateModal}/>
   </Toolbar>
