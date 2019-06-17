@@ -700,7 +700,7 @@ render() {
     }
 
 
-    <ExportTableModal open = {this.state.consolidateModal} rowsCopy = {this.state.rowsCopy} rowsHeaders = {this.state.rowsHeaders} closeConsolidateModal = {this.closeConsolidateModal}/>
+    <ExportTableModal stateT= {this.state.stateT} f1= {this.state.f1} f2= {this.state.f2} type= {this.state.type} open = {this.state.consolidateModal}  closeConsolidateModal = {this.closeConsolidateModal} />
   </Toolbar>
 </AppBar>
 <nav className={classes.drawer}>
