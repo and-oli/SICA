@@ -676,6 +676,7 @@ render() {
           <MenuItem value="observacionSolicitud">OBSERVACION SOLICITUD</MenuItem>
           <MenuItem value="obsInsp">OBS INSP</MenuItem>
           <MenuItem value="areaCrea">AREA CREA</MenuItem>
+          <MenuItem value="idLote">ID LOTE</MenuItem>
 
         </Select>
 
