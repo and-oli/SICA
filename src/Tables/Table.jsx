@@ -139,7 +139,7 @@ class EnhancedTable extends React.Component {
 
     if(num ){
       if(serial.length === 5){
-        const milis = Math.round((fechaCargue.valor - 25569)*86400*1000)//+3600*24*1000 solo para local (chrome le muestra la hora -5gmt)
+        const milis = Math.round((serial - 25569)*86400*1000)//+3600*24*1000 solo para local (chrome le muestra la hora -5gmt)
         if( 1527173971106<milis && milis<1735707600000)
         {
           const date = new Date(milis);
