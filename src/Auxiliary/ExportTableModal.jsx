@@ -73,7 +73,7 @@ class ExportTableModal extends React.Component{
   exportConsolidate=()=>{
     let data = []
     this.setState({error:"",loading:true})
-    fetch(`http://localhost:3001/sica/api/casosDescargar?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}`, {
+    fetch(`https://intellgentcms.herokuapp.com/sica/api/casosDescargar?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}`, {
       method: 'GET',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
@@ -119,7 +119,7 @@ class ExportTableModal extends React.Component{
         let data = []
 
         const idQuery = cases[cases.length-1]?`&lastId=${cases[cases.length-1]._id}`:""
-        fetch(`http://localhost:3001/sica/api/casosDescargarMil?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}${idQuery}`, {
+        fetch(`https://intellgentcms.herokuapp.com/sica/api/casosDescargarMil?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}${idQuery}`, {
           method: 'GET',
           headers: {
             'x-access-token': localStorage.getItem("SICAToken")
