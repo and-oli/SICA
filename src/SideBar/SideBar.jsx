@@ -300,7 +300,7 @@ componentDidMount() {
 doFetch = (pQuery) => {
   const query = (pQuery||"")
   this.setState({loading:true})
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}?${query}`, {
+  fetch(`http://localhost:3001/sica/api/${this.state.actualTable}?${query}`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -381,8 +381,6 @@ renderUploadActivityButton = () => {
           handleCloseModalUpload = {this.handleCloseModalUpload}
           depth = {0}
           nuevoLote = {true}
-          concept = {"Nuevo lote"}
-          route = {"nuevoLote"}
           >
           </NewActivityModal>
         </div>
@@ -483,7 +481,7 @@ renderResetSearchButton = () => {
 }
 doLogout = ()=>{
 
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/reiniciarNotificaciones`, {
+  fetch(`http://localhost:3001/sica/api/reiniciarNotificaciones`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")

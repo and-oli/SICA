@@ -36,7 +36,8 @@ class NewActivity extends React.Component {
     let formData = new FormData();
     formData.append("file", archivo);
     formData.append("observacion", this.props.observation);
-    return fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.props.route}`, {
+
+    return fetch(`http://localhost:3001/sica/api/${this.props.route}`, {
       method: 'POST',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
@@ -57,7 +58,7 @@ class NewActivity extends React.Component {
       let fileResult = await this.uploadFile(this.refs.file.files[0]);
       if(fileResult.success){
         const {URLArchivo, idLote} = fileResult;
-        fetch("https://intellgentcms.herokuapp.com/sica/api/actividad", {
+        fetch("http://localhost:3001/sica/api/actividad", {
           method: "POST",
           headers: {
             'x-access-token': localStorage.getItem("SICAToken"),
@@ -68,6 +69,7 @@ class NewActivity extends React.Component {
             usuario: localStorage.getItem("userType"),
             observacion: this.props.observation,
             concepto: this.props.concept,
+            tipoDeLote: this.props.typeOfLot, //No se usa para nada en este momento en node
             profundidad: this.props.depth,
             idActividadPadre:this.props.parentId,
             URLArchivo,
@@ -178,8 +180,6 @@ render() {
 
 NewActivity.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
   container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };

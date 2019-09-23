@@ -34,6 +34,7 @@ class NewActivityModal extends React.Component{
     super(props);
     this.state = {
       concept:"",
+      typeOfLot:"",
       observation:"",
       route:"",
       userType:"",
@@ -60,6 +61,8 @@ class NewActivityModal extends React.Component{
         >
           <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position:"relative" }} className={classes.modalUploadActivity}>
             <Arrow onClick={this.props.handleCloseModalUpload} className="arrow" />
+
+
             <Typography variant="h5" component="h2" style ={{display:"inline-block", position:"absolute",left:"50%",transform:"translateX(-50%)"}}>
               {this.props.nuevoLote?("Nuevo lote"):("Nueva respuesta")}
             </Typography>
@@ -99,6 +102,37 @@ class NewActivityModal extends React.Component{
                     </div>
                   )
                 }
+                {
+                  this.props.nuevoLote &&
+                  <div>
+
+                  <InputLabel shrink htmlFor="concept-label-placeholder"> Tipo de lote</InputLabel>
+                  <Select
+                    value={this.state.typeOfLot}
+                    onChange={(e)=>
+                      {
+                        if(e.target.value !== "Análisis"){
+                          this.setState({ route: "otro"});
+                        }
+                        else{
+                          this.setState({ route: "nuevoLote"});
+                        }
+                        this.setState({ typeOfLot: e.target.value,concept:`Nuevo lote: ${e.target.value}`});
+                      }
+                    }
+                    input={<Input name="typeOfLot" />}
+                    displayEmpty
+                    name="module"
+                    style = {{width:"100%"}}
+                    >
+                      <MenuItem value="Análisis">Análisis</MenuItem>
+                      <MenuItem value="Hallazgos">Hallazgos</MenuItem>
+                      <MenuItem value="Informativas">Informativas</MenuItem>
+                      <MenuItem value="Gestión Liquidación">Gestión Liquidación</MenuItem>
+                      <MenuItem value="Novedades">Novedades</MenuItem>
+                    </Select>
+                  </div>
+                }
                 <TextField
                   id="standard-multiline-flexible"
                   label="Observación"
@@ -111,11 +145,12 @@ class NewActivityModal extends React.Component{
                 />
               </FormControl>
               <UploadActivity
-                concept = {(this.props.concept||this.state.concept)}
+                concept = {this.state.concept}
                 depth={(this.props.depth===0?0:1)}
                 observation ={this.state.observation}
                 parentId={this.props.parentId}
-                route = {(this.props.route||this.state.route)}
+                typeOfLot={this.state.typeOfLot}
+                route = {this.state.route}
                 nuevoLote = {this.props.nuevoLote}
                 handleCloseModalUpload={this.props.handleCloseModalUpload}
                 otro = {this.state.otro}
