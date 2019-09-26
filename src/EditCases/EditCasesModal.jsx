@@ -110,7 +110,7 @@ handleOk= ()=>{
   this.setState({ loading: true, error: "", success:null })
 
   if(this.state.obsValues!==""){
-    fetch("http://localhost:3001/sica/api/cambiarEstadosACasos", {
+    fetch("https://intellgentcms.herokuapp.com/sica/api/cambiarEstadosACasos", {
       method: "POST",
       headers: {
         'x-access-token': localStorage.getItem("SICAToken"),
