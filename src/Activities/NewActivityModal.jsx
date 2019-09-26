@@ -94,7 +94,6 @@ class NewActivityModal extends React.Component{
                         <MenuItem value="Finalización inspecciones">Finalización inspecciones</MenuItem>
                       }
                       {
-                        this.state.userType ==="Codensa"&&
                         <MenuItem value="Otro">Otro</MenuItem>
                       }
 

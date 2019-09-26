@@ -58,7 +58,7 @@ class NewClusterModal extends React.Component{
     this.setState({loading:true,error:""})
 
     formData.append("file", this.state.fileSelected);
-    fetch(`https://intellgentcms.herokuapp.com/sica/api/nuevosAtributosACasos`, {
+    fetch(`http://localhost:3001/sica/api/nuevosAtributosACasos`, {
       method: 'POST',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
@@ -66,7 +66,7 @@ class NewClusterModal extends React.Component{
       body: formData
     }).then(response => response.json()).then(json1=>{
       if(json1.success){
-        fetch("https://intellgentcms.herokuapp.com/sica/api/actividad", {
+        fetch("http://localhost:3001/sica/api/actividad", {
           method: "POST",
           headers: {
             'x-access-token': localStorage.getItem("SICAToken"),
