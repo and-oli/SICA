@@ -56,6 +56,7 @@ class Login extends React.Component {
                 else {
                     localStorage.setItem("SICAToken", responseJson.token);
                     localStorage.setItem("userType", this.state.userType);
+                    localStorage.setItem("userName", this.refs.username.value);
                     this.props.setLogged(true);
                 }
 

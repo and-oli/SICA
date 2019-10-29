@@ -66,7 +66,7 @@ class NewActivity extends React.Component {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            usuario: localStorage.getItem("userType"),
+            usuario: `${localStorage.getItem("userType")} ${localStorage.getItem("userName")}`,
             observacion: this.props.observation,
             concepto: this.props.concept,
             tipoDeLote: this.props.typeOfLot, //No se usa para nada en este momento en node
