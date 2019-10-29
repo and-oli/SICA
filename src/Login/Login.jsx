@@ -38,7 +38,7 @@ class Login extends React.Component {
     login = (e) => {
         this.setState({ loading: true, loginError: "" });
         e.preventDefault();
-        let data = { username: this.refs.username.value, password: this.refs.password.value };
+        let data = { username: this.refs.username.value, password: this.refs.password.value,role: this.state.userType };
         //fetch('/api/authenticate', {
         fetch(`https://intellgentcms.herokuapp.com/sica/api/authenticateSICA${this.state.userType}`, {
 
