@@ -47,7 +47,7 @@ class EnhancedTableHead extends React.Component {
     this.setState({openDelete:false, success:"", attrToDelete:"", error:"",})
   }
   okDelete = ()=>{
-    fetch("https://intellgentcms.herokuapp.com/sica/api/atributo", {
+    fetch("http://localhost:3001/sica/api/atributo", {
       method: "DELETE",
       headers: {
         'x-access-token': localStorage.getItem("SICAToken"),

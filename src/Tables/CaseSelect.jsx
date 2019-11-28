@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -34,6 +32,37 @@ const styles = theme => ({
     width: 200,
   },
 });
+const statesByModule = { // Estas contantes se definen aqui,  en el editCasesModal  y en el resumen en el back.
+  "ANALISIS": [
+      "Todos",
+      "ASIGNACIÓN INCORRECTA",
+      "CARGADA EPICA",
+      "PARA ASIGNACIÓN LOCAL",
+      "REMITIDO PARA CARGUE",
+      "REMITIDO PARA CARGUE ODT",
+      "PARA COBRO",
+      "PENDIENTE ANÁLISIS",
+      "PENDIENTE MOVIMIENTO",
+      "GESTIONADO CODENSA",
+      "DESASIGNADO CODENSA",
+      "DEVUELTO CODENSA",
+    ],
+    "LIQUIDACION": [
+    "Todos",
+    "ASIGNACIÓN INCORRECTA",
+    "CARGADA EN BASE",
+    "CARGADA EPICA",
+    "DESASIGNADO CODENSA",
+    "DEVUELTO CONDENSA",
+    "GESTIONADO CODENSA",
+    "NO APLICA DEBIDO PROCESO",
+    "PARA ASIGNACIÓN LOCAL",
+    "PARA COBRO",
+    "PENDIENTE CARGUE",
+    "PENDIENTE LIQUIDACIÓN",
+    "PENDIENTE MOVIMIENTO",
+  ],
+}; 
 
 class CaseSelect extends React.Component{
   constructor(props) {
@@ -41,20 +70,31 @@ class CaseSelect extends React.Component{
     this.state = {
       summaryData : [],
       filterState: "Todos",
-      type:"0"
+      type:"0",
+      module:"ANALISIS",
     };
   }
-
-  handleChangeDropdown= (e)=>{
+  handleStateDropdownChange= (e)=>{
     this.setState({filterState:e.target.value})
+  }
+
+  handleModuleDropdownChange = (e)=>{
+    this.setState({module:e.target.value,filterState:"Todos"})
   }
 
   handleTypeChangeDropdown= (e)=>{
     this.setState({type:e.target.value})
   }
- ok = ()=>{
-   this.props.casesQuery(this.state.filterState,document.querySelector("#date-1").value,document.querySelector("#date-2").value,this.state.type )
- }
+
+  ok = ()=>{
+    this.props.casesQuery(this.state.filterState,document.querySelector("#date-1").value,document.querySelector("#date-2").value,this.state.type, this.state.module )
+  }
+  renderFilterStateMenuItems = () => {
+    return statesByModule[this.state.module].map(state=>
+      <MenuItem value={state}>{state}</MenuItem>
+      )
+
+  }
   render(){
     const { classes } = this.props;
     return (
@@ -67,6 +107,24 @@ class CaseSelect extends React.Component{
             <div className = "consolidate-data-wrapper">
               <div className = "consolidate-data-wrapper-title">Seleccione las fechas y el estado de los casos que desea ver</div>
               <div className = "consolidate-select">
+              <FormControl className={classes.formControl}>
+                  <InputLabel
+                    htmlFor="state-label-placeholder"
+                    >
+                      Módulo
+                    </InputLabel>
+
+                    <Select
+                      value={this.state.module}
+                      onChange={this.handleModuleDropdownChange}
+                      input={<Input name="newState" id="state-label-placeholder" />}
+                      displayEmpty
+                      name="newState"
+                      >
+                        <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
+                        <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
+                      </Select>
+                    </FormControl>
                 <FormControl className={classes.formControl}>
                   <InputLabel
                     htmlFor="state-label-placeholder"
@@ -76,23 +134,12 @@ class CaseSelect extends React.Component{
 
                     <Select
                       value={this.state.filterState}
-                      onChange={this.handleChangeDropdown}
+                      onChange={this.handleStateDropdownChange}
                       input={<Input name="newState" id="state-label-placeholder" />}
                       displayEmpty
                       name="newState"
                       >
-                        <MenuItem value="Todos">TODOS</MenuItem>
-                        <MenuItem value="ASIGNACIÓN INCORRECTA">ASIGNACIÓN INCORRECTA</MenuItem>
-                        <MenuItem value="CARGADA EPICA">CARGADA EPICA</MenuItem>
-                        <MenuItem value="PARA ASIGNACIÓN LOCAL">PARA ASIGNACIÓN LOCAL</MenuItem>
-                        <MenuItem value="REMITIDO PARA CARGUE">REMITIDO PARA CARGUE</MenuItem>
-                        <MenuItem value="REMITIDO PARA CARGUE ODT">REMITIDO PARA CARGUE ODT</MenuItem>
-                        <MenuItem value="PARA COBRO">PARA COBRO</MenuItem>
-                        <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
-                        <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
-                        <MenuItem value="GESTIONADO CODENSA">GESTIONADO CODENSA</MenuItem>
-                        <MenuItem value="DESASIGNADO CODENSA">DESASIGNADO CODENSA</MenuItem>
-                        <MenuItem value="DEVUELTO CODENSA">DEVUELTO CODENSA</MenuItem>
+                        {this.renderFilterStateMenuItems()}
                       </Select>
                     </FormControl>
                     <FormControl className={classes.formControl} >

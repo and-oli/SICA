@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
-import ListItemComposition from "./SideBar/SideBar";
+import SideBar from "./SideBar/SideBar";
 import Login from './Login/Login';
 import './index.css';
 
@@ -24,7 +24,7 @@ class App extends Component {
     }
     render() {
         return (
-            this.state.logged ? (<ListItemComposition setLogged={this.setLogged} />) : (<Login setLogged={this.setLogged} />)
+            this.state.logged ? (<SideBar setLogged={this.setLogged} />) : (<Login setLogged={this.setLogged} />)
         );
     }
 }

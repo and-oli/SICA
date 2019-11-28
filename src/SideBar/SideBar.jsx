@@ -140,48 +140,49 @@ class ResponsiveDrawer extends React.Component {
       consolidateModal:false,
       clusterModal:false,
       openCasesMenu:false,
-      stateT:"",
+      stateT:"", // Estado del caso (Todos, asignacion incorrecta, cargada epica, etc)
       f1:"",
       f2:"",
-      type:"",
+      type:"",// Fecha de asignación (1) o última modificación (0)
       page:0,
       queryAttribute:"ordenado",
-      queryAttributeValue:""
+      queryAttributeValue:"",
+      module:"ANALISIS"
     };
   }
 
-  handleDrawerToggle = () => {
+handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
-  casesQuery = (stateT,f1,f2,type) => {
-    if(f1){
-      this.setState({ actualTable: "casos", loading: true, searching:false,stateT,f1,f2,type },
-      ()=>this.doFetch(`estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}`)
+  casesQuery = (stateT,f1,f2,type,module) => {
+    if(f1){ // Utilizar el filtro en la pestaña "Ver casos" 
+      this.setState({ actualTable: "casos", loading: true, searching:false,stateT,f1,f2,type,module },
+      ()=>this.doFetch(`estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}`)
     );
   }
-  else{
-    this.setState({ actualTable: "casos", loading: true, searching:false,stateT },
-    ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}`)
-  );
+  else{ // Cuando se hace click en un numero de la tabla resumen
+      this.setState({ actualTable: "casos", loading: true, searching:false,stateT },
+      ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${module}`)
+    );
+  }
 }
 
-}
 summaryQuery = (f1,f2,type) => {
   this.setState({ actualTable: "resumen", loading: true, searching:false,f1,f2,type },
   ()=>this.doFetch(`f1=${f1}&f2=${f2}&type=${type}`)
-);
+  );
 }
 
 nextPage = ()=>{
   if(!this.state.empty){
-  const searchQuery = this.state.searching?`&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`:""
-  const idQuery = this.state.rowsCopy[this.state.rowsCopy.length-1]?`&lastId=${this.state.rowsCopy[this.state.rowsCopy.length-1]._id}`:""
+    const searchQuery = this.state.searching?`&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`:""
+    const idQuery = this.state.rowsCopy[this.state.rowsCopy.length-1]?`&lastId=${this.state.rowsCopy[this.state.rowsCopy.length-1]._id}`:""
 
-  this.setState((prevState)=>{return {page:prevState.page+1};},
-  this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}`))
+    this.setState((prevState)=>{return {page:prevState.page+1};},
+    this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`))
+  }
 }
 
-}
 prevPage = ()=>{
 
   if(this.state.page !== 0){
@@ -191,9 +192,10 @@ prevPage = ()=>{
     const searchQuery = this.state.searching?`&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`:""
     const idQuery = this.state.rowsCopy[0]?`&firstId=${this.state.rowsCopy[0]._id}`:""
     this.setState((prevState)=>{return {page:prevState.page-1}},
-    this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}`))
+    this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`))
   }
 }
+
 handleClickCasos = () => {
   this.setState({ actualTable: "Seleccionar casos", searching:false, empty:false }
 );
@@ -203,6 +205,7 @@ handleClickConsolidate= () => {
   this.setState({ actualTable: "Seleccionar resumen", searching:false, empty:false }
 );
 }
+
 handleClickLotes = () => {
   this.setState({ actualTable: "lotes", loading: true, searching:false },
   this.doFetch
@@ -214,9 +217,11 @@ handleClickActividad = () => {
   this.doFetch
 );
 }
+
 handleChangeAttributeQueryDropdown =(e)=>{
   this.setState({queryAttribute:e.target.value})
 }
+
 handleSearch = (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -224,7 +229,7 @@ handleSearch = (e) => {
     if(searchValue.trim()!==""){
       if(this.state.actualTable ==="casos"){
         this.setState({ queryAttributeValue: searchValue, searching:true },
-          ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`)
+          ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}`)
         );
       }else{
         let rowsToShow = [];
@@ -246,12 +251,13 @@ handleSearch = (e) => {
     }
   }
 }
+
 handleSearchClick = () => {
   let searchValue = document.getElementById("searchInput").value;
   if(searchValue.trim()!==""){
     if(this.state.actualTable ==="casos"){
       this.setState({ queryAttributeValue: searchValue, searching:true },
-        ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`)
+        ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}`)
       );
     }else{
       let rowsToShow = [];
@@ -272,12 +278,11 @@ handleSearchClick = () => {
   }
 }
 
-
 handleResetSearch = () => {
   document.getElementById("searchInput").value = "";
   if(this.state.actualTable ==="casos"){
     this.setState({  searching:false },
-      ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}`)
+      ()=>this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}`)
     );
   }else{
     this.setState({ rows: this.state.rowsCopy, searching: false });
@@ -300,7 +305,7 @@ componentDidMount() {
 doFetch = (pQuery) => {
   const query = (pQuery||"")
   this.setState({loading:true})
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/${this.state.actualTable}?${query}`, {
+  fetch(`http://localhost:3001/sica/api/${this.state.actualTable}?${query}`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -481,7 +486,7 @@ renderResetSearchButton = () => {
 }
 doLogout = ()=>{
 
-  fetch(`https://intellgentcms.herokuapp.com/sica/api/reiniciarNotificaciones`, {
+  fetch(`http://localhost:3001/sica/api/reiniciarNotificaciones`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.getItem("SICAToken")
@@ -630,7 +635,6 @@ render() {
             <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick = {()=>{this.setState({openEdit:true}) }}>
               <Icon>edit_icon</Icon>
             </Fab>
-            <EditCasesModal open = {this.state.openEdit} closeEditModal={()=>{window.location.reload();this.setState({openEdit:false}) }}/>
             <Fab color="primary" aria-label="Edit" className={classes.left} onClick = {this.prevPage}>
               <Icon>keyboard_arrow_left</Icon>
             </Fab>
@@ -699,7 +703,7 @@ render() {
     }
 
 
-    <ExportTableModal stateT= {this.state.stateT} f1= {this.state.f1} f2= {this.state.f2} type= {this.state.type} open = {this.state.consolidateModal}  closeConsolidateModal = {this.closeConsolidateModal} />
+    <ExportTableModal stateT= {this.state.stateT} f1= {this.state.f1} f2= {this.state.f2} type= {this.state.type} open = {this.state.consolidateModal}  closeConsolidateModal = {this.closeConsolidateModal} module ={this.state.module} />
   </Toolbar>
 </AppBar>
 <nav className={classes.drawer}>

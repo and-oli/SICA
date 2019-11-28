@@ -27,7 +27,13 @@ const styles = theme => ({
     outline: 'none',
   },
 });
-const conceptsRoutes = {"Gestión terceros":"gestionTerceros","Finalización inspecciones":"finalizacionInspecciones","Otro":"otro","Remitir para cargue de ODT":"remitirOdt"}
+const conceptsRoutes = {
+  "Gestión terceros":"gestionTerceros",
+  "Finalización inspecciones":"finalizacionInspecciones",
+  "Remitir para cargue de ODT":"remitirOdt",
+  "Reportes de liquidación":"reportesDeLiquidacion",
+  "Otro":"otro",
+}
 
 class NewActivityModal extends React.Component{
   constructor(props) {
@@ -94,6 +100,10 @@ class NewActivityModal extends React.Component{
                         <MenuItem value="Finalización inspecciones">Finalización inspecciones</MenuItem>
                       }
                       {
+                        this.state.userType ==="Comsistelco"&&
+                        <MenuItem value="Reportes de liquidación">Reportes de liquidación</MenuItem>
+                      }
+                      {
                         <MenuItem value="Otro">Otro</MenuItem>
                       }
 
@@ -110,13 +120,7 @@ class NewActivityModal extends React.Component{
                     value={this.state.typeOfLot}
                     onChange={(e)=>
                       {
-                        if(e.target.value !== "Análisis"){
-                          this.setState({ route: "otro"});
-                        }
-                        else{
-                          this.setState({ route: "nuevoLote"});
-                        }
-                        this.setState({ typeOfLot: e.target.value,concept:`Nuevo lote: ${e.target.value}`});
+                        this.setState({ route: "nuevoLote",typeOfLot: e.target.value,concept:`Nuevo lote: ${e.target.value}`});
                       }
                     }
                     input={<Input name="typeOfLot" />}
@@ -124,11 +128,11 @@ class NewActivityModal extends React.Component{
                     name="module"
                     style = {{width:"100%"}}
                     >
-                      <MenuItem value="Análisis">Análisis</MenuItem>
-                      <MenuItem value="Hallazgos">Hallazgos</MenuItem>
-                      <MenuItem value="Informativas">Informativas</MenuItem>
-                      <MenuItem value="Gestión Liquidación">Gestión Liquidación</MenuItem>
-                      <MenuItem value="Novedades">Novedades</MenuItem>
+                      <MenuItem value="ANALISIS">Análisis</MenuItem>
+                      <MenuItem value="LIQUIDACION">Liquidación</MenuItem>
+                      <MenuItem value="HALLAZGOS">Hallazgos</MenuItem>
+                      <MenuItem value="INFORMATIVAS">Informativas</MenuItem>
+                      <MenuItem value="NOVEDADES">Novedades</MenuItem>
                     </Select>
                   </div>
                 }
