@@ -37,7 +37,7 @@ class DelteModal extends React.Component{
   delete=()=>{
     this.setState({ loading: true, error: "", success:"" })
 
-    fetch("http://localhost:3001/sica/api/borrarLote", {
+    fetch("https://intellgentcms.herokuapp.com/sica/api/borrarLote", {
       method: "POST",
       headers: {
         'x-access-token': localStorage.getItem("SICAToken"),
