@@ -148,7 +148,7 @@ class ResponsiveDrawer extends React.Component {
       queryAttribute: "ordenado",
       queryAttributeValue: "",
       module: "ANALISIS",
-      currentModuleAttributes : [],
+      currentModuleAttributes: [],
     };
   }
 
@@ -162,23 +162,23 @@ class ResponsiveDrawer extends React.Component {
         () => this.doFetch(`estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}`)
       );
     }
-    else { // Cuando se hace click en un numero de la tabla resumen
+    else { // Cuando se hace click en un numero de la tabla resumen (solamente el parametro stateT tiene valor (ver funcion interpretar en Table.jsx))
       this.setState({ actualTable: "casos", loading: true, searching: false, stateT },
-        () => this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${module}`)
+        () => this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}`)
       );
     }
-    fetch(`https://intellgentcms.herokuapp.com/sica/api/atributosPorModulo?module=${module}`, {
+    fetch(`https://intellgentcms.herokuapp.com/sica/api/atributosPorModulo?module=${this.state.module}`, {
       method: 'GET',
       headers: {
         'x-access-token': localStorage.getItem("SICAToken")
       },
-    }).then(response => response.json()).then(json => this.setState({currentModuleAttributes:json.atributos}));
+    }).then(response => response.json()).then(json => this.setState({ currentModuleAttributes: json.atributos }));
 
   }
 
-  summaryQuery = (f1, f2, type) => {
-    this.setState({ actualTable: "resumen", loading: true, searching: false, f1, f2, type },
-      () => this.doFetch(`f1=${f1}&f2=${f2}&type=${type}`)
+  summaryQuery = (f1, f2, type, module) => {
+    this.setState({ actualTable: "resumen", loading: true, searching: false, f1, f2, type, module },
+      () => this.doFetch(`f1=${f1}&f2=${f2}&type=${type}&module=${module}`)
     );
   }
 
@@ -484,7 +484,7 @@ class ResponsiveDrawer extends React.Component {
       )
     }
   }
-  
+
   doLogout = () => {
     fetch(`https://intellgentcms.herokuapp.com/sica/api/reiniciarNotificaciones`, {
       method: 'GET',
@@ -496,35 +496,35 @@ class ResponsiveDrawer extends React.Component {
       window.location.reload();
     })
   }
-  
+
   generateConsolidate = () => {
     this.setState({ consolidateModal: true })
   }
-  
+
   closeConsolidateModal = () => {
     this.setState({ consolidateModal: false })
   }
-  
+
   closeClusterModal = () => {
     this.setState({ clusterModal: false })
   }
-  
+
   showClusterModal = () => {
     this.setState({ clusterModal: true })
   }
-  
+
   toggleCasesMenu = () => {
     this.setState(
       prevState => { return { openCasesMenu: !prevState.openCasesMenu } }
     )
   }
 
-  renderAttributes = ()=>{
+  renderAttributes = () => {
     return this.state.currentModuleAttributes.map(atr =>
       <MenuItem value={atr.nombreEnDB}>{atr.nombreEnArchivo}</MenuItem>
-      )
+    )
   }
-  
+
   render() {
     const { classes, theme } = this.props;
     const drawer = (
@@ -575,13 +575,7 @@ class ResponsiveDrawer extends React.Component {
             </List>
           </List>
         </Collapse>
-
-
-
         <Divider />
-
-
-
         <List>
           <ListItem button key={"Lotes"}>
             <FolderIcon />
@@ -645,14 +639,19 @@ class ResponsiveDrawer extends React.Component {
                 <Fab color="secondary" aria-label="Edit" className={classes.fab} onClick={() => { this.setState({ openEdit: true }) }}>
                   <Icon>edit_icon</Icon>
                 </Fab>
+
+                <Icon className="arrow-back" onClick={this.handleClickCasos}>arrow_back</Icon>
+                <EditCasesModal open={this.state.openEdit} closeEditModal={() => { window.location.reload(); this.setState({ openEdit: false }) }} />
+              </div>
+            }
+            {(this.state.actualTable === "casos" || this.state.actualTable === "actividades") &&
+              <div>
                 <Fab color="primary" aria-label="Edit" className={classes.left} onClick={this.prevPage}>
                   <Icon>keyboard_arrow_left</Icon>
                 </Fab>
                 <Fab color="primary" aria-label="Edit" className={classes.right} onClick={this.nextPage}>
                   <Icon>keyboard_arrow_right</Icon>
                 </Fab>
-                <Icon className="arrow-back" onClick={this.handleClickCasos}>arrow_back</Icon>
-                <EditCasesModal open={this.state.openEdit} closeEditModal={() => { window.location.reload(); this.setState({ openEdit: false }) }} />
               </div>
             }
             {this.state.actualTable === "casos" &&
@@ -683,7 +682,7 @@ class ResponsiveDrawer extends React.Component {
               (this.state.actualTable === "casos" && !this.state.loading && !this.state.empty) &&
               <Button variant="contained" color="primary" className="summary-button" onClick={this.generateConsolidate}>
                 Generar consolidado
-        </Button>
+            </Button>
             }
             {this.state.actualTable !== "actividades" && this.state.actualTable !== "Seleccionar casos" && this.state.actualTable !== "Seleccionar resumen" &&
               <Paper className={classes.root} elevation={1}>
@@ -697,7 +696,6 @@ class ResponsiveDrawer extends React.Component {
             {
               this.renderResetSearchButton()
             }
-
 
             <ExportTableModal stateT={this.state.stateT} f1={this.state.f1} f2={this.state.f2} type={this.state.type} open={this.state.consolidateModal} closeConsolidateModal={this.closeConsolidateModal} module={this.state.module} />
           </Toolbar>
