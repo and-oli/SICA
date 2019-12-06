@@ -644,7 +644,9 @@ class ResponsiveDrawer extends React.Component {
                 <EditCasesModal open={this.state.openEdit} closeEditModal={() => { window.location.reload(); this.setState({ openEdit: false }) }} />
               </div>
             }
-            {(this.state.actualTable === "casos" || this.state.actualTable === "actividades") &&
+            {
+            (this.state.actualTable === "casos" ) &&
+            //(this.state.actualTable === "casos" || this.state.actualTable === "actividades") &&
               <div>
                 <Fab color="primary" aria-label="Edit" className={classes.left} onClick={this.prevPage}>
                   <Icon>keyboard_arrow_left</Icon>
