@@ -206,8 +206,13 @@ class EditCasesModal extends React.Component {
               displayEmpty
               name="newState"
             >
-              <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
-              <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
+                <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
+                <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
+                <MenuItem value="BALANCE MACROMEDICION">BALANCE MACROMEDICION</MenuItem>
+                <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
+                <MenuItem value="STORIA">STORIA</MenuItem>
+                <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
+                <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
             </Select>
             </FormControl>
             <FormControl className="edit-case-modal-field">

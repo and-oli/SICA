@@ -61,7 +61,7 @@ class DateDetail extends React.Component {
                     <strong>Ordenado: </strong>
                     {this.props.data.ordenado}
                 </Typography>
-                <Paper className={classes.root}>
+                <Paper className={classes.root} style ={{overflowY: "auto", height: "500px"}}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>

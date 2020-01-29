@@ -163,9 +163,8 @@ class NewActivity extends React.Component {
             <p className="errorText">{this.state.error}</p>
             <p className="successText">{this.state.success}</p>
             {(this.state.success !== "" && this.state.casosRestantes) && (
-              <div style={{ overflow: "auto", textAlign: "left" }}>
+              <div style={{ overflowY: "auto", textAlign: "left", height:"100px" }}>
                 Los siguientes casos no estaban en el sistema:{
-
                   this.renderCasosrestantes()
                 }
               </div>

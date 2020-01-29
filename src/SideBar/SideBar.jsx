@@ -584,14 +584,14 @@ class ResponsiveDrawer extends React.Component {
         </List>
         <Divider />
         {
-          localStorage.getItem("userType") === "Comsistelco" &&
-          <List>
-            <ListItem button key={"nuevosAtributosACasos"}>
-              <CloudUpload />
-              <ListItemText primary={"Subir cluster"} onClick={this.showClusterModal} />
-              <NewClusterModal open={this.state.clusterModal} closeClusterModal={this.closeClusterModal} />
-            </ListItem>
-          </List>
+          // localStorage.getItem("userType") === "Comsistelco" &&
+          // <List>
+          //   <ListItem button key={"nuevosAtributosACasos"}>
+          //     <CloudUpload />
+          //     <ListItemText primary={"Subir cluster"} onClick={this.showClusterModal} />
+          //     <NewClusterModal open={this.state.clusterModal} closeClusterModal={this.closeClusterModal} />
+          //   </ListItem>
+          // </List>
         }
         {
           localStorage.getItem("userType") === "Comsistelco" &&
@@ -621,7 +621,7 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap style={{ width: "120px" }}>
+            <Typography variant="h6" color="inherit" noWrap style={{ width: "auto" }}>
               {
                 this.renderActualTableName()
               }
@@ -658,6 +658,7 @@ class ResponsiveDrawer extends React.Component {
             }
             {this.state.actualTable === "casos" &&
               <span className="select-info-wrapper">
+                <span className="select-info">{this.state.module}</span>
                 <span className="select-info">{this.state.stateT}</span>
                 <span className="select-info">Fecha de {this.state.type ? "asignación " : "última modificación "}entre</span>
                 <span className="select-info">{this.state.f1}</span>
