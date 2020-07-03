@@ -135,7 +135,7 @@ class EditCasesModal extends React.Component {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            usuario: "Usuario " + localStorage.getItem("userType"),
+            usuario: `${localStorage.getItem("userType")} ${localStorage.getItem("userName")}`,
             casos: this.state.cases,
             modulo: this.state.module,
             estado: this.state.newState,
