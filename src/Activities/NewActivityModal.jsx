@@ -183,6 +183,8 @@ class NewActivityModal extends React.Component {
             depth={(this.props.depth === 0 ? 0 : 1)}
             observation={this.state.observation}
             parentId={this.props.parentId}
+            parentObs={this.props.parentObs}
+            parentDate={this.props.parentDate}
             typeOfLot={this.state.typeOfLot}
             route={this.state.route}
             nuevoLote={this.props.nuevoLote}

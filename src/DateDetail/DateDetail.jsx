@@ -40,28 +40,31 @@ class DateDetail extends React.Component {
         this.state = {
         };
 
-        this.handleGoBackToTable = this.handleGoBackToTable.bind(this);
-    }
-    handleGoBackToTable() {
-        this.props.handleClose();
     }
 
     render() {
         const { classes } = this.props;
         return (
             <div>
-                <Arrow onClick={this.handleGoBackToTable} className="arrow" />
+                {
+                    !this.props.hideArrow &&
+                    <Arrow onClick={this.props.handleClose} className="arrow" />
+                }
                 <br />
                 <Divider />
                 <Typography variant="h5" component="h2">
                     Detalle del caso
                 </Typography>
-                <br/>
+                <br />
                 <Typography className="ordenadoText">
                     <strong>Ordenado: </strong>
                     {this.props.data.ordenado}
                 </Typography>
-                <Paper className={classes.root} style ={{overflowY: "auto", height: "500px"}}>
+                <Typography className="ordenadoText">
+                    <strong>Módulos: </strong>
+                    {this.props.data.modulos.join(", ")}
+                </Typography>
+                <Paper className={classes.root} style={{ overflowY: "auto", height: "500px" }}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
@@ -72,9 +75,9 @@ class DateDetail extends React.Component {
                         </TableHead>
                         <TableBody>
                             {
-                                this.props.data.cambiosDeEstado.map((row,i) => {
+                                this.props.data.cambiosDeEstado.map((row, i) => {
                                     return (
-                                      <TableRow key={i}>
+                                        <TableRow key={i}>
                                             <TableCell align="center" >{row.fecha}</TableCell>
                                             <TableCell align="center">{row.nuevoEstado}</TableCell>
                                             <TableCell align="center">{row.observacion}</TableCell>
@@ -92,8 +95,6 @@ class DateDetail extends React.Component {
 
 DateDetail.propTypes = {
     classes: PropTypes.object.isRequired,
-    // Injected by the documentation to work in an iframe.
-    // You won't need it on your project.
     container: PropTypes.object,
     theme: PropTypes.object.isRequired,
 };

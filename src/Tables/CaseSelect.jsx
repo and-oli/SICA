@@ -57,7 +57,7 @@ class CaseSelect extends React.Component {
   handleModuleDropdownChange = (e) => {
     this.setState({ module: e.target.value, filterState: "Todos" })
   }
-  
+
   handleStateDropdownChange = (e) => {
     this.setState({ filterState: e.target.value })
   }
@@ -73,8 +73,8 @@ class CaseSelect extends React.Component {
 
   renderFilterStateMenuItems = () => {
     if (this.state.statesByModule) {
-      return this.state.statesByModule[this.state.module].map(state =>
-        <MenuItem value={state}>{state}</MenuItem>
+      return this.state.statesByModule[this.state.module].map((state, i) =>
+        <MenuItem value={state} key={i}>{state}</MenuItem>
       )
     }
   }
@@ -175,10 +175,7 @@ class CaseSelect extends React.Component {
           <div className="consolidate-button-wrapper">
             <Button variant="contained" color="primary" onClick={this.ok} className="consolidate-button">
               Aceptar
-                    </Button>
-            {/* <Button variant="contained" color="primary" onClick ={this.exportSummary} className = "consolidate-button">
-                      Descargar resumen
-                    </Button> */}
+            </Button>
           </div>
         </div>
       </div>

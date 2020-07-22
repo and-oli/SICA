@@ -121,10 +121,6 @@ class EnhancedTable extends React.Component {
     this.setState({ openDateDetail: true, rowData: data });
   }
 
-  handleCloseModalDateDetail = () => {
-    this.setState({ openDateDetail: false });
-  }
-
   handleOpenModalUpload = () => {
     this.setState({ openUpload: true });
   }
@@ -219,14 +215,6 @@ class EnhancedTable extends React.Component {
                                   </TableCell>
                                 )
                               }
-                              // else if (header.id === "estado") {
-                              //   return (
-                              //     <TableCell key={i} align="center" style={{ whiteSpace: "nowrap" }}>
-                              //     <Typography >{n.cambiosDeEstado[n.cambiosDeEstado.length - 1].nuevoEstado}</Typography>
-                              //     </TableCell>
-                              //   )
-                              // }
-
                               return (
                                 <TableCell key={i} align="center">{this.interpretar(n[header.id])}</TableCell>
                               )
@@ -276,7 +264,7 @@ class EnhancedTable extends React.Component {
               open={this.state.openDateDetail}
               >
                 <div style={getModalStyle()} className={classes.modalDateDetail}>
-                  <DateDetail handleClose={this.handleCloseModalDateDetail} data={this.state.rowData}></DateDetail>
+                  <DateDetail handleClose={() => {this.setState({ openDateDetail: false })}} data={this.state.rowData}></DateDetail>
                 </div>
               </Modal>
             </div>

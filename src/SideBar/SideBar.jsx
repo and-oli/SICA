@@ -35,12 +35,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import Badge from '@material-ui/core/Badge';
 import EditCasesModal from "../EditCases/EditCasesModal"
 import ExportTableModal from '../Auxiliary/ExportTableModal';
-import NewClusterModal from '../NewCluster/NewClusterModal';
+import LookOneCaseModal from '../Auxiliary/LookOneCaseModal';
 import CaseSelect from '../Tables/CaseSelect';
 import SummarySelect from '../Tables/SummarySelect';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import Collapse from '@material-ui/core/Collapse';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -93,6 +92,11 @@ const styles = theme => ({
   },
   fab: {
     bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    position: "fixed",
+  },
+  lookOneCaseModalButton: {
+    top: theme.spacing.unit * 2,
     right: theme.spacing.unit * 2,
     position: "fixed",
   },
@@ -149,6 +153,7 @@ class ResponsiveDrawer extends React.Component {
       queryAttributeValue: "",
       module: "ANALISIS",
       currentModuleAttributes: [],
+      lookOneCaseModalVisible: false,
     };
   }
 
@@ -632,6 +637,12 @@ class ResponsiveDrawer extends React.Component {
                   <Icon>edit_icon</Icon>
                 </Fab>
                 <EditCasesModal open={this.state.openEdit} closeEditModal={() => { window.location.reload(); this.setState({ openEdit: false }) }} />
+                <div className="consolidate-button-wrapper" className={classes.lookOneCaseModalButton}>
+                  <Button variant="contained" color="primary" onClick={() => this.setState({ lookOneCaseModalVisible: true })} className="consolidate-button">
+                    Buscar una orden
+                  </Button>
+                  <LookOneCaseModal open={this.state.lookOneCaseModalVisible} close={() => { this.setState({ lookOneCaseModalVisible: false }) }} />
+                </div>
               </div>
             }
             {(this.state.actualTable === "casos") &&
@@ -645,7 +656,7 @@ class ResponsiveDrawer extends React.Component {
               </div>
             }
             {
-            (this.state.actualTable === "casos" || this.state.actualTable === "actividades") &&
+              (this.state.actualTable === "casos" || this.state.actualTable === "actividades") &&
               <div>
                 <Fab color="primary" aria-label="Edit" className={classes.left} onClick={this.prevPage}>
                   <Icon>keyboard_arrow_left</Icon>

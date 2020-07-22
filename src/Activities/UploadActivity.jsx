@@ -71,6 +71,8 @@ class NewActivity extends React.Component {
               concepto: this.props.concept, //Incluye ya el tipo de lote (módulo)
               profundidad: this.props.depth,
               idActividadPadre: this.props.parentId,
+              parentObs: this.props.parentObs,
+              parentDate: this.props.parentDate,
               URLArchivo,
               idLote
             })
@@ -97,7 +99,7 @@ class NewActivity extends React.Component {
       this.setState({ error: "Debe ingresar todos los campos", loading: false })
     }
   }
-
+  //dolly.escobar@enel.com,aliquidacioncnr@comsistelco.com,coordinador.cnr@comsistelco.com,eduard.cuenca@enel.com,maria.vergara@enel.com,diana.martinezi@enel.com
   handleUpload() {
     this.setState({ showUpload: true })
   }
@@ -163,7 +165,7 @@ class NewActivity extends React.Component {
             <p className="errorText">{this.state.error}</p>
             <p className="successText">{this.state.success}</p>
             {(this.state.success !== "" && this.state.casosRestantes) && (
-              <div style={{ overflowY: "auto", textAlign: "left", height:"100px" }}>
+              <div style={{ overflowY: "auto", textAlign: "left", height: "100px" }}>
                 Los siguientes casos no estaban en el sistema:{
                   this.renderCasosrestantes()
                 }

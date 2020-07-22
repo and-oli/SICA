@@ -113,6 +113,8 @@ class MainActivity extends React.Component {
                 depth={1}
                 nuevoLote={false}
                 parentId={row._id}
+                parentObs={row.observacion}
+                parentDate={row.fecha}
               />
             </div>)
           }

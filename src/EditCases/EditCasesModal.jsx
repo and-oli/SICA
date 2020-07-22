@@ -171,8 +171,8 @@ class EditCasesModal extends React.Component {
 
   renderStateMenuItems = () => {
     if (this.state.statesByModule) {
-      return this.state.statesByModule[this.state.module].map(state =>
-        <MenuItem value={state}>{state}</MenuItem>
+      return this.state.statesByModule[this.state.module].map((state, i) =>
+        <MenuItem value={state} key={i}>{state}</MenuItem>
       )
     }
   }
@@ -206,61 +206,61 @@ class EditCasesModal extends React.Component {
               displayEmpty
               name="newState"
             >
-                <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
-                <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
-                <MenuItem value="BALANCE MACROMEDICION">BALANCE MACROMEDICION</MenuItem>
-                <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
-                <MenuItem value="STORIA">STORIA</MenuItem>
-                <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
-                <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
+              <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
+              <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
+              <MenuItem value="BALANCE MACROMEDICION">BALANCE MACROMEDICION</MenuItem>
+              <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
+              <MenuItem value="STORIA">STORIA</MenuItem>
+              <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
+              <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
             </Select>
-            </FormControl>
-            <FormControl className="edit-case-modal-field">
+          </FormControl>
+          <FormControl className="edit-case-modal-field">
 
-              <InputLabel shrink htmlFor="state-label-placeholder"> Nuevo estado</InputLabel>
+            <InputLabel shrink htmlFor="state-label-placeholder"> Nuevo estado</InputLabel>
 
-              <Select
-                value={this.state.newState}
-                onChange={this.handleStateDropdownChange}
-                input={<Input name="newState" id="state-label-placeholder" />}
-                displayEmpty
-                name="newState"
-                style={{ width: "100%" }}
-              >
-                {this.renderStateMenuItems()}
-
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Ordenados "
-              multiline
-              rows="4"
-              value={this.state.idValues}
-              className="edit-case-modal-field"
-              margin="normal"
-              id="text-ids2407"
-              helperText="Ingrese el ordenado del caso que desea modificar seguido de la tecla enter (también puede pegarlos de columnas de excel)"
-              onChange={this.handleTextChange}
-              onKeyDown={this.handleKeyType}
-              variant="outlined"
-
+            <Select
+              value={this.state.newState}
+              onChange={this.handleStateDropdownChange}
+              input={<Input name="newState" id="state-label-placeholder" />}
+              displayEmpty
+              name="newState"
+              style={{ width: "100%" }}
             >
-            </TextField>
-            <TextField
-              label="Observación "
-              multiline
-              rows="4"
-              value={this.state.obsValues}
-              onChange={e => {
-                this.setState({ obsValues: e.target.value })
-              }}
-              className="edit-case-modal-field"
-              margin="normal"
-              id="text-obs"
-              helperText="Ingrese una observación"
-              variant="outlined"
-            />
+              {this.renderStateMenuItems()}
+
+            </Select>
+          </FormControl>
+
+          <TextField
+            label="Ordenados "
+            multiline
+            rows="4"
+            value={this.state.idValues}
+            className="edit-case-modal-field"
+            margin="normal"
+            id="text-ids2407"
+            helperText="Ingrese el ordenado del caso que desea modificar seguido de la tecla enter (también puede pegarlos de columnas de excel)"
+            onChange={this.handleTextChange}
+            onKeyDown={this.handleKeyType}
+            variant="outlined"
+
+          >
+          </TextField>
+          <TextField
+            label="Observación "
+            multiline
+            rows="4"
+            value={this.state.obsValues}
+            onChange={e => {
+              this.setState({ obsValues: e.target.value })
+            }}
+            className="edit-case-modal-field"
+            margin="normal"
+            id="text-obs"
+            helperText="Ingrese una observación"
+            variant="outlined"
+          />
           {
             this.state.cases.length > 0 &&
             <div className="ids-wrapper" >
@@ -296,7 +296,7 @@ class EditCasesModal extends React.Component {
             (this.state.success) && (
               <Button variant="contained" color="primary" className={classes.button} onClick={this.props.closeEditModal}>
                 Volver
-                    </Button>
+              </Button>
             )
           }
           {(this.state.success !== "" && this.state.casosRestantes) && (
