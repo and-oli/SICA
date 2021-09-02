@@ -1,40 +1,39 @@
-.align-to-right{
+.align-to-right {
   float: right;
 }
-.activities-wrapper{
+.activities-wrapper {
   margin: 10px 0 0 100px;
-  padding:  20px;
-  border: 1.5px solid lightgrey ;
+  padding: 20px;
+  border: 1.5px solid lightgrey;
   background-color: #0f0f0f0f;
   border-radius: 5px;
   overflow-y: auto;
   max-height: 500px;
 }
-body{
-  background-color: red!important;
+body {
+  background-color: red !important;
 }
-.delete-vertical-align{
+.delete-vertical-align {
   margin-top: 40px;
   display: flex;
- align-items: center;
- justify-content: center;
- height:100px;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
 }
-.delete-button-wrapper{
+.delete-button-wrapper {
   height: auto;
   width: 100%;
 }
-.activity{
-
+.activity {
   padding: 20px 0 20px 20px;
-  margin-bottom:  20px;
+  margin-bottom: 20px;
   border-radius: 5px;
 }
-.text-right{
+.text-right {
   position: absolute;
   right: 0;
 }
-.new-activity-button{
+.new-activity-button {
   font-weight: bolder;
   width: 300px;
   margin: 0 auto;
@@ -42,10 +41,10 @@ body{
   vertical-align: middle;
   background-color: #2196f3 !important;
 }
-.new-activity-button:hover{
+.new-activity-button:hover {
   cursor: pointer;
 }
-.acceptButton{
+.acceptButton {
   background-color: #3498db;
   border: none;
   color: white;
@@ -59,7 +58,7 @@ body{
   width: 130px;
   border-radius: 8px;
 }
-.new-activity-properties{
+.new-activity-properties {
   margin-top: 49px !important;
   position: relative;
   left: 50%;
@@ -81,13 +80,21 @@ body{
 }
 
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Add animation to "page content" */
@@ -96,26 +103,38 @@ body{
   -webkit-animation-name: animatebottom;
   -webkit-animation-duration: 1s;
   animation-name: animatebottom;
-  animation-duration: 1s
+  animation-duration: 1s;
 }
 
 @-webkit-keyframes animatebottom {
-  from { bottom:-100px; opacity:0 }
-  to { bottom:0px; opacity:1 }
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0px;
+    opacity: 1;
+  }
 }
 
 @keyframes animatebottom {
-  from{ bottom:-100px; opacity:0 }
-  to{ bottom:0; opacity:1 }
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
 }
 
-.subirArchivo{
+.subirArchivo {
   margin: auto;
   display: block;
   width: 500px;
 }
 
-#file-upload:hover{
+#file-upload:hover {
   cursor: pointer;
 }
 
@@ -134,11 +153,11 @@ body{
   width: 200px;
 }
 
-.btnUpload:hover{
+.btnUpload:hover {
   cursor: pointer;
 }
 
-.upload-btn-wrapper input[type=file] {
+.upload-btn-wrapper input[type="file"] {
   font-size: 22px;
   color: white;
   position: absolute;
@@ -149,35 +168,33 @@ body{
   cursor: pointer;
 }
 
-.errorText{
+.errorText {
   color: red;
   margin-left: 0%;
   font-size: 20px;
   text-align: center;
 }
 
-.successText{
+.successText {
   color: green;
   margin-left: 0%;
   font-size: 20px;
   text-align: center;
 }
 
-.arrow:hover{
+.arrow:hover {
   cursor: pointer;
   display: inline-block;
 }
 
-.cardActionAccept{
+.cardActionAccept {
   padding: 0 10px 0 0 !important;
   width: 100%;
   text-align: right;
 }
 
-.inputFile{
-
+.inputFile {
   margin: 20px 50%;
-  transform: translate(-50%,0);
+  transform: translate(-50%, 0);
   width: 450px;
-
 }

@@ -1,27 +1,26 @@
-.consolidate-data-wrapper{
-
+.consolidate-data-wrapper {
 }
-.consolidate-data-wrapper-title{
+.consolidate-data-wrapper-title {
   margin: 10px;
   font-weight: bold;
 }
-.consolidate-select{
+.consolidate-select {
   margin: 10px;
   display: flex;
   justify-content: space-between;
 }
-.consolidate-dates-wrapper{
+.consolidate-dates-wrapper {
   display: flex;
   justify-content: space-between;
 }
-.consolidate-button-wrapper{
+.consolidate-button-wrapper {
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
 }
-.consolidate-button{
+.consolidate-button {
 }
-#loader1{
+#loader1 {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

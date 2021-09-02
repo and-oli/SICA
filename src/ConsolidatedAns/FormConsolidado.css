@@ -1,0 +1,34 @@
+.container-paper-padre {
+  top: 50% !important;
+  left: 60% !important;
+  width: 640px !important;
+  padding: 32px !important;
+  outline: none !important;
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%),
+    0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%) !important;
+  background-color: #fff !important;
+}
+
+.container-paper-padre h4 {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.text-content {
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.form-container {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}

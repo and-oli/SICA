@@ -1,16 +1,16 @@
-.dateLink{
-    cursor: pointer;
-    text-decoration: underline #2196f3;
+.dateLink {
+  cursor: pointer;
+  text-decoration: underline #2196f3;
 }
-.attributeSelector{
-  width:20%;
+.attributeSelector {
+  width: 20%;
   background-color: white;
   margin: 0 15px;
 }
-.select-info{
+.select-info {
   margin: 0 15px;
 }
-.select-info-wrapper{
+.select-info-wrapper {
   font-size: 10px;
-  width: 700px
+  width: 700px;
 }

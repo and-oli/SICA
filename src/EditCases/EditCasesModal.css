@@ -1,20 +1,20 @@
-.ids-wrapper{
-  max-height :100px;
-   width:70%;
-   margin:0 auto;
-   overflow-y: auto;
-   border-radius: 3px;
-   border: 1px #c9c9c9 solid;
+.ids-wrapper {
+  max-height: 100px;
+  width: 70%;
+  margin: 0 auto;
+  overflow-y: auto;
+  border-radius: 3px;
+  border: 1px #c9c9c9 solid;
 }
-.button-wrapper{
+.button-wrapper {
   margin-top: 10px;
 }
-.modified-cases-content{
+.modified-cases-content {
   max-height: 70vh;
   overflow: auto;
 }
 
-.edit-case-modal-field{
+.edit-case-modal-field {
   margin: 15px 0 !important;
   position: relative;
   left: 50%;
