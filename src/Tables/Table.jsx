@@ -13,7 +13,7 @@ import EnhancedTableHead from "./TableHead";
 import "./Table.css";
 import Modal from "@material-ui/core/Modal";
 import DateDetail from "../DateDetail/DateDetail";
-import exportxlsx from "../ConsolidatedAns/ExportToXlsx";
+import exportxlsx from "../Auxiliary/exportFiles";
 import jsonPrueba from "../ConsolidatedAns/jsonPrueba";
 
 function desc(a, b, orderBy) {

@@ -15,6 +15,13 @@ export default {
       original: "Observación",
     },
     {
+      id: "casos",
+      numeric: true,
+      disablePadding: true,
+      label: "Casos asignados",
+      original: "Casos asignados",
+    },
+    {
       id: "casosCerrados",
       numeric: true,
       disablePadding: true,
@@ -34,6 +41,13 @@ export default {
       disablePadding: true,
       label: "% gestionado al 5 día",
       original: "% gestionado al 5 día",
+    },
+    {
+      id: "casosFuera",
+      numeric: true,
+      disablePadding: true,
+      label: "Casos fuera",
+      original: "Casos fuera",
     },
     {
       id: "URLArchivo",
@@ -61,9 +75,57 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
+        casosFuera: 10,
         casosLote: [
           {
             Caso: 1,
@@ -119,8 +181,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -177,8 +286,55 @@ export default {
         casos: 1000,
         gestionadoAl3Dia: 70,
         gestionadoAl5Dia: 30,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "febrero",
         casosLote: [
           {
@@ -235,8 +391,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -293,8 +496,55 @@ export default {
         casos: 500,
         gestionadoAl3Dia: 80,
         gestionadoAl5Dia: 20,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -351,8 +601,55 @@ export default {
         casos: 600,
         gestionadoAl3Dia: 50,
         gestionadoAl5Dia: 50,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Marzo",
         casosLote: [
           {
@@ -409,8 +706,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Marzo",
         casosLote: [
           {
@@ -467,8 +811,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -525,8 +916,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -583,8 +1021,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -641,8 +1126,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -699,8 +1231,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -757,8 +1336,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -815,8 +1441,55 @@ export default {
         casos: 500,
         gestionadoAl3Dia: 60,
         gestionadoAl5Dia: 40,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Diciembre",
         casosLote: [
           {
@@ -875,8 +1548,55 @@ export default {
         casos: 100,
         gestionadoAl3Dia: 95,
         gestionadoAl5Dia: 5,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -933,8 +1653,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Marzo",
         casosLote: [
           {
@@ -991,8 +1758,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1049,8 +1863,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1107,8 +1968,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Diciembre",
         casosLote: [
           {
@@ -1165,8 +2073,55 @@ export default {
         casos: 500,
         gestionadoAl3Dia: 70,
         gestionadoAl5Dia: 30,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -1223,8 +2178,55 @@ export default {
         casos: 100,
         gestionadoAl3Dia: 30,
         gestionadoAl5Dia: 70,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1281,8 +2283,55 @@ export default {
         casos: 1000,
         gestionadoAl3Dia: 66,
         gestionadoAl5Dia: 34,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Marzo",
         casosLote: [
           {
@@ -1339,8 +2388,55 @@ export default {
         casos: 600,
         gestionadoAl3Dia: 40,
         gestionadoAl5Dia: 60,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1397,8 +2493,55 @@ export default {
         casos: 900,
         gestionadoAl3Dia: 90,
         gestionadoAl5Dia: 10,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1455,8 +2598,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Diciembre",
         casosLote: [
           {
@@ -1513,8 +2703,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -1573,8 +2810,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Mayo",
         casosLote: [
           {
@@ -1631,8 +2915,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1689,8 +3020,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Mayo",
         casosLote: [
           {
@@ -1747,8 +3125,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1805,8 +3230,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Mayo",
         casosLote: [
           {
@@ -1863,8 +3335,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -1921,8 +3440,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Mayo",
         casosLote: [
           {
@@ -1979,8 +3545,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -2039,8 +3652,55 @@ export default {
         casosCerrados: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Enero",
         casosLote: [
           {
@@ -2097,8 +3757,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         urlArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Febrero",
         casosLote: [
           {
@@ -2155,8 +3862,55 @@ export default {
         casos: 300,
         gestionadoAl3Dia: 98,
         gestionadoAl5Dia: 2,
+        casosFuera: 20,
         URLArchivo: "http://urlFicticia",
         año: 2020,
+        casosFueraPorLote: [
+          {
+            Caso: 255,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 256,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 257,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 258,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 259,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 260,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 261,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 262,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 263,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 264,
+            fechaDeAsignacion: "17/08/2021",
+          },
+          {
+            Caso: 265,
+            fechaDeAsignacion: "17/08/2021",
+          },
+        ],
         mes: "Marzo",
         casosLote: [
           {

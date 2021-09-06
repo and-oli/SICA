@@ -1,5 +1,5 @@
 import React from "react";
-import exportxlsx from "./ExportToXlsx";
+import exportxlsx from "../Auxiliary/exportFiles";
 import Button from "@material-ui/core/Button";
 import jsonPrueba from "./jsonPrueba";
 
@@ -18,7 +18,7 @@ const ExportConsolidate = (props) => {
       porcentajesConsolidado = porcentajes;
       module = moduleFilter;
       rows = newRows;
-      exportxlsx(rows, module, porcentajesConsolidado);
+      exportxlsx( module, rows, 'xlsx', porcentajesConsolidado);
     }
   };
 

@@ -224,6 +224,7 @@ class ResponsiveDrawer extends React.Component {
     });
     const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
     if (newRows.length) {
+      console.log(newRows)
       this.setState({
         module: newModule,
         mes: mesConsolidado,

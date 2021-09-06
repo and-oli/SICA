@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Arrow from "@material-ui/icons/ArrowBack";
 import Button from "@material-ui/core/Button";
-import exportToCSV from "./ExportToCSV";
+import exportToCSV from "./exportFiles";
 import "./ExportTable.css";
 
 const styles = (theme) => ({
@@ -141,7 +141,7 @@ class ExportTableModal extends React.Component {
                 data.push(newRow);
               }
               if (data.length > 1) {
-                if (exportToCSV("Consolidado.csv", data)) {
+                if (exportToCSV("Consolidado.csv", data, 'csv')) {
                   alert("Esta función no está disponible en su navegador");
                   this.setState({ loading: false });
                 } else {
