@@ -10,9 +10,6 @@
   overflow-y: auto;
   max-height: 500px;
 }
-body {
-  background-color: red !important;
-}
 .delete-vertical-align {
   margin-top: 40px;
   display: flex;
