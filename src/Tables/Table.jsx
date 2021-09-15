@@ -166,7 +166,7 @@ class EnhancedTable extends React.Component {
     return serial.toString();
   };
   //funcion para generar y descargar archivo por lote.
-  generarConcolidadoPorL = (module, mes, id) => {
+  generarConcolidadoPorL = (module, mes, fileType, id) => {
     let porcentajesConsolidado;
     const newRows = jsonPrueba.rows[module].filter((valueFiltro) => {
       if (valueFiltro.mes === mes && valueFiltro.id === id) {
@@ -179,7 +179,7 @@ class EnhancedTable extends React.Component {
     if (newRows.length) {
       porcentajesConsolidado = porcentajes;
 
-      exportxlsx(newRows, module, porcentajesConsolidado);
+      exportxlsx( module, newRows, fileType, porcentajesConsolidado);
     }
   };
 
@@ -279,6 +279,7 @@ class EnhancedTable extends React.Component {
                                       this.generarConcolidadoPorL(
                                         module,
                                         mes,
+                                        'xlsx',
                                         n.id
                                       )
                                     }
