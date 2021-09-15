@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import SideBar from "./SideBar/SideBar";
 import Login from "./Login/Login";
+import AppContent from "./App/App"; 
 import "./index.css";
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
   }
   render() {
     return this.state.logged ? (
-      <SideBar setLogged={this.setLogged} />
+      <AppContent setLogged={this.setLogged} />
     ) : (
       <Login setLogged={this.setLogged} />
     );
