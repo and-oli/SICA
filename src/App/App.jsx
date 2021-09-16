@@ -511,25 +511,6 @@ class AppContent extends React.Component {
     }
   }
 
-  renderResetSearchButton = () => {
-    const { classes } = this.props;
-
-    if (this.state.searching) {
-      return (
-        <div>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            onClick={this.handleResetSearch}
-          >
-            Borrar búsqueda
-          </Button>
-        </div>
-      );
-    }
-  };
-
   doLogout = () => {
     fetch(`http://localhost:3001/sica/api/reiniciarNotificaciones`, {
       method: "GET",
@@ -556,14 +537,6 @@ class AppContent extends React.Component {
     this.setState((prevState) => {
       return { openCasesMenu: !prevState.openCasesMenu };
     });
-  };
-
-  renderAttributes = () => {
-    return this.state.currentModuleAttributes.map((atr, i) => (
-      <MenuItem value={atr.nombreEnDB} key={i}>
-        {atr.nombreEnArchivo}
-      </MenuItem>
-    ));
   };
 
   onClickFab = () => {
@@ -599,9 +572,11 @@ class AppContent extends React.Component {
           f2={this.state.f2}
           module={this.state.module}
           consolidateModal={this.state.consolidateModal}
+          currentModuleAttributes={this.state.currentModuleAttributes}
+          searching={this.state.searching}
+          handleResetSearch={this.handleResetSearch}
           nextPage={this.nextPage}
           prevPage={this.prevPage}
-          renderResetSearchButton={this.renderResetSearchButton}
           handleSearchClick={this.handleSearchClick}
           handleSearch={this.handleSearch}
           generateConsolidate={this.generateConsolidate}
