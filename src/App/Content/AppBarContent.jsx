@@ -36,8 +36,35 @@ export default class AppBarContent extends React.Component {
     return tableNameToShow;
   }
 
-  render() {
+  renderAttributes = () => {
+    return this.props.currentModuleAttributes.map((atr, i) => (
+      <MenuItem value={atr.nombreEnDB} key={i}>
+        {atr.nombreEnArchivo}
+      </MenuItem>
+    ));
+  };
+
+    renderResetSearchButton = () => {
     const { classes } = this.props;
+
+    if (this.props.searching) {
+      return (
+        <div>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={this.props.handleResetSearch}
+          >
+            Borrar búsqueda
+          </Button>
+        </div>
+      );
+    }
+  };
+
+  render() {
+    const { classes, porcentajesDeConsolidado } = this.props;
 
     return (
       <AppBar position="fixed" className={classes.appBar}>
@@ -165,7 +192,7 @@ export default class AppBarContent extends React.Component {
           {this.props.actualTable === "casos" && (
             <Select
               value={this.props.queryAttribute}
-              onChange={this.handleChangeAttributeQueryDropdown}
+              onChange={this.props.handleChangeAttributeQueryDropdown}
               input={<Input name="newState" id="state-label-placeholder" />}
               displayEmpty
               name="newState"
@@ -173,7 +200,7 @@ export default class AppBarContent extends React.Component {
             >
               <MenuItem value="ordenado">ORDENADO</MenuItem>
               <MenuItem value="estado">ESTADO</MenuItem>
-              {this.props.renderAttributes()}
+              {this.renderAttributes()}
             </Select>
           )}
           {this.props.actualTable === "casos" &&
@@ -202,19 +229,19 @@ export default class AppBarContent extends React.Component {
                 lotes: {this.props.rows.length}
               </span>
               <span className="select-info">
-                casos: {this.props.porcentajesDeConsolidado.casos}
+                casos: {porcentajesDeConsolidado.casos}
               </span>
               <span className="select-info">
                 casos cerrados:{" "}
-                {this.props.porcentajesDeConsolidado.casosCerrados}
+                {porcentajesDeConsolidado.casosCerrados}
               </span>
               <span className="select-info">
                 % gestionado 3 dia:{" "}
-                {this.props.porcentajesDeConsolidado.gestionadoAl3Dia}%
+                {porcentajesDeConsolidado.gestionadoAl3Dia}%
               </span>
               <span className="select-info">
                 % gestionado 5 dia:{" "}
-                {this.props.porcentajesDeConsolidado.gestionadoAl5Dia}%
+                {porcentajesDeConsolidado.gestionadoAl5Dia}%
               </span>
             </span>
           )}
@@ -233,13 +260,13 @@ export default class AppBarContent extends React.Component {
                 <IconButton
                   className={classes.iconButton}
                   aria-label="Search"
-                  onClick={() => this.props.handleSearchClick()}
+                  onClick={this.props.handleSearchClick}
                 >
                   <SearchIcon />
                 </IconButton>
               </Paper>
             )}
-          {this.props.renderResetSearchButton()}
+          {this.renderResetSearchButton()}
           <ExportTableModal
             stateT={this.props.stateT}
             f1={this.props.f1}
