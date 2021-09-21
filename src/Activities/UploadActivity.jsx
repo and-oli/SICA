@@ -38,7 +38,7 @@ class NewActivity extends React.Component {
     formData.append("observacion", this.props.observation);
 
     return fetch(
-      `https://intellgentcms.herokuapp.com/sica/api/${this.props.route}?module=${this.props.typeOfLot}`,
+      `http://localhost:3001/sica/api/${this.props.route}?module=${this.props.typeOfLot}`,
       {
         method: "POST",
         headers: {
