@@ -42,6 +42,7 @@ class Activity extends React.Component {
                 className="downloadAvailable"
                 href={row["URLArchivo"]}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Descargar
               </a>
