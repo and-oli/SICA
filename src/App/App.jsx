@@ -69,7 +69,26 @@ const styles = (theme) => ({
     right: "38%",
     position: "fixed",
   },
-  
+  tablePagination: {
+    color: "white",
+    fontSize: 12,
+  },
+  pagination: {
+    bottom: 0,
+    backgroundColor: "#3f51b5",
+    "box-shadow": `
+       0px 1px 5px 0px rgb(0 0 0 / 20%),
+       0px 2px 2px 0px rgb(0 0 0 / 14%),
+       0px 3px 1px -2px rgb(0 0 0 / 12%);
+    `,
+    position: "fixed",
+    width: "380px",
+    height: "auto",
+    margin: "1% auto" /* Will not center vertically and won't work in IE6/7. */,
+    borderRadius: 5,
+    left: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  },
   modalUploadActivity: {
     position: "absolute",
     width: theme.spacing.unit * 80,
@@ -79,7 +98,7 @@ const styles = (theme) => ({
     outline: "none",
   },
   input: {
-    marginLeft: 8,
+    marginLeft: 20,
     flex: 1,
   },
 });
