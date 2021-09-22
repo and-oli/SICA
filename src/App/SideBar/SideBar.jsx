@@ -15,6 +15,10 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import CloudUpload from "@material-ui/icons/CloudUpload";
+import NewClusterModal from "../../NewCluster/NewClusterModal";
+
+const SHOW_CLUSTER = false;
 
 export default class SideBar extends React.Component {
   constructor(props) {
@@ -107,21 +111,26 @@ export default class SideBar extends React.Component {
           </ListItem>
         </List>
         <Divider />
-        {
-          // localStorage.getItem("userType") === "Comsistelco" &&
-          // <List>
-          //   <ListItem button key={"nuevosAtributosACasos"}>
-          //     <CloudUpload />
-          //     <ListItemText primary={"Subir cluster"} onClick={this.props.showClusterModal} />
-          //     <NewClusterModal open={this.props.clusterModal} closeClusterModal={this.showClusterModal} />
-          //   </ListItem>
-          // </List>
-        }
+        {SHOW_CLUSTER && localStorage.getItem("userType") === "Comsistelco" && (
+          <List>
+            <ListItem button key={"nuevosAtributosACasos"}>
+              <CloudUpload />
+              <ListItemText
+                primary={"Subir cluster"}
+                onClick={this.props.showClusterModal}
+              />
+              <NewClusterModal
+                open={this.props.clusterModal}
+                closeClusterModal={this.showClusterModal}
+              />
+            </ListItem>
+          </List>
+        )}
         {localStorage.getItem("userType") === "Comsistelco" && <Divider />}
         <List>
-          <ListItem button key={"Logout"}>
+          <ListItem button key={"Logout"} onClick={this.props.doLogout}>
             <img src="./exit.png" alt="exit" className="exitImg" />
-            <ListItemText primary={"Salir"} onClick={this.props.doLogout} />
+            <ListItemText primary={"Salir"} />
           </ListItem>
         </List>
         <Divider />
