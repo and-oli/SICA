@@ -1,19 +1,11 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-// import blue from "@material-ui/core/colors/blue";
-// import EnhancedTable from "../Tables/Table";
 import "./SideBar/SideBar.css";
-// import Grid from "@material-ui/core/Grid";
-import MainActivity from "../Activities/MainActivity";
-import Button from "@material-ui/core/Button";
-// import CaseSelect from "../Tables/CaseSelect";
-// import SummarySelect from "../Tables/SummarySelect";
-import MenuItem from "@material-ui/core/MenuItem";
 import jsonPrueba from "../ConsolidatedAns/jsonPrueba";
 import ContentApp from "./Content/Content";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBarContent from "./Content/AppBarContent";
+import ContentOverlay from "./Content/ContentOverlay";
 import SideBar from "./SideBar/SideBar";
 
 const drawerWidth = 200;
@@ -92,6 +84,16 @@ const styles = (theme) => ({
   },
 });
 
+const TABLE_NAMES = {
+  actividades: "actividades",
+  seleccionarCasos: "Seleccionar casos",
+  seleccionarConsolidado: "Seleccionar consolidado",
+  seleccionarResumen: "Seleccionar resumen",
+  lotes: "lotes",
+  casos: "casos",
+  consolidado: "consolidado:",
+};
+
 class AppContent extends React.Component {
   constructor(props) {
     super(props);
@@ -102,6 +104,7 @@ class AppContent extends React.Component {
       loading: true,
       rowsHeaders: [],
       rows: [],
+      rowsPerPage: 10,
       rowsCopy: [],
       searching: false,
       empty: false,
@@ -353,7 +356,7 @@ class AppContent extends React.Component {
   handleSearchClick = () => {
     let searchValue = document.getElementById("searchInput").value;
     if (searchValue.trim() !== "") {
-      if (this.state.actualTable === "casos") {
+      if (this.state.actualTable === TABLE_NAMES.casos) {
         this.setState(
           { queryAttributeValue: searchValue, searching: true },
           () =>
@@ -387,7 +390,7 @@ class AppContent extends React.Component {
 
   handleResetSearch = () => {
     document.getElementById("searchInput").value = "";
-    if (this.state.actualTable === "casos") {
+    if (this.state.actualTable === TABLE_NAMES.casos) {
       this.setState({ searching: false }, () =>
         this.doFetch(
           `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}`
@@ -432,7 +435,8 @@ class AppContent extends React.Component {
               let headerToAdd = attributes[j];
 
               if (
-                (this.state.actualTable === "lotes" || headerToAdd !== "_id") &&
+                (this.state.actualTable === TABLE_NAMES.casos ||
+                  headerToAdd !== "_id") &&
                 headerToAdd !== "__v"
               ) {
                 let labelsplit = headerToAdd.split(/(?=[A-Z])/);
@@ -456,7 +460,7 @@ class AppContent extends React.Component {
               }
             }
 
-            if (tableInfo === "actividades") {
+            if (tableInfo === TABLE_NAMES.actividades) {
               json[tableInfo].sort((r1, r2) => {
                 return (
                   new Date(r2.fecha).getTime() - new Date(r1.fecha).getTime()
@@ -497,10 +501,6 @@ class AppContent extends React.Component {
     );
   };
 
-  renderActividades = () => {
-    return this.state.rows.map((r, i) => <MainActivity row={r} key={i} />);
-  };
-
   showText(text, type) {
     if (text === "" && type === "Obs") {
       return "Ninguna";
@@ -534,9 +534,7 @@ class AppContent extends React.Component {
   };
 
   toggleCasesMenu = () => {
-    this.setState((prevState) => {
-      return { openCasesMenu: !prevState.openCasesMenu };
-    });
+    this.setState((prevState) => ({ openCasesMenu: !prevState.openCasesMenu }));
   };
 
   onClickFab = () => {
@@ -557,7 +555,8 @@ class AppContent extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBarContent
+        <ContentOverlay
+          tableNames={TABLE_NAMES}
           classes={classes}
           theme={theme}
           actualTable={this.state.actualTable}
@@ -574,6 +573,8 @@ class AppContent extends React.Component {
           consolidateModal={this.state.consolidateModal}
           currentModuleAttributes={this.state.currentModuleAttributes}
           searching={this.state.searching}
+          page={this.state.page}
+          rowsPerPage={this.state.rowsPerPage}
           handleResetSearch={this.handleResetSearch}
           nextPage={this.nextPage}
           prevPage={this.prevPage}
@@ -591,6 +592,8 @@ class AppContent extends React.Component {
           handleDrawerToggle={this.handleDrawerToggle}
           onClickFab={this.onClickFab}
           lookOneCaseModalClick={this.lookOneCaseModalClick}
+          handleChangePage={this.handleChangePage}
+          handleChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
         <SideBar
           classes={classes}
@@ -613,6 +616,7 @@ class AppContent extends React.Component {
           doLogout={this.doLogout}
         />
         <ContentApp
+          tableNames={TABLE_NAMES}
           classes={classes}
           loading={this.state.loading}
           empty={this.state.empty}
@@ -621,10 +625,12 @@ class AppContent extends React.Component {
           rows={this.state.rows}
           module={this.state.module}
           mes={this.state.mes}
+          openUpload={this.state.openUpload}
           consolidateSelect={this.consolidateSelect}
           summaryQuery={this.summaryQuery}
-          renderActividades={this.renderActividades}
           casesQuery={this.casesQuery}
+          handleOpenModalUpload={this.handleOpenModalUpload}
+          handleCloseModalUpload={this.handleCloseModalUpload}
         />
       </div>
     );
