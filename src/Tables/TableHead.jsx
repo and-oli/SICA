@@ -127,7 +127,6 @@ class EnhancedTableHead extends React.Component {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              position: "relative",
               position: "absolute",
               width: "30%",
               padding: "20px",
