@@ -67,7 +67,7 @@ class ExportTableModal extends React.Component {
     let data = [];
     this.setState({ error: "", loading: true });
     fetch(
-      `https://intellgentcms.herokuapp.com/sica/api/casosDescargar?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}&module=${this.props.module}`,
+      `http://localhost:3001/sica/api/casosDescargar?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}&module=${this.props.module}`,
       {
         method: "GET",
         headers: {
@@ -116,7 +116,7 @@ class ExportTableModal extends React.Component {
           ? `&lastId=${cases[cases.length - 1]._id}`
           : "";
         fetch(
-          `https://intellgentcms.herokuapp.com/sica/api/casosDescargarMil?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}${idQuery}&module=${this.props.module}`,
+          `http://localhost:3001/sica/api/casosDescargarMil?estado=${this.props.stateT}&f1=${this.props.f1}&f2=${this.props.f2}&type=${this.props.type}${idQuery}&module=${this.props.module}`,
           {
             method: "GET",
             headers: {
