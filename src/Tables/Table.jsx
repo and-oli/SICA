@@ -57,6 +57,7 @@ const styles = (theme) => ({
   root: {
     width: "100%",
     marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 8,
   },
   table: {
     minWidth: 1020,
@@ -148,6 +149,7 @@ class EnhancedTable extends React.Component {
       return (
         <a
           className="downloadAvailable"
+          href={serial.toString()}
           onClick={() => {
             this.props.casesQuery(serial);
           }}
@@ -171,7 +173,7 @@ class EnhancedTable extends React.Component {
     const newRows = jsonPrueba.rows[module].filter((valueFiltro) => {
       if (valueFiltro.mes === mes && valueFiltro.id === id) {
         return valueFiltro;
-      }
+      } else return [];
     });
 
     const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
