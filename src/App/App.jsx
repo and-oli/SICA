@@ -69,7 +69,7 @@ const styles = (theme) => ({
     right: "38%",
     position: "fixed",
   },
-
+  
   modalUploadActivity: {
     position: "absolute",
     width: theme.spacing.unit * 80,
@@ -230,36 +230,43 @@ class AppContent extends React.Component {
     );
   };
 
-  nextPage = () => {
-    if (!this.state.empty) {
-      const searchQuery = this.state.searching
-        ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
-        : "";
-      const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1]
-        ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}`
-        : "";
+  handleChangePage = (event, newPage) => {
+    if (newPage > this.state.page) {
+      if (!this.state.empty) {
+        const searchQuery = this.state.searching
+          ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+          : "";
+        const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1]
+          ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}`
+          : "";
 
-      this.setState((prevState) => {
-        return { page: prevState.page + 1 };
-      }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
+        this.setState((prevState) => {
+          return { page: prevState.page + 1 };
+        }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
+      }
+    } else if (newPage < this.state.page) {
+      if (this.state.page !== 0) {
+        if (this.state.empty) {
+          this.setState({ page: 1 });
+        }
+        const searchQuery = this.state.searching
+          ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+          : "";
+        const idQuery = this.state.rowsCopy[0]
+          ? `&firstId=${this.state.rowsCopy[0]._id}`
+          : "";
+        this.setState((prevState) => {
+          return { page: prevState.page - 1 };
+        }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
+      }
     }
   };
 
-  prevPage = () => {
-    if (this.state.page !== 0) {
-      if (this.state.empty) {
-        this.setState({ page: 1 });
-      }
-      const searchQuery = this.state.searching
-        ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
-        : "";
-      const idQuery = this.state.rowsCopy[0]
-        ? `&firstId=${this.state.rowsCopy[0]._id}`
-        : "";
-      this.setState((prevState) => {
-        return { page: prevState.page - 1 };
-      }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
-    }
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: parseInt(event.target.value, 10),
+      page: 0,
+    });
   };
 
   handleClickCasos = () => {
