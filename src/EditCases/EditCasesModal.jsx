@@ -41,7 +41,7 @@ class EditCasesModal extends React.Component {
     this.state = {
       cases: [],
       error: "",
-      newState: null,
+      newState: "",
       loading: false,
       success: null,
       casosRestantes: null,
@@ -131,7 +131,7 @@ class EditCasesModal extends React.Component {
   handleOk = () => {
     this.setState({ loading: true, error: "", success: null });
 
-    if (this.state.newState) {
+    if (this.state.newState !== "") {
       if (this.state.obsValues !== "") {
         fetch("http://localhost:3001/sica/api/cambiarEstadosACasos", {
           method: "POST",
