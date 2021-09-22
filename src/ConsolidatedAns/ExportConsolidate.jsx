@@ -11,7 +11,7 @@ const ExportConsolidate = (props) => {
     const newRows = jsonPrueba.rows[moduleFilter].filter((valueFiltro) => {
       if (valueFiltro.mes === mes) {
         return valueFiltro;
-      }
+      } else return [];
     });
     const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
     if (newRows.length) {
