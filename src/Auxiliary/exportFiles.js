@@ -4,14 +4,14 @@ function exportToCsv(filename, rows, fileType, ansMensual) {
   let newName;
 
   if (fileType === "csv") {
-    var processRow = function (row) {
-      var finalVal = "\uFEFF";
-      for (var j = 0; j < row.length; j++) {
-        var innerValue = row[j] === null ? "" : row[j].toString();
+    let processRow = function (row) {
+      let finalVal = "\uFEFF";
+      for (let j = 0; j < row.length; j++) {
+        let innerValue = row[j] === null ? "" : row[j].toString();
         if (row[j] instanceof Date) {
           innerValue = row[j].toLocaleString();
         }
-        var result = innerValue.replace(/"/g, '""');
+        let result = innerValue.replace(/"/g, '""');
         if (result.search(/("|;|\n)/g) >= 0) result = '"' + result + '"';
         if (j > 0) finalVal += ";";
         finalVal += result;
@@ -19,17 +19,15 @@ function exportToCsv(filename, rows, fileType, ansMensual) {
       return finalVal + "\n";
     };
 
-    var csvFile = "";
-    for (var i = 0; i < rows.length; i++) {
+    let csvFile = "";
+    for (let i = 0; i < rows.length; i++) {
       csvFile += processRow(rows[i]);
     }
-    var csvContent = "...csv content...";
-    var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
+    let csvContent = "...csv content...";
+    let encodedUri = encodeURI(csvContent);
     blob = new Blob([csvFile], {
       type: "data:text/csv;charset=utf-8,\uFEFF" + encodedUri,
     });
-
   } else if (fileType === "xlsx") {
     const casos = [];
     const casosFuera = [];
@@ -68,7 +66,6 @@ function exportToCsv(filename, rows, fileType, ansMensual) {
     XLSX.utils.book_append_sheet(wb, hoja3, "Casos Fuera");
     XLSX.utils.book_append_sheet(wb, hoja4, "ANS");
 
-
     const file = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
 
     function s2ab(s) {
@@ -90,11 +87,11 @@ function exportToCsv(filename, rows, fileType, ansMensual) {
     // IE 10+
     navigator.msSaveBlob(blob, newName);
   } else {
-    var link = document.createElement("a");
+    let link = document.createElement("a");
     if (link.download !== undefined) {
       // feature detection
       // Browsers that support HTML5 download attribute
-      var url = URL.createObjectURL(blob);
+      let url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
       link.setAttribute("download", newName);
       link.style.visibility = "hidden";
