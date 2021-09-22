@@ -7,6 +7,7 @@ import ConsolidatedSelect from "../../ConsolidatedAns/FormConsolidated";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import NewActivityModal from "../../Activities/NewActivityModal";
+import MainActivity from "../../Activities/MainActivity";
 
 export default class ContentApp extends Component {
   constructor(props) {
@@ -15,24 +16,24 @@ export default class ContentApp extends Component {
   }
 
   renderUploadActivityButton = () => {
-    const { classes } = this.props;
-
+    const { classes, tableNames } = this.props;
     if (
       localStorage.getItem("userType") === "Codensa" &&
-      this.state.actualTable === "actividades"
+      this.props.actualTable === tableNames.actividades
     ) {
+
       return (
         <div>
           <Fab
             color="secondary"
             aria-label="Add"
             className={classes.fab}
-            onClick={this.handleOpenModalUpload}
+            onClick={this.props.handleOpenModalUpload}
           >
             <AddIcon />
           </Fab>
           <NewActivityModal
-            open={this.state.openUpload}
+            open={this.props.openUpload}
             handleCloseModalUpload={this.handleCloseModalUpload}
             depth={0}
             nuevoLote={true}
@@ -42,7 +43,12 @@ export default class ContentApp extends Component {
     }
   };
 
+  renderActividades = () => {
+    return this.props.rows.map((r, i) => <MainActivity row={r} key={i} />);
+  };
+
   renderComponents = () => {
+    const {tableNames} = this.props;
     if (this.props.loading) {
       return <span className="loaderTable" id="loaderTable"></span>;
     } else {
@@ -57,10 +63,10 @@ export default class ContentApp extends Component {
           </div>
         );
       } else if (
-        this.props.actualTable !== "actividades" &&
-        this.props.actualTable !== "Seleccionar casos" &&
-        this.props.actualTable !== "Seleccionar resumen" &&
-        this.props.actualTable !== "Seleccionar consolidado"
+        this.props.actualTable !== tableNames.actividades &&
+        this.props.actualTable !== tableNames.seleccionarCasos &&
+        this.props.actualTable !== tableNames.seleccionarResumen &&
+        this.props.actualTable !== tableNames.seleccionarConsolidado
       ) {
         return (
           <div>
@@ -74,21 +80,21 @@ export default class ContentApp extends Component {
             />
           </div>
         );
-      } else if (this.props.actualTable === "actividades") {
+      } else if (this.props.actualTable === tableNames.actividades) {
         return (
           <div>
             <br />
-            <Grid>{this.props.renderActividades()}</Grid>
+            <Grid>{this.renderActividades()}</Grid>
             {this.renderUploadActivityButton()}
           </div>
         );
-      } else if (this.props.actualTable === "Seleccionar resumen") {
+      } else if (this.props.actualTable === tableNames.seleccionarResumen) {
         return (
           <div>
             <SummarySelect summaryQuery={this.props.summaryQuery} />
           </div>
         );
-      } else if (this.props.actualTable === "Seleccionar consolidado") {
+      } else if (this.props.actualTable === tableNames.seleccionarConsolidado) {
         //Formulario para seleccionar (modulo, mes y año) y generar la tabla
         return (
           <div>
