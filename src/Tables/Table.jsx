@@ -186,8 +186,8 @@ class EnhancedTable extends React.Component {
   };
 
   render() {
-    const { rows, classes, module, mes } = this.props;
-    const { order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { rows, classes, module, mes, rowsPerPage, page, tableNames } = this.props;
+    const { order, orderBy, selected } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     return (
@@ -309,7 +309,7 @@ class EnhancedTable extends React.Component {
               </TableBody>
             </Table>
           </div>
-          {this.props.currentTable !== "casos" && (
+          {this.props.currentTable !== tableNames.casos && (
             <TablePagination
               rowsPerPageOptions={[10, 25, 50, 100, 500]}
               component="div"
@@ -322,8 +322,8 @@ class EnhancedTable extends React.Component {
               nextIconButtonProps={{
                 "aria-label": "Next Page",
               }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              onChangePage={this.props.handleChangePage}
+              onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
             />
           )}
         </Paper>
