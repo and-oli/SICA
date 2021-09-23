@@ -71,8 +71,13 @@ export default class ContentApp extends Component {
         return (
           <div>
             <EnhancedTable
+              tableNames={tableNames}
               rowsHeaders={this.props.rowsHeaders}
               rows={this.props.rows}
+              page={this.props.page}
+              handleChangeRowsPerPage={this.props.handleChangeRowsPerPage}
+              handleChangePage={this.props.handleChangePage}
+              rowsPerPage={this.props.rowsPerPage}
               currentTable={this.props.actualTable}
               casesQuery={this.props.casesQuery}
               module={this.props.module}
