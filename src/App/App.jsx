@@ -110,6 +110,7 @@ const TABLE_NAMES = {
   seleccionarResumen: "Seleccionar resumen",
   lotes: "lotes",
   casos: "casos",
+  resumen: "resumen",
   consolidado: "consolidado:",
 };
 
@@ -221,6 +222,8 @@ class AppContent extends React.Component {
         rowsHeaders: jsonPrueba.headers,
         porcentajesDeConsolidado: porcentajes,
         rows: newRows,
+        rowsPerPage: 10,
+        page: 0,
         rowsCopy: newRows,
         loading: false,
       });
@@ -238,6 +241,8 @@ class AppContent extends React.Component {
     this.setState(
       {
         actualTable: "resumen",
+        page: 0,
+        rowsPerPage: 10,
         loading: true,
         searching: false,
         f1,
@@ -260,11 +265,12 @@ class AppContent extends React.Component {
           : "";
 
         this.setState((prevState) => {
-          return { page: prevState.page + 1 };
+          return { page: newPage };
         }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
       }
     } else if (newPage < this.state.page) {
       if (this.state.page !== 0) {
+        console.log(this.state.empty)
         if (this.state.empty) {
           this.setState({ page: 1 });
         }
@@ -275,7 +281,7 @@ class AppContent extends React.Component {
           ? `&firstId=${this.state.rowsCopy[0]._id}`
           : "";
         this.setState((prevState) => {
-          return { page: prevState.page - 1 };
+          return { page: newPage };
         }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
       }
     }
@@ -291,6 +297,8 @@ class AppContent extends React.Component {
   handleClickCasos = () => {
     this.setState({
       actualTable: "Seleccionar casos",
+      page: 0,
+      rowsPerPage: 10,
       searching: false,
       empty: false,
     });
@@ -299,14 +307,19 @@ class AppContent extends React.Component {
   handleClickSeleccionarConsolidado = () => {
     this.setState({
       actualTable: "Seleccionar consolidado",
+      page: 0,
+      rowsPerPage: 10,
       searching: false,
       empty: false,
     });
   };
 
   handleClickConsolidate = () => {
+    
     this.setState({
       actualTable: "Seleccionar resumen",
+      page: 0,
+      rowsPerPage: 10,
       searching: false,
       empty: false,
     });
@@ -316,6 +329,8 @@ class AppContent extends React.Component {
     this.setState(
       {
         actualTable: "lotes",
+        page: 0,
+        rowsPerPage: 10,
         loading: true,
         searching: false,
       },
@@ -328,6 +343,8 @@ class AppContent extends React.Component {
       {
         actualTable: "actividades",
         loading: true,
+        page: 0,
+        rowsPerPage: 10,
         searching: false,
       },
       this.doFetch
@@ -643,6 +660,10 @@ class AppContent extends React.Component {
         />
         <ContentApp
           tableNames={TABLE_NAMES}
+          handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+          handleChangePage={this.handleChangePage}
+          rowsPerPage={this.state.rowsPerPage}
+          page={this.state.page}
           classes={classes}
           loading={this.state.loading}
           empty={this.state.empty}
