@@ -92,7 +92,7 @@ class ExportTableModal extends React.Component {
           }
           this.setState({ loading: false });
 
-          if (exportToCSV("Consolidado.csv", data)) {
+          if (exportToCSV("Consolidado.csv", data, "csv")) {
             alert("Esta función no está disponible en su navegador");
           }
         } else {
