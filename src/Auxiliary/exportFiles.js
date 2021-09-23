@@ -25,6 +25,7 @@ function exportToCsv(filename, rows, fileType, ansMensual) {
     }
     let csvContent = "...csv content...";
     let encodedUri = encodeURI(csvContent);
+    newName = filename;
     blob = new Blob([csvFile], {
       type: "data:text/csv;charset=utf-8,\uFEFF" + encodedUri,
     });
