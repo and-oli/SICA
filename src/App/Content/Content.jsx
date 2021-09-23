@@ -34,7 +34,7 @@ export default class ContentApp extends Component {
           </Fab>
           <NewActivityModal
             open={this.props.openUpload}
-            handleCloseModalUpload={this.handleCloseModalUpload}
+            handleCloseModalUpload={this.props.handleCloseModalUpload}
             depth={0}
             nuevoLote={true}
           />
