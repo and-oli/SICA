@@ -181,12 +181,13 @@ class EnhancedTable extends React.Component {
     if (newRows.length) {
       porcentajesConsolidado = porcentajes;
 
-      exportxlsx( module, newRows, fileType, porcentajesConsolidado);
+      exportxlsx(module, newRows, fileType, porcentajesConsolidado);
     }
   };
 
   render() {
-    const { rows, classes, module, mes, rowsPerPage, page, tableNames } = this.props;
+    const { rows, classes, module, mes, rowsPerPage, page, tableNames } =
+      this.props;
     const { order, orderBy, selected } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -281,7 +282,7 @@ class EnhancedTable extends React.Component {
                                       this.generarConcolidadoPorL(
                                         module,
                                         mes,
-                                        'xlsx',
+                                        "xlsx",
                                         n.id
                                       )
                                     }
