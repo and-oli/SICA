@@ -255,36 +255,37 @@ class AppContent extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    if (newPage > this.state.page) {
-      if (!this.state.empty) {
-        const searchQuery = this.state.searching
-          ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
-          : "";
-        const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1]
-          ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}`
-          : "";
+    this.setState({ page: newPage });
+    // if (newPage > this.state.page) {
+    //   if (!this.state.empty) {
+    //     const searchQuery = this.state.searching
+    //       ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+    //       : "";
+    //     const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1]
+    //       ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}`
+    //       : "";
 
-        this.setState((prevState) => {
-          return { page: newPage };
-        }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
-      }
-    } else if (newPage < this.state.page) {
-      if (this.state.page !== 0) {
-        console.log(this.state.empty)
-        if (this.state.empty) {
-          this.setState({ page: 1 });
-        }
-        const searchQuery = this.state.searching
-          ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
-          : "";
-        const idQuery = this.state.rowsCopy[0]
-          ? `&firstId=${this.state.rowsCopy[0]._id}`
-          : "";
-        this.setState((prevState) => {
-          return { page: newPage };
-        }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
-      }
-    }
+    //     this.setState((prevState) => {
+    //       return { page: newPage };
+    //     }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
+    //   }
+    // } else if (newPage < this.state.page) {
+    //   if (this.state.page !== 0) {
+    //     console.log(this.state.empty)
+    //     if (this.state.empty) {
+    //       this.setState({ page: 1 });
+    //     }
+    //     const searchQuery = this.state.searching
+    //       ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+    //       : "";
+    //     const idQuery = this.state.rowsCopy[0]
+    //       ? `&firstId=${this.state.rowsCopy[0]._id}`
+    //       : "";
+    //     this.setState((prevState) => {
+    //       return { page: newPage };
+    //     }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
+    //   }
+    // }
   };
 
   handleChangeRowsPerPage = (event) => {
