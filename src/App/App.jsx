@@ -316,7 +316,6 @@ class AppContent extends React.Component {
   };
 
   handleClickConsolidate = () => {
-    
     this.setState({
       actualTable: "Seleccionar resumen",
       page: 0,
@@ -477,9 +476,8 @@ class AppContent extends React.Component {
               json.atributos || Object.keys(json[tableInfo][0]);
             for (let j = 0; j < attributes.length; j++) {
               let headerToAdd = attributes[j];
-
               if (
-                (this.state.actualTable === TABLE_NAMES.casos ||
+                (this.state.actualTable === TABLE_NAMES.lotes ||
                   headerToAdd !== "_id") &&
                 headerToAdd !== "__v"
               ) {
