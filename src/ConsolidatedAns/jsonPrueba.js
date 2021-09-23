@@ -125,7 +125,6 @@ export default {
           },
         ],
         mes: "Enero",
-        casosFuera: 10,
         casosLote: [
           {
             Caso: 1,
