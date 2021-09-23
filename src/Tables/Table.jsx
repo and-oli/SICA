@@ -15,6 +15,7 @@ import Modal from "@material-ui/core/Modal";
 import DateDetail from "../DateDetail/DateDetail";
 import exportxlsx from "../Auxiliary/exportFiles";
 import jsonPrueba from "../ConsolidatedAns/jsonPrueba";
+import { Link } from "@material-ui/core";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -144,18 +145,17 @@ class EnhancedTable extends React.Component {
           }/${date.getFullYear()}`.toString();
         }
       }
-    } else if (this.props.currentTable === "resumen") {
+    } else if (this.props.currentTable === this.props.tableNames.resumen) {
       //Hay certeza de que se trata del estado pues no es un numero
       return (
-        <a
+        <Link
           className="downloadAvailable"
-          href={serial.toString()}
           onClick={() => {
             this.props.casesQuery(serial);
           }}
         >
           {serial.toString()}
-        </a>
+        </Link>
       );
     }
     if (serial.length > 80) {
