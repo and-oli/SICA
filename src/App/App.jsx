@@ -74,7 +74,8 @@ const styles = (theme) => ({
     fontSize: 12,
   },
   pagination: {
-    bottom: 0,
+    bottom: theme.spacing.unit * 2,
+    right: "38%",
     backgroundColor: "#3f51b5",
     "box-shadow": `
        0px 1px 5px 0px rgb(0 0 0 / 20%),
@@ -82,12 +83,12 @@ const styles = (theme) => ({
        0px 3px 1px -2px rgb(0 0 0 / 12%);
     `,
     position: "fixed",
-    width: "380px",
-    height: "auto",
-    margin: "1% auto" /* Will not center vertically and won't work in IE6/7. */,
+    // width: "380px",
+    // height: "auto",
+    // margin: "1% auto" /* Will not center vertically and won't work in IE6/7. */,
     borderRadius: 5,
-    left: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    // left: theme.spacing.unit * 2,
+    // right: theme.spacing.unit * 2,
   },
   modalUploadActivity: {
     position: "absolute",
@@ -124,7 +125,7 @@ class AppContent extends React.Component {
       loading: true,
       rowsHeaders: [],
       rows: [],
-      rowsPerPage: 10,
+      rowsPerPage: 50,
       rowsCopy: [],
       searching: false,
       empty: false,
@@ -222,7 +223,7 @@ class AppContent extends React.Component {
         rowsHeaders: jsonPrueba.headers,
         porcentajesDeConsolidado: porcentajes,
         rows: newRows,
-        rowsPerPage: 10,
+        rowsPerPage: 50,
         page: 0,
         rowsCopy: newRows,
         loading: false,
@@ -242,7 +243,7 @@ class AppContent extends React.Component {
       {
         actualTable: "resumen",
         page: 0,
-        rowsPerPage: 10,
+        rowsPerPage: 50,
         loading: true,
         searching: false,
         f1,
@@ -270,8 +271,7 @@ class AppContent extends React.Component {
     //     }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}`));
     //   }
     // } else if (newPage < this.state.page) {
-    //   if (this.state.page !== 0) {
-    //     console.log(this.state.empty)
+    //   // if (this.state.page !== 0) {
     //     if (this.state.empty) {
     //       this.setState({ page: 1 });
     //     }
@@ -299,7 +299,7 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar casos",
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -309,7 +309,7 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar consolidado",
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -319,7 +319,7 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar resumen",
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -330,7 +330,7 @@ class AppContent extends React.Component {
       {
         actualTable: "lotes",
         page: 0,
-        rowsPerPage: 10,
+        rowsPerPage: 50,
         loading: true,
         searching: false,
       },
@@ -344,7 +344,7 @@ class AppContent extends React.Component {
         actualTable: "actividades",
         loading: true,
         page: 0,
-        rowsPerPage: 10,
+        rowsPerPage: 50,
         searching: false,
       },
       this.doFetch
