@@ -312,7 +312,7 @@ class EnhancedTable extends React.Component {
           </div>
           {this.props.currentTable !== tableNames.casos && (
             <TablePagination
-              rowsPerPageOptions={[10, 25, 50, 100, 500]}
+              rowsPerPageOptions={[50, 100, 500]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
