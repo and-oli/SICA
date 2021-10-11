@@ -92,7 +92,7 @@ export default class ContentOverlay extends React.Component {
                 color="secondary"
                 aria-label="Edit"
                 className={classes.fab}
-                onClick={this.props.onclickFap}
+                onClick={this.props.onClickFab}
               >
                 <Icon>edit_icon</Icon>
               </Fab>
@@ -172,7 +172,7 @@ export default class ContentOverlay extends React.Component {
                 <Icon>keyboard_arrow_right</Icon>
               </Fab> */}
               <TablePagination
-                rowsPerPageOptions={[10, 50, 100]}
+                rowsPerPageOptions={[50, 100, 150]}
                 component="div"
                 labelRowsPerPage = "Filas por pagina:"
                 className={classes.tablePagination}
@@ -212,7 +212,6 @@ export default class ContentOverlay extends React.Component {
               </Select>
             </span>
           )}
-          {/* unir casos */}
           {this.props.actualTable === tableNames.casos &&
             !this.props.loading &&
             !this.props.empty && (
