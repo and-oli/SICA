@@ -33,7 +33,7 @@ const styles = (theme) => ({
   },
 });
 
-class CaseSelect extends React.Component {
+class SummarySelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,7 +63,7 @@ class CaseSelect extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.modal}>
+      <div id="summarySelect" className={classes.modal}>
         <Typography
           variant="h5"
           component="h2"
@@ -162,4 +162,4 @@ class CaseSelect extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(CaseSelect);
+export default withStyles(styles, { withTheme: true })(SummarySelect);
