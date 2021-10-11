@@ -338,7 +338,11 @@ class EnhancedTable extends React.Component {
           aria-describedby="simple-modal-description"
           open={this.state.openDateDetail}
         >
-          <div style={getModalStyle()} className={classes.modalDateDetail}>
+          <div
+            id="modalDetails"
+            style={getModalStyle()}
+            className={classes.modalDateDetail}
+          >
             <DateDetail
               handleClose={() => {
                 this.setState({ openDateDetail: false });
