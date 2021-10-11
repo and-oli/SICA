@@ -91,7 +91,7 @@ class CaseSelect extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.modal}>
+      <div id="caseSelect" className={classes.modal}>
         <Typography
           variant="h5"
           component="h2"
