@@ -107,9 +107,9 @@ export default class ConsolidatedSelect extends Component {
                 width: 180,
               }}
             >
-              <InputLabel id="mese-select">Año</InputLabel>
+              <InputLabel id="año-select">Año</InputLabel>
               <Select
-                id="meses-select"
+                id="año-select"
                 value={this.state.añoSelect}
                 onChange={this.handleChange}
                 input={<Input id="state-label-placeholder" />}
