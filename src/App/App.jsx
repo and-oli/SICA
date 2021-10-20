@@ -83,12 +83,7 @@ const styles = (theme) => ({
        0px 3px 1px -2px rgb(0 0 0 / 12%);
     `,
     position: "fixed",
-    // width: "380px",
-    // height: "auto",
-    // margin: "1% auto" /* Will not center vertically and won't work in IE6/7. */,
     borderRadius: 5,
-    // left: theme.spacing.unit * 2,
-    // right: theme.spacing.unit * 2,
   },
   modalUploadActivity: {
     position: "absolute",
