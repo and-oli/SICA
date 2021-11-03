@@ -279,7 +279,7 @@ class EnhancedTable extends React.Component {
                                       marginBottom: 0,
                                     }}
                                     onClick={() =>
-                                      this.generarConcolidadoPorL(
+                                      this.props.generarConcolidadoPorL(
                                         module,
                                         mes,
                                         "xlsx",
@@ -312,18 +312,18 @@ class EnhancedTable extends React.Component {
           </div>
           {this.props.currentTable !== tableNames.casos && (
             <TablePagination
-              rowsPerPageOptions={[50, 100, 500]}
+              rowsPerPageOptions={[10, 50, 100, 500]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
-              page={page}
+              page={this.state.page}
               backIconButtonProps={{
                 "aria-label": "Previous Page",
               }}
               nextIconButtonProps={{
                 "aria-label": "Next Page",
               }}
-              onChangePage={this.props.handleChangePage}
+              onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
             />
           )}
