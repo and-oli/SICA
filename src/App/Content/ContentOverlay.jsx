@@ -163,8 +163,18 @@ export default class ContentOverlay extends React.Component {
                 count={this.props.rows.length}
                 rowsPerPage={this.props.rowsPerPage}
                 page={this.props.page}
-                onChangePage={(e, page) => {
-                  this.props.handleChangePage(e, page);
+                onChangePage={() => {}}
+                nextIconButtonProps={{
+                  "disabled": false,
+                  "onClick": () => {
+                    this.props.nextPage()
+                  }
+                }}
+                backIconButtonProps={{
+                  "disabled": false,
+                  "onClick": () => {
+                    this.props.prevPage()
+                  }
                 }}
                 onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
               />
