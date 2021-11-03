@@ -9,6 +9,28 @@ import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import "./FormConsolidado.css";
 
+const MODULOS = {
+  ANALISIS: "ANALISIS",
+  LIQUIDACION: "LIQUIDACION",
+  HALLAZGOS: "HALLAZGOS",
+  INFORMATIVAS: "INFORMATIVAS",
+};
+
+const MESES = {
+  Enero: "01",
+  Febrero: "02",
+  Marzo: "03",
+  Abril: "04",
+  Mayo: "05",
+  Junio: "06",
+  Julio: "07",
+  Agosto: "08",
+  Septiembre: "09",
+  Octubre: "10",
+  Novimbre: "11",
+  Diciembre: "12",
+};
+
 export default class ConsolidatedSelect extends Component {
   constructor(props) {
     super(props);
@@ -38,24 +60,6 @@ export default class ConsolidatedSelect extends Component {
   };
 
   render() {
-    const modulos = ["ANALISIS", "LIQUIDACION", "HALLAZGOS", "INFORMATIVAS"];
-
-    const meses = {
-      Enero: 1,
-      Febrero: 2,
-      Marzo: 3,
-      Abril: 4,
-      Mayo: 5,
-      Junio: 6,
-      Julio: 7,
-      Agosto: 8,
-      Septiembre: 9,
-      Octubre: 10,
-      Novimbre: 11,
-      Diciembre: 12,
-    };
-
-    const años = [2019, 2020, 2021];
 
     return (
       <Paper component="div" className="container-paper-padre">
@@ -81,7 +85,7 @@ export default class ConsolidatedSelect extends Component {
                 displayEmpty
                 name="moduloSelect"
               >
-                {this.renderMapSelect(modulos)}
+                {this.renderMapSelect(MODULOS)}
               </Select>
             </FormControl>
             <FormControl
@@ -99,7 +103,7 @@ export default class ConsolidatedSelect extends Component {
                 displayEmpty
                 name="mesSelect"
               >
-                {this.renderMapSelect(Object.keys(meses))}
+                {this.renderMapSelect(Object.keys(MESES))}
               </Select>
             </FormControl>
             <FormControl
