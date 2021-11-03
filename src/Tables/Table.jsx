@@ -188,7 +188,7 @@ class EnhancedTable extends React.Component {
               />
               <TableBody>
                 {stableSort(rows, getSorting(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .slice(page || this.state.page * rowsPerPage, page || this.state.page * rowsPerPage + rowsPerPage)
                   .map((n, i) => {
                     return (
                       <TableRow hover tabIndex={-1} key={i}>
