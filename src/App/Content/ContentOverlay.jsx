@@ -155,22 +155,6 @@ export default class ContentOverlay extends React.Component {
           {(this.props.actualTable === tableNames.casos ||
             this.props.actualTable === tableNames.actividades) && (
             <div className={classes.pagination}>
-              {/* <Fab
-                color="primary"
-                aria-label="Edit"
-                className={classes.left}
-                onClick={this.props.prevPage}
-              >
-                <Icon>keyboard_arrow_left</Icon>
-              </Fab>
-              <Fab
-                color="primary"
-                aria-label="Edit"
-                className={classes.right}
-                onClick={this.props.nextPage}
-              >
-                <Icon>keyboard_arrow_right</Icon>
-              </Fab> */}
               <TablePagination
                 rowsPerPageOptions={[50, 100, 150]}
                 component="div"
