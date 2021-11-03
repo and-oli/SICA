@@ -36,14 +36,21 @@ export default class ConsolidatedSelect extends Component {
     super(props);
     this.state = {
       moduloSelect: "ANALISIS",
-      mesSelect: "Enero",
-      añoSelect: 2019,
+      mesSelect: Object.keys(MESES)[new Date().getMonth()],
+      añoSelect: new Date().getFullYear(),
     };
   }
 
   ok = () => {
     const { moduloSelect, mesSelect, añoSelect } = this.state;
-    this.props.consolidateSelect(moduloSelect, mesSelect, añoSelect);
+    const mesActual = MESES[mesSelect];
+    // const diaActual = new Date().getDate();
+    const fechaActual = `${añoSelect}-${mesActual}-21`;
+    this.props.consolidateSelect(
+      moduloSelect,
+      mesSelect,
+      fechaActual
+    );
   };
 
   handleChange = (e) => {
@@ -52,7 +59,7 @@ export default class ConsolidatedSelect extends Component {
   };
 
   renderMapSelect = (values) => {
-    return values.map((value, i) => (
+    return Object.values(values).map((value, i) => (
       <MenuItem defaultValue={i === 0 ? value : false} value={value} key={i}>
         {value}
       </MenuItem>
