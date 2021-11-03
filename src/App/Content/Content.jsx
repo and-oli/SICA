@@ -71,6 +71,7 @@ export default class ContentApp extends Component {
         return (
           <div>
             <EnhancedTable
+              generarConcolidadoPorL={this.props.generarConcolidadoPorL}
               tableNames={tableNames}
               rowsHeaders={this.props.rowsHeaders}
               rows={this.props.rows}
