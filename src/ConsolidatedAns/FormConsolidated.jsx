@@ -59,6 +59,16 @@ export default class ConsolidatedSelect extends Component {
     ));
   };
 
+  años = () => {
+    const añoActual = new Date().getFullYear();
+    const añosArray = [];
+    for (let i = 2019; i <= añoActual; i++) {
+      añosArray.push(i);
+    }
+    return añosArray;
+  };
+
+
   render() {
 
     return (
@@ -120,7 +130,7 @@ export default class ConsolidatedSelect extends Component {
                 displayEmpty
                 name="añoSelect"
               >
-                {this.renderMapSelect(años)}
+                {this.renderMapSelect(this.años())}
               </Select>
             </FormControl>
             
