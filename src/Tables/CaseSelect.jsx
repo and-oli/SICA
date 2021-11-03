@@ -177,7 +177,7 @@ class CaseSelect extends React.Component {
               id="date-2"
               label="Hasta"
               type="date"
-              defaultValue="2019-05-01"
+              defaultValue={new Date().toISOString().slice(0, 10)}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
