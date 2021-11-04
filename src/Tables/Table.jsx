@@ -188,7 +188,10 @@ class EnhancedTable extends React.Component {
               />
               <TableBody>
                 {stableSort(rows, getSorting(order, orderBy))
-                  .slice(page || this.state.page * rowsPerPage, page || this.state.page * rowsPerPage + rowsPerPage)
+                  .slice(
+                    page || this.state.page * rowsPerPage,
+                    page || this.state.page * rowsPerPage + rowsPerPage
+                  )
                   .map((n, i) => {
                     return (
                       <TableRow hover tabIndex={-1} key={i}>
@@ -291,23 +294,24 @@ class EnhancedTable extends React.Component {
               </TableBody>
             </Table>
           </div>
-          {this.props.currentTable !== tableNames.casos && (
-            <TablePagination
-              rowsPerPageOptions={[10, 50, 100, 500]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={this.state.page}
-              backIconButtonProps={{
-                "aria-label": "Previous Page",
-              }}
-              nextIconButtonProps={{
-                "aria-label": "Next Page",
-              }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
-            />
-          )}
+          {this.props.currentTable !== tableNames.casos &&
+            this.props.currentTable !== tableNames.resumen && (
+              <TablePagination
+                rowsPerPageOptions={[10, 50, 100, 500]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={this.state.page}
+                backIconButtonProps={{
+                  "aria-label": "Previous Page",
+                }}
+                nextIconButtonProps={{
+                  "aria-label": "Next Page",
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
+              />
+            )}
         </Paper>
         <Modal
           aria-labelledby="simple-modal-title"
