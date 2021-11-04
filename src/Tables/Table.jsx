@@ -291,7 +291,7 @@ class EnhancedTable extends React.Component {
               </TableBody>
             </Table>
           </div>
-          {(this.props.currentTable !== tableNames.casos && this.props.currentTable !== tableNames.resumen) && (
+          {this.props.currentTable !== tableNames.casos && (
             <TablePagination
               rowsPerPageOptions={[10, 50, 100, 500]}
               component="div"
