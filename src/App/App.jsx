@@ -1,12 +1,13 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import "./SideBar/SideBar.css";
+import "./App.css";
 import jsonPrueba from "../ConsolidatedAns/jsonPrueba";
 import ContentApp from "./Content/Content";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ContentOverlay from "./Content/ContentOverlay";
 import SideBar from "./SideBar/SideBar";
+import exportxlsx from "../Auxiliary/exportFiles";
 
 const drawerWidth = 200;
 
@@ -157,6 +158,7 @@ class AppContent extends React.Component {
           actualTable: "casos",
           loading: true,
           searching: false,
+          rowsPerPage: 50,
           stateT,
           f1,
           f2,
@@ -165,7 +167,7 @@ class AppContent extends React.Component {
         },
         () =>
           this.doFetch(
-            `estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}`
+            `estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`
           )
       );
     } else {
@@ -175,16 +177,17 @@ class AppContent extends React.Component {
           actualTable: "casos",
           loading: true,
           searching: false,
+          rowsPerPage: 50,
           stateT,
         },
         () =>
           this.doFetch(
-            `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}`
+            `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
           )
       );
     }
     fetch(
-      `http://localhost:3001/sica/api/atributosPorModulo?module=${this.state.module}`,
+      `http://localhost:3001/sica/api/atributosPorModulo?module=${this.state.module}&perPage=${this.state.rowsPerPage}`,
       {
         method: "GET",
         headers: {
@@ -198,15 +201,12 @@ class AppContent extends React.Component {
       );
   };
   //Funcion para cambiar el estado al seleccionar el modulo y mes en (ConsolidatedSelect)
-  consolidateSelect = (newModule, mesConsolidado, añoConsolidado) => {
+  consolidateSelect = (newModule, mesConsolidado, fechaSeleccionada) => {
     this.setState({ loading: true });
     const newRows = jsonPrueba.rows[newModule].filter((valueFiltro) => {
-      if (
-        valueFiltro.mes === mesConsolidado &&
-        valueFiltro.año === añoConsolidado
-      ) {
+      if (valueFiltro.fechaDeAsignacion === fechaSeleccionada) {
         return valueFiltro;
-      } else return [];
+      } else return null;
     });
     const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
     if (newRows.length) {
@@ -238,7 +238,7 @@ class AppContent extends React.Component {
       {
         actualTable: "resumen",
         page: 0,
-        rowsPerPage: 50,
+        rowsPerPage: 12,
         loading: true,
         searching: false,
         f1,
