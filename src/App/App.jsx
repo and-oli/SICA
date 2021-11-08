@@ -254,23 +254,23 @@ class AppContent extends React.Component {
     if (!this.state.empty) {
       const searchQuery = this.state.searching ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}` : "";
       const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1] ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}` : "";
-      // this.setState((prevState) => { return { page: prevState.page + 1 }; },
+      this.setState((prevState) => { return { page: prevState.page + 1 }; },
         this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`)
-        // )
+        )
     }
   };
 
   prevPage = () => {
-    // if (this.state.page !== 0) {
-    //   if (this.state.empty) {
-    //     this.setState({ page: 1 })
-    //   }
+    if (this.state.page !== 0) {
+      if (this.state.empty) {
+        this.setState({ page: 1 })
+      }
       const searchQuery = this.state.searching ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}` : ""
       const idQuery = this.state.rowsCopy[0] ? `&firstId=${this.state.rowsCopy[0]._id}` : ""
-      // this.setState((prevState) => { return { page: prevState.page - 1 } },
+      this.setState((prevState) => { return { page: prevState.page - 1 } },
         this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`)
-    // )
-  //  }
+    )
+   }
   };
 
   handleChangeRowsPerPage = (event) => {
