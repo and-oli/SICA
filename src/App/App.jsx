@@ -272,18 +272,18 @@ class AppContent extends React.Component {
     // )
   //  }
   };
+
   handleChangeRowsPerPage = (event) => {
     this.setState({
       rowsPerPage: parseInt(event.target.value, 10),
       page: 0,
-    });
+    },() => this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`));
   };
 
   handleClickCasos = () => {
     this.setState({
       actualTable: "Seleccionar casos",
       page: 0,
-      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -293,7 +293,6 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar consolidado",
       page: 0,
-      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -303,7 +302,6 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar resumen",
       page: 0,
-      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -314,7 +312,6 @@ class AppContent extends React.Component {
       {
         actualTable: "lotes",
         page: 0,
-        rowsPerPage: 50,
         loading: true,
         searching: false,
       },
@@ -328,7 +325,6 @@ class AppContent extends React.Component {
         actualTable: "actividades",
         loading: true,
         page: 0,
-        rowsPerPage: 50,
         searching: false,
       },
       this.doFetch
@@ -575,6 +571,22 @@ class AppContent extends React.Component {
     });
   };
 
+  generarConcolidadoPorL = (module, mes, fileType, id) => {
+    let porcentajesConsolidado;
+    const newRows = jsonPrueba.rows[module].filter((valueFiltro) => {
+      if (valueFiltro.mes === mes && valueFiltro.id === id) {
+        return valueFiltro;
+      } else return [];
+    });
+    const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
+
+    if (newRows.length) {
+      porcentajesConsolidado = porcentajes;
+
+      exportxlsx(module, newRows, fileType, porcentajesConsolidado);
+    }
+  };
+
   render() {
     const { classes, theme } = this.props;
 
@@ -642,6 +654,7 @@ class AppContent extends React.Component {
           doLogout={this.doLogout}
         />
         <ContentApp
+          generarConcolidadoPorL={this.generarConcolidadoPorL}
           tableNames={TABLE_NAMES}
           handleChangeRowsPerPage={this.handleChangeRowsPerPage}
           handleChangePage={this.handleChangePage}
