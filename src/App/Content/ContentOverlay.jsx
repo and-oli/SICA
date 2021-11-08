@@ -156,7 +156,7 @@ export default class ContentOverlay extends React.Component {
             this.props.actualTable === tableNames.actividades) && (
             <div className={classes.pagination}>
               <TablePagination
-                rowsPerPageOptions={[50, 100, 150]}
+                rowsPerPageOptions={[25,50, 100, 150]}
                 component="div"
                 labelRowsPerPage = "Filas por pagina:"
                 className={classes.tablePagination}
