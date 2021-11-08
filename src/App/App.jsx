@@ -311,6 +311,7 @@ class AppContent extends React.Component {
     this.setState({
       actualTable: "Seleccionar resumen",
       page: 0,
+      rowsPerPage: 50,
       searching: false,
       empty: false,
     });
@@ -321,6 +322,7 @@ class AppContent extends React.Component {
       {
         actualTable: "lotes",
         page: 0,
+        rowsPerPage: 50,
         loading: true,
         searching: false,
       },
@@ -333,6 +335,7 @@ class AppContent extends React.Component {
       {
         actualTable: "actividades",
         loading: true,
+        rowsPerPage: 50,
         page: 0,
         searching: false,
       },
@@ -357,7 +360,7 @@ class AppContent extends React.Component {
             },
             () =>
               this.doFetch(
-                `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}`
+                `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
               )
           );
         } else {
@@ -393,7 +396,7 @@ class AppContent extends React.Component {
           { queryAttributeValue: searchValue, searching: true },
           () =>
             this.doFetch(
-              `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}`
+              `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
             )
         );
       } else {
@@ -425,7 +428,7 @@ class AppContent extends React.Component {
     if (this.state.actualTable === TABLE_NAMES.casos) {
       this.setState({ searching: false }, () =>
         this.doFetch(
-          `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}`
+          `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
         )
       );
     } else {
@@ -497,7 +500,6 @@ class AppContent extends React.Component {
                   new Date(r2.fecha).getTime() - new Date(r1.fecha).getTime()
                 );
               });
-
               return this.setState({
                 rows: json[tableInfo],
                 rowsCopy: json[tableInfo],
@@ -506,7 +508,6 @@ class AppContent extends React.Component {
                 notifications: json.notifications,
               });
             }
-
             this.setState({
               rows: json[tableInfo],
               rowsCopy: json[tableInfo],
