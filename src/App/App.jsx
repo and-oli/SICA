@@ -277,7 +277,16 @@ class AppContent extends React.Component {
     this.setState({
       rowsPerPage: parseInt(event.target.value, 10),
       page: 0,
-    },() => this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`));
+    },() => {
+      if(!this.state.searching) {
+       this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`)
+      } else {
+        this.doFetch(
+          `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
+        )
+      }
+     
+    });
   };
 
   handleClickCasos = () => {
