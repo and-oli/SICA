@@ -160,7 +160,7 @@ export default class ContentOverlay extends React.Component {
                 component="div"
                 labelRowsPerPage = "Filas por pagina:"
                 className={classes.tablePagination}
-                count={this.props.rows.length}
+                count={100}
                 rowsPerPage={this.props.rowsPerPage}
                 page={this.props.page}
                 onChangePage={() => {}}
@@ -176,7 +176,7 @@ export default class ContentOverlay extends React.Component {
                     this.props.prevPage()
                   }
                 }}
-                onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
+                onChangeRowsPerPage={(event) => this.props.handleChangeRowsPerPage(event, false)}
               />
             </div>
           )}
@@ -192,6 +192,9 @@ export default class ContentOverlay extends React.Component {
               <span className="select-info">{this.props.f1}</span>
               <span className="select-info">y</span>
               <span className="select-info">{this.props.f2}</span>
+            </span>
+          )}
+          {this.props.actualTable === tableNames.casos && (
               <Select
                 value={this.props.queryAttribute}
                 onChange={this.props.handleChangeAttributeQueryDropdown}
@@ -204,7 +207,6 @@ export default class ContentOverlay extends React.Component {
                 <MenuItem value="estado">ESTADO</MenuItem>
                 {this.renderAttributes()}
               </Select>
-            </span>
           )}
           {this.props.actualTable === tableNames.casos &&
             !this.props.loading &&
