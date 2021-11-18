@@ -252,41 +252,54 @@ class AppContent extends React.Component {
 
   nextPage = () => {
     if (!this.state.empty) {
-      const searchQuery = this.state.searching ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}` : "";
-      const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1] ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}` : "";
-      this.setState((prevState) => { return { page: prevState.page + 1 }; },
-        this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}&page=${this.state.page + 1}`)
-        )
+      const searchQuery = this.state.searching
+        ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+        : "";
+      const idQuery = this.state.rowsCopy[this.state.rowsCopy.length - 1]
+        ? `&lastId=${this.state.rowsCopy[this.state.rowsCopy.length - 1]._id}`
+        : "";
+      this.setState((prevState) => {
+        return { page: prevState.page + 1 };
+      }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}&page=${this.state.page + 1}`));
     }
   };
 
   prevPage = () => {
     if (this.state.page !== 0) {
       if (this.state.empty) {
-        this.setState({ page: 1 })
+        this.setState({ page: 1 });
       }
-      const searchQuery = this.state.searching ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}` : ""
-      const idQuery = this.state.rowsCopy[0] ? `&firstId=${this.state.rowsCopy[0]._id}` : ""
-      this.setState((prevState) => { return { page: prevState.page - 1 } },
-        this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}&page=${this.state.page - 1}`)
-    )
-   }
+      const searchQuery = this.state.searching
+        ? `&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}`
+        : "";
+      const idQuery = this.state.rowsCopy[0]
+        ? `&firstId=${this.state.rowsCopy[0]._id}`
+        : "";
+      this.setState((prevState) => {
+        return { page: prevState.page - 1 };
+      }, this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}${idQuery}${searchQuery}&module=${this.state.module}&perPage=${this.state.rowsPerPage}&page=${this.state.page - 1}`));
+    }
   };
 
   handleChangeRowsPerPage = (event, otra) => {
-    if(!otra) {
-      this.setState({
-        rowsPerPage: parseInt(event.target.value, 10),
-        page: 0,
-      },() => {
-        if(!this.state.searching) {
-         this.doFetch(`estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`)
-        } else {
-          this.doFetch(
-            `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
-          )
+    if (!otra) {
+      this.setState(
+        {
+          rowsPerPage: parseInt(event.target.value, 10),
+          page: 0,
+        },
+        () => {
+          if (!this.state.searching) {
+            this.doFetch(
+              `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
+            );
+          } else {
+            this.doFetch(
+              `estado=${this.state.stateT}&f1=${this.state.f1}&f2=${this.state.f2}&type=${this.state.type}&queryAttribute=${this.state.queryAttribute}&queryAttributeValue=${this.state.queryAttributeValue}&module=${this.state.module}&perPage=${this.state.rowsPerPage}`
+            );
+          }
         }
-      });
+      );
     } else {
       this.setState({ rowsPerPage: event.target.value });
     }
