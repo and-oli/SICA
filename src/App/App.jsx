@@ -116,7 +116,7 @@ class AppContent extends React.Component {
     super(props);
     this.state = {
       mobileOpen: false,
-      actualTable: "actividades",
+      actualTable: TABLE_NAMES.actividades,
       userType: "",
       loading: true,
       rowsHeaders: [],
@@ -155,7 +155,7 @@ class AppContent extends React.Component {
       // Utilizar el filtro en la pestaña "Ver casos"
       this.setState(
         {
-          actualTable: "casos",
+          actualTable: TABLE_NAMES.casos,
           loading: true,
           searching: false,
           rowsPerPage: 50,
@@ -174,7 +174,7 @@ class AppContent extends React.Component {
       // Cuando se hace click en un numero de la tabla resumen (solamente el parametro stateT tiene valor (ver funcion interpretar en Table.jsx))
       this.setState(
         {
-          actualTable: "casos",
+          actualTable: TABLE_NAMES.casos,
           loading: true,
           searching: false,
           rowsPerPage: 50,
@@ -236,7 +236,7 @@ class AppContent extends React.Component {
   summaryQuery = (f1, f2, type, module) => {
     this.setState(
       {
-        actualTable: "resumen",
+        actualTable: TABLE_NAMES.resumen,
         page: 0,
         rowsPerPage: 12,
         loading: true,
@@ -307,7 +307,7 @@ class AppContent extends React.Component {
 
   handleClickCasos = () => {
     this.setState({
-      actualTable: "Seleccionar casos",
+      actualTable: TABLE_NAMES.seleccionarCasos,
       page: 0,
       searching: false,
       empty: false,
@@ -316,7 +316,7 @@ class AppContent extends React.Component {
 
   handleClickSeleccionarConsolidado = () => {
     this.setState({
-      actualTable: "Seleccionar consolidado",
+      actualTable: TABLE_NAMES.seleccionarConsolidado,
       page: 0,
       searching: false,
       empty: false,
@@ -325,7 +325,7 @@ class AppContent extends React.Component {
 
   handleClickConsolidate = () => {
     this.setState({
-      actualTable: "Seleccionar resumen",
+      actualTable: TABLE_NAMES.seleccionarResumen,
       page: 0,
       rowsPerPage: 50,
       searching: false,
@@ -336,7 +336,7 @@ class AppContent extends React.Component {
   handleClickLotes = () => {
     this.setState(
       {
-        actualTable: "lotes",
+        actualTable: TABLE_NAMES.lotes,
         page: 0,
         rowsPerPage: 50,
         loading: true,
@@ -349,13 +349,13 @@ class AppContent extends React.Component {
   handleClickActividad = () => {
     this.setState(
       {
-        actualTable: "actividades",
+        actualTable: TABLE_NAMES.actividades,
         loading: true,
         rowsPerPage: 50,
         page: 0,
         searching: false,
       },
-      this.doFetch
+      () => this.doFetch(`perPage=${this.state.rowsPerPage}`)
     );
   };
 
@@ -368,7 +368,7 @@ class AppContent extends React.Component {
       e.preventDefault();
       const searchValue = e.target.value;
       if (searchValue.trim() !== "") {
-        if (this.state.actualTable === "casos") {
+        if (this.state.actualTable === TABLE_NAMES.casos) {
           this.setState(
             {
               queryAttributeValue: searchValue,
@@ -462,7 +462,7 @@ class AppContent extends React.Component {
   };
 
   componentDidMount() {
-    this.doFetch();
+    this.doFetch(`perPage=${this.state.rowsPerPage}`);
   }
 
   doFetch = (pQuery) => {
