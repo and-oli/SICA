@@ -27,7 +27,7 @@ const MESES = {
   Agosto: "08",
   Septiembre: "09",
   Octubre: "10",
-  Novimbre: "11",
+  Noviembre: "11",
   Diciembre: "12",
 };
 
