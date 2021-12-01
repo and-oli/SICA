@@ -87,9 +87,18 @@ class EnhancedTable extends React.Component {
       openUpload: false,
       openDateDetail: false,
       rowData: "",
+      paginacionNativa: false,
     };
   }
 
+  componentDidMount() {
+    const {currentTable, tableNames} = this.props
+    if(currentTable !== tableNames.casos &&
+       currentTable !== tableNames.resumen) {
+         this.setState({paginacionNativa: true})
+    } 
+  }
+  
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = "desc";
@@ -167,11 +176,21 @@ class EnhancedTable extends React.Component {
   };
 
   render() {
-    const { rows, classes, module, mes, rowsPerPage, page, tableNames } =
+    const { rows, classes, module, mes, rowsPerPage, tableNames } =
       this.props;
-    const { order, orderBy, selected } = this.state;
+    const { order, orderBy, selected, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const  renderTableOption = (paginacionNativa) => {
+      if(paginacionNativa) {
+        return (stableSort(rows, getSorting(order, orderBy))
+        .slice( this.state.page * rowsPerPage, this.state.page * rowsPerPage + rowsPerPage))
+      } else {
+        return rows
+      }
+    }
+
     return (
       <div>
         <Paper className={classes.root}>
@@ -187,12 +206,7 @@ class EnhancedTable extends React.Component {
                 rowsHeaders={this.props.rowsHeaders}
               />
               <TableBody>
-                {stableSort(rows, getSorting(order, orderBy))
-                  .slice(
-                    page || this.state.page * rowsPerPage,
-                    page || this.state.page * rowsPerPage + rowsPerPage
-                  )
-                  .map((n, i) => {
+                { renderTableOption(this.state.paginacionNativa).map((n, i) => {
                     return (
                       <TableRow hover tabIndex={-1} key={i}>
                         {this.props.rowsHeaders.map((header, i) => {
@@ -297,10 +311,10 @@ class EnhancedTable extends React.Component {
           {this.props.currentTable !== tableNames.casos &&
             this.props.currentTable !== tableNames.resumen && (
               <TablePagination
-                rowsPerPageOptions={[10, 50, 100, 500]}
+                rowsPerPageOptions={[25, 50, 100, 500]}
                 component="div"
                 count={rows.length}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={this.props.rowsPerPage}
                 page={this.state.page}
                 backIconButtonProps={{
                   "aria-label": "Previous Page",
@@ -309,7 +323,7 @@ class EnhancedTable extends React.Component {
                   "aria-label": "Next Page",
                 }}
                 onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
+                onChangeRowsPerPage={(event) => this.props.handleChangeRowsPerPage(event, true)}
               />
             )}
         </Paper>
