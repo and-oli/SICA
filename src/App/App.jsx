@@ -2,7 +2,6 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import "./App.css";
-import jsonPrueba from "../ConsolidatedAns/jsonPrueba";
 import ContentApp from "./Content/Content";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ContentOverlay from "./Content/ContentOverlay";
@@ -108,7 +107,7 @@ const TABLE_NAMES = {
   lotes: "lotes",
   casos: "casos",
   resumen: "resumen",
-  consolidado: "consolidado:",
+  consolidado: "consolidado",
 };
 
 class AppContent extends React.Component {
@@ -166,7 +165,7 @@ class AppContent extends React.Component {
           module,
         },
         () =>
-          this.doFetch(
+          this.doFetch( 
             `estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`
           )
       );
@@ -200,37 +199,18 @@ class AppContent extends React.Component {
         this.setState({ currentModuleAttributes: json.atributos })
       );
   };
-  //Funcion para cambiar el estado al seleccionar el modulo y mes en (ConsolidatedSelect)
-  consolidateSelect = (newModule, mesConsolidado, fechaSeleccionada) => {
+
+  consolidateSelect = (module, mes, fecha) => {
     this.setState({ loading: true });
-    const newRows = jsonPrueba.rows[newModule].filter((valueFiltro) => {
-      if (valueFiltro.fechaDeAsignacion === fechaSeleccionada) {
-        return valueFiltro;
-      } else return null;
-    });
-    const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
-    if (newRows.length) {
       this.setState({
-        module: newModule,
-        mes: mesConsolidado,
-        actualTable: `consolidado: ${newModule}`,
+        actualTable: TABLE_NAMES.consolidado,
         searching: false,
-        rowsHeaders: jsonPrueba.headers,
-        porcentajesDeConsolidado: porcentajes,
-        rows: newRows,
+        loading: false,
         rowsPerPage: 50,
         page: 0,
-        rowsCopy: newRows,
-        loading: false,
-      });
-    } else {
-      this.setState({
-        empty: true,
-        loading: false,
-        rows: [],
-        rowsCopy: [],
-      });
-    }
+        module,
+        mes,
+      },() => this.doFetch(`module=${module}&mes=${mes}&fecha=${fecha}`));
   };
 
   summaryQuery = (f1, f2, type, module) => {
@@ -246,7 +226,7 @@ class AppContent extends React.Component {
         type,
         module,
       },
-      () => this.doFetch(`f1=${f1}&f2=${f2}&type=${type}&module=${module}`)
+      () => this.doFetch(`f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`)
     );
   };
 
@@ -314,7 +294,7 @@ class AppContent extends React.Component {
     });
   };
 
-  handleClickSeleccionarConsolidado = () => {
+  handleClickConsolidateAnsSelect = () => {
     this.setState({
       actualTable: TABLE_NAMES.seleccionarConsolidado,
       page: 0,
@@ -482,6 +462,7 @@ class AppContent extends React.Component {
             let newRowHeaders = [];
             const attributes =
               json.atributos || Object.keys(json[tableInfo][0]);
+              console.log(attributes)
             for (let j = 0; j < attributes.length; j++) {
               let headerToAdd = attributes[j];
               if (
@@ -597,20 +578,20 @@ class AppContent extends React.Component {
     });
   };
 
-  generarConcolidadoPorL = (module, mes, fileType, id) => {
-    let porcentajesConsolidado;
-    const newRows = jsonPrueba.rows[module].filter((valueFiltro) => {
-      if (valueFiltro.mes === mes && valueFiltro.id === id) {
-        return valueFiltro;
-      } else return [];
-    });
-    const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
-
-    if (newRows.length) {
-      porcentajesConsolidado = porcentajes;
-
-      exportxlsx(module, newRows, fileType, porcentajesConsolidado);
-    }
+  generarConsolidadoPorLote = (module, mes, fileType, id) => {
+    console.log('funciona')
+    fetch(
+      `http://localhost:3001/sica/api/casosConsolidado?mes=${mes}&module=${module}`,
+      {
+        method: "GET",
+        headers: { 
+          "x-access-token": localStorage.getItem("SICAToken"),
+        },
+      }
+    ).then((response) =>{
+      const data = response.casos;
+        exportxlsx(module, data, fileType, id);
+    })
   };
 
   render() {
@@ -649,14 +630,15 @@ class AppContent extends React.Component {
           handleChangeAttributeQueryDropdown={
             this.handleChangeAttributeQueryDropdown
           }
-          handleClickSeleccionarConsolidado={
-            this.handleClickSeleccionarConsolidado
+          handleClickConsolidateAnsSelect={
+            this.handleClickConsolidateAnsSelect
           }
           handleClickCasos={this.handleClickCasos}
           handleDrawerToggle={this.handleDrawerToggle}
           onClickFab={this.onClickFab}
           lookOneCaseModalClick={this.lookOneCaseModalClick}
           handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+          generarConsolidadoPorLote={this.generarConsolidadoPorLote}
         />
         <SideBar
           classes={classes}
@@ -668,8 +650,8 @@ class AppContent extends React.Component {
           clusterModal={this.state.clusterModal}
           showClusterModal={this.showClusterModal}
           handleDrawerToggle={this.handleDrawerToggle}
-          handleClickSeleccionarConsolidado={
-            this.handleClickSeleccionarConsolidado
+          handleClickConsolidateAnsSelect={
+            this.handleClickConsolidateAnsSelect
           }
           handleClickLotes={this.handleClickLotes}
           handleClickCasos={this.handleClickCasos}
@@ -679,7 +661,7 @@ class AppContent extends React.Component {
           doLogout={this.doLogout}
         />
         <ContentApp
-          generarConcolidadoPorL={this.generarConcolidadoPorL}
+          generarConsolidadoPorLote={this.generarConsolidadoPorLote}
           tableNames={TABLE_NAMES}
           handleChangeRowsPerPage={this.handleChangeRowsPerPage}
           rowsPerPage={this.state.rowsPerPage}
