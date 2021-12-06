@@ -188,60 +188,6 @@ class ExportTableModal extends React.Component {
           <br />
           <Divider />
           <div className="consolidate-data-wrapper">
-            {/* <div className = "consolidate-data-wrapper-title">Seleccione las fechas de última modificación y el estado de los casos en el consolidado</div>
-              <div className = "consolidate-select">
-              <FormControl className={classes.formControl}>
-              <InputLabel
-              htmlFor="state-label-placeholder"
-              >
-              Estado
-            </InputLabel>
-
-            <Select
-            value={this.state.filterState}
-            onChange={this.handleChangeDropdown}
-            input={<Input name="newState" id="state-label-placeholder" />}
-            displayEmpty
-            name="newState"
-            >
-            <MenuItem value="todos">Todos</MenuItem>
-            <MenuItem value="ASIGNACIÓN INCORRECTA">ASIGNACIÓN INCORRECTA</MenuItem>
-            <MenuItem value="CARGADA EPICA">CARGADA EPICA</MenuItem>
-            <MenuItem value="PARA ASIGNACIÓN LOCAL">PARA ASIGNACIÓN LOCAL</MenuItem>
-            <MenuItem value="REMITIDO PARA CARGUE">REMITIDO PARA CARGUE</MenuItem>
-            <MenuItem value="REMITIDO PARA CARGUE ODT">REMITIDO PARA CARGUE ODT</MenuItem>
-            <MenuItem value="PARA COBRO">PARA COBRO</MenuItem>
-            <MenuItem value="PENDIENTE ANÁLISIS">PENDIENTE ANÁLISIS</MenuItem>
-            <MenuItem value="PENDIENTE MOVIMIENTO">PENDIENTE MOVIMIENTO</MenuItem>
-            <MenuItem value="GESTIONADO CODENSA">GESTIONADO CODENSA</MenuItem>
-            <MenuItem value="DESASIGNADO CODENSA">DESASIGNADO CODENSA</MenuItem>
-            <MenuItem value="DEVUELTO CODENSA">DEVUELTO CODENSA</MenuItem>
-          </Select>
-        </FormControl>
-
-      </div> */}
-            {/* <div className = "consolidate-dates-wrapper">
-      <TextField
-      id="date-1"
-      label="Desde"
-      type="date"
-      defaultValue="2019-05-01"
-      className={classes.textField}
-      InputLabelProps={{
-      shrink: true,
-    }}
-  />
-  <TextField
-  id="date-2"
-  label="Hasta"
-  type="date"
-  defaultValue="2019-05-01"
-  className={classes.textField}
-  InputLabelProps={{
-  shrink: true,
-}}
-/>
-</div> */}
             {this.state.loading ? (
               <div style={{ margin: "10px" }}>
                 <br />
@@ -259,13 +205,6 @@ class ExportTableModal extends React.Component {
                 >
                   Descargar
                 </Button>
-
-                {/* <Button variant="contained" color="primary" onClick ={this.viewSummary} className = "consolidate-button">
-    Ver resumen
-  </Button> */}
-                {/* <Button variant="contained" color="primary" onClick ={this.exportSummary} className = "consolidate-button">
-  Descargar resumen
-</Button> */}
               </div>
             )}
             {this.state.enableMultiDownload && (
