@@ -224,9 +224,8 @@ export default class ContentOverlay extends React.Component {
             !this.props.loading &&
             !this.props.empty && (
               <ExportConsolidate
-                moduleFilter={this.props.module}
+                module={this.props.module}
                 mes={this.props.mes}
-                generarConsolidadoPorLote={this.props.generarConsolidadoPorLote}
               />
             )}
           {this.props.actualTable === tableNames.consolidado && (
