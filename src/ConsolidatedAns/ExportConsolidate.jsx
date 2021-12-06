@@ -6,21 +6,22 @@ import jsonPrueba from "./jsonPrueba";
 const ExportConsolidate = (props) => {
   const { mes, moduleFilter } = props;
 
-  const ConsultaDb = () => {
-    let rows, module, porcentajesConsolidado;
-    const newRows = jsonPrueba.rows[moduleFilter].filter((valueFiltro) => {
-      if (valueFiltro.mes === mes) {
-        return valueFiltro;
-      } else return [];
-    });
-    const porcentajes = jsonPrueba.calcularPorcentajes(newRows);
-    if (newRows.length) {
-      porcentajesConsolidado = porcentajes;
-      module = moduleFilter;
-      rows = newRows;
-      exportxlsx( module, rows, 'xlsx', porcentajesConsolidado);
-    }
-  };
+  const generateAnsFile = () => {
+    fetch(
+      `http://localhost:3001/sica/api/consolidado/lotes?mes=${mes}&module=${module}`,
+      {
+        method: "GET",
+        headers: { 
+          "x-access-token": localStorage.getItem("SICAToken"),
+        },
+      }
+    ).then((response) =>{
+      response.json().then((json) => {
+        const data = json.casos;
+          exportxlsx(module, data, "xlsx");
+      })
+    })
+  }
 
   return (
     <Button
