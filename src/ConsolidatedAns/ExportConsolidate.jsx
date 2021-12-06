@@ -1,10 +1,9 @@
 import React from "react";
 import exportxlsx from "../Auxiliary/exportFiles";
 import Button from "@material-ui/core/Button";
-import jsonPrueba from "./jsonPrueba";
 
 const ExportConsolidate = (props) => {
-  const { mes, moduleFilter } = props;
+  const { mes, module } = props;
 
   const generateAnsFile = () => {
     fetch(
@@ -28,7 +27,7 @@ const ExportConsolidate = (props) => {
       variant="contained"
       color="primary"
       className="summary-button"
-      onClick={ConsultaDb}
+      onClick={generateAnsFile}
     >
       Generar consolidado
     </Button>
