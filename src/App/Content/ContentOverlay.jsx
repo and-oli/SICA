@@ -142,11 +142,11 @@ export default class ContentOverlay extends React.Component {
               />
             </div>
           )}
-          {this.props.actualTable.split(" ")[0] === tableNames.consolidado && (
+          {this.props.actualTable === tableNames.consolidado && (
             <div>
               <Icon
                 className="arrow-back"
-                onClick={this.props.handleClickSeleccionarConsolidado}
+                onClick={this.props.handleClickConsolidateAnsSelect}
               >
                 arrow_back
               </Icon>
@@ -220,16 +220,20 @@ export default class ContentOverlay extends React.Component {
                 Generar consolidado
               </Button>
             )}
-          {this.props.actualTable.split(" ")[0] === tableNames.consolidado &&
+          {this.props.actualTable === tableNames.consolidado &&
             !this.props.loading &&
             !this.props.empty && (
               <ExportConsolidate
                 moduleFilter={this.props.module}
                 mes={this.props.mes}
+                generarConsolidadoPorLote={this.props.generarConsolidadoPorLote}
               />
             )}
-          {this.props.actualTable.split(" ")[0] === tableNames.consolidado && (
+          {this.props.actualTable === tableNames.consolidado && (
             <span className="select-info-wrapper">
+              <span className="select-info">
+                {this.props.module}
+              </span>
               <span className="select-info">
                 lotes:{this.props.rows.length}
               </span>
@@ -247,7 +251,7 @@ export default class ContentOverlay extends React.Component {
               </span>
             </span>
           )}
-          {this.props.actualTable.split(" ")[0] !== tableNames.consolidado &&
+          {this.props.actualTable !== tableNames.consolidado &&
             this.props.actualTable !== tableNames.seleccionarConsolidado &&
             this.props.actualTable !== tableNames.actividades &&
             this.props.actualTable !== tableNames.seleccionarCasos &&
