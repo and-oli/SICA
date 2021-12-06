@@ -50,7 +50,7 @@ export default class SideBar extends React.Component {
             ) : (
               <Clock />
             )}
-            {!this.props.notifications && ( //toco machetear
+            {!this.props.notifications && (
               <ListItemText
                 primary={"Actividades"}
                 onClick={this.props.handleClickActividad}
@@ -104,7 +104,7 @@ export default class SideBar extends React.Component {
           <ListItem
             button
             key={"consolidado"}
-            onClick={this.props.handleClickSeleccionarConsolidado}
+            onClick={this.props.handleClickConsolidateAnsSelect}
           >
             <ListAltIcon />
             <ListItemText primary={"Consolidado"} />
