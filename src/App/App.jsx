@@ -462,7 +462,6 @@ class AppContent extends React.Component {
             let newRowHeaders = [];
             const attributes =
               json.atributos || Object.keys(json[tableInfo][0]);
-              console.log(attributes)
             for (let j = 0; j < attributes.length; j++) {
               let headerToAdd = attributes[j];
               if (
@@ -579,7 +578,6 @@ class AppContent extends React.Component {
   };
 
   generarConsolidadoPorLote = (module, mes, fileType, id) => {
-    console.log('funciona')
     fetch(
       `http://localhost:3001/sica/api/casosConsolidado?mes=${mes}&module=${module}`,
       {
