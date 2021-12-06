@@ -35,7 +35,7 @@ export default class ConsolidatedSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moduloSelect: "ANALISIS",
+      moduloSelect: MODULOS.ANALISIS,
       mesSelect: Object.keys(MESES)[new Date().getMonth()],
       añoSelect: new Date().getFullYear(),
     };
@@ -44,8 +44,8 @@ export default class ConsolidatedSelect extends Component {
   ok = () => {
     const { moduloSelect, mesSelect, añoSelect } = this.state;
     const mesActual = MESES[mesSelect];
-    // const diaActual = new Date().getDate();
-    const fechaActual = `${añoSelect}-${mesActual}-21`;
+    const diaActual = new Date().getDate();
+    const fechaActual = `${añoSelect}/${mesActual}/${diaActual}`;
     this.props.consolidateSelect(
       moduloSelect,
       mesSelect,
