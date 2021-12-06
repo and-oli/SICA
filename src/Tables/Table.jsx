@@ -15,6 +15,8 @@ import Modal from "@material-ui/core/Modal";
 import DateDetail from "../DateDetail/DateDetail";
 import { Link } from "@material-ui/core";
 
+const SHOW_URL = false;
+
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -260,7 +262,7 @@ class EnhancedTable extends React.Component {
                                 </Tooltip>
                               </TableCell>
                             );
-                          } else if (header.id === "URLConsolidado") {
+                          } else if (SHOW_URL && header.id === "URLConsolidado") {
                             //opcion en la tabla para descargar un consolidado por cada lote.
                             return (
                               <TableCell
@@ -277,7 +279,7 @@ class EnhancedTable extends React.Component {
                                       marginBottom: 0,
                                     }}
                                     onClick={() =>
-                                      this.props.generarConcolidadoPorL(
+                                      this.props.generarConsolidadoPorLote(
                                         module,
                                         mes,
                                         "xlsx",
