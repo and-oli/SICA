@@ -552,34 +552,43 @@ class AppContent extends React.Component {
   };
 
   generateConsolidate = () => {
-    const { consolidateModal } = this.state;
-    this.setState({ consolidateModal: !consolidateModal });
+    this.setState((prevState) => ({
+       consolidateModal: !prevState.consolidateModal 
+      })
+    );
   };
 
   showClusterModal = () => {
-    const { clusterModal } = this.state;
-    this.setState({ clusterModal: !clusterModal });
+    this.setState((prevState) => ({
+        clusterModal: !prevState.clusterModal 
+      })
+    );
   };
 
   toggleCasesMenu = () => {
-    this.setState((prevState) => ({ openCasesMenu: !prevState.openCasesMenu }));
+    this.setState((prevState) => ({ 
+        openCasesMenu: !prevState.openCasesMenu 
+      })
+    );
   };
 
   onClickFab = () => {
-    const { openEdit } = this.state;
-    this.setState({ openEdit: !openEdit });
+    this.setState((prevState) => ({
+       openEdit: !prevState.openEdit 
+      })
+    );
   };
 
   lookOneCaseModalClick = () => {
-    const { lookOneCaseModalVisible } = this.state;
-    this.setState({
-      lookOneCaseModalVisible: !lookOneCaseModalVisible,
-    });
+    this.setState((prevState) => ({
+        lookOneCaseModalVisible: !prevState.lookOneCaseModalVisible,
+      })
+    );
   };
 
   generarConsolidadoPorLote = (module, mes, fileType, id) => {
     fetch(
-      `http://localhost:3001/sica/api/casosConsolidado?mes=${mes}&module=${module}`,
+      `http://localhost:3001/sica/api/casosConsolidadoAns?mes=${mes}&module=${module}`,
       {
         method: "GET",
         headers: { 
