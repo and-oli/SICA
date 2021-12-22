@@ -28,13 +28,13 @@ export default class ContentApp extends Component {
             color="secondary"
             aria-label="Add"
             className={classes.fab}
-            onClick={this.props.handleOpenModalUpload}
+            onClick={this.props.handleModalUpload}
           >
             <AddIcon />
           </Fab>
           <NewActivityModal
             open={this.props.openUpload}
-            handleCloseModalUpload={this.props.handleCloseModalUpload}
+            handleCloseModalUpload={this.props.handleModalUpload}
             depth={0}
             nuevoLote={true}
           />
