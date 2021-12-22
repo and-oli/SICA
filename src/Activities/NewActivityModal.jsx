@@ -66,8 +66,37 @@ class NewActivityModal extends React.Component {
       otro,
     });
   };
+  renderMenuItems = (itemValue) => (
+    Object.keys(itemValue).map((item, i) => (
+      <MenuItem value={item} key={i}>
+        {itemValue[item]}
+      </MenuItem>
+    ))
+  )
   render() {
     const { classes } = this.props;
+    const concepts = {
+      "Gestión terceros análisis": "Gestión terceros análisis",
+      "Remitir para cargue de ODT": "Remitir para cargue de ODT",
+      "Finalización inspecciones": "Finalización inspecciones",
+      "Consolidado análisis": "Consolidado análisis",
+      "Reportes de liquidación": "Reportes de liquidación",
+      "Gestión terceros liquidación": "Gestión terceros liquidación",
+      "Consolidado balance": "Consolidado balance",
+      "Reporte novedades": "Reporte novedades",
+      "Consolidado novedades": "Consolidado novedades",
+      "Consolidado storia": "Consolidado storia",
+    }
+    const modules = {
+      ANALISIS:"ANÁLISIS",
+      LIQUIDACION:"LIQUIDACIÓN",
+      "BALANCE MACROMEDICION":  "BALANCE MACROMEDICION",
+      NOVEDADES:"NOVEDADES",
+      STORIA:"STORIA",
+      HALLAZGOS:"HALLAZGOS",
+      INFORMATIVAS:"INFORMATIVAS",
+    }
+
     return (
       <Modal
         aria-labelledby="simple-modal-title"
