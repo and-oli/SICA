@@ -69,20 +69,7 @@ class SummarySelect extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const modules = {
-      ANÁLISIS: "ANALISIS",
-      LIQUIDACIÓN: "LIQUIDACION",
-      "BALANCE MACROMEDICION": "BALANCE MACROMEDICION",
-      NOVEDADES: "NOVEDADES",
-      STORIA: "STORIA",
-      HALLAZGOS: "HALLAZGOS",
-      INFORMATIVAS: "INFORMATIVAS",
-    };
-    const type = {
-      "FECHA DE ASIGNACIÓN": "0",
-      "ÚLTIMA MODIFICACIÓN": "1",
-    };
+    const { classes, modules, type, renderOptions } = this.props;
 
     return (
       <div id="summarySelect" className={classes.modal}>
