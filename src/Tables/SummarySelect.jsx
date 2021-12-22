@@ -60,14 +60,6 @@ class SummarySelect extends React.Component {
     );
   };
 
-  renderOptions = (object) => {
-    return Object.keys(object).map((key, i) => (
-      <MenuItem value={object[key]} key={i}>
-        {key}
-      </MenuItem>
-    ));
-  };
-
   render() {
     const { classes, modules, type, renderOptions } = this.props;
 
@@ -101,7 +93,7 @@ class SummarySelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                {this.renderOptions(modules)}
+                {renderOptions(modules)}
               </Select>
             </FormControl>
 
@@ -117,7 +109,7 @@ class SummarySelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                {this.renderOptions(type)}
+                {renderOptions(type)}
               </Select>
             </FormControl>
           </div>
