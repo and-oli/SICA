@@ -175,15 +175,7 @@ class NewActivityModal extends React.Component {
                   name="module"
                   style={{ width: "100%" }}
                 >
-                  <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
-                  <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
-                  <MenuItem value="BALANCE MACROMEDICION">
-                    BALANCE MACROMEDICION
-                  </MenuItem>
-                  <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
-                  <MenuItem value="STORIA">STORIA</MenuItem>
-                  <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
-                  <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
+                  {this.renderMenuItems(modules)}
                 </Select>
               </div>
             )}
