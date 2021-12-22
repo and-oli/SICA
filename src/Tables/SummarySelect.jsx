@@ -62,24 +62,26 @@ class SummarySelect extends React.Component {
 
   renderOptions = (object) => {
     return Object.keys(object).map((key, i) => (
-      <MenuItem value={object[key]} key={i}>{key}</MenuItem>
-    ))
-  }
+      <MenuItem value={object[key]} key={i}>
+        {key}
+      </MenuItem>
+    ));
+  };
 
   render() {
     const { classes } = this.props;
     const modules = {
-      "ANÁLISIS":"ANALISIS",
-      "LIQUIDACIÓN":"LIQUIDACION",
-      "BALANCE MACROMEDICION":"BALANCE MACROMEDICION",
-      "NOVEDADES":"NOVEDADES",
-      "STORIA":"STORIA",
-      "HALLAZGOS":"HALLAZGOS",
-      "INFORMATIVAS":"INFORMATIVAS"
+      ANÁLISIS: "ANALISIS",
+      LIQUIDACIÓN: "LIQUIDACION",
+      "BALANCE MACROMEDICION": "BALANCE MACROMEDICION",
+      NOVEDADES: "NOVEDADES",
+      STORIA: "STORIA",
+      HALLAZGOS: "HALLAZGOS",
+      INFORMATIVAS: "INFORMATIVAS",
     };
     const type = {
-      "FECHA DE ASIGNACIÓN":"0",
-      "ÚLTIMA MODIFICACIÓN":"1"
+      "FECHA DE ASIGNACIÓN": "0",
+      "ÚLTIMA MODIFICACIÓN": "1",
     };
 
     return (
