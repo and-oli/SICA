@@ -60,6 +60,12 @@ class SummarySelect extends React.Component {
     );
   };
 
+  renderOptions = (object) => {
+    return Object.keys(object).map((key, i) => (
+      <MenuItem value={object[key]} key={i}>{key}</MenuItem>
+    ))
+}
+
   render() {
     const { classes } = this.props;
     const modules = {
