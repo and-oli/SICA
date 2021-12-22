@@ -89,7 +89,7 @@ class CaseSelect extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, modules, type, renderOptions } = this.props;
     return (
       <div id="caseSelect" className={classes.modal}>
         <Typography
