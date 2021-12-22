@@ -21,7 +21,6 @@ export default class ContentApp extends Component {
       localStorage.getItem("userType") === "Codensa" &&
       this.props.actualTable === tableNames.actividades
     ) {
-
       return (
         <div>
           <Fab
@@ -56,7 +55,7 @@ export default class ContentApp extends Component {
   };
 
   renderComponents = () => {
-    const {tableNames} = this.props;
+    const { tableNames } = this.props;
     const modules = {
       ANÁLISIS: "ANALISIS",
       LIQUIDACIÓN: "LIQUIDACION",
@@ -119,7 +118,12 @@ export default class ContentApp extends Component {
       } else if (this.props.actualTable === tableNames.seleccionarResumen) {
         return (
           <div>
-            <SummarySelect renderOptions={this.renderOptions} modules={modules} type={type} summaryQuery={this.props.summaryQuery} />
+            <SummarySelect
+              renderOptions={this.renderOptions}
+              modules={modules}
+              type={type}
+              summaryQuery={this.props.summaryQuery}
+            />
           </div>
         );
       } else if (this.props.actualTable === tableNames.seleccionarConsolidado) {
@@ -134,7 +138,12 @@ export default class ContentApp extends Component {
       } else {
         return (
           <div>
-            <CaseSelect renderOptions={this.renderOptions} modules={modules} type={type} casesQuery={this.props.casesQuery} />
+            <CaseSelect
+              renderOptions={this.renderOptions}
+              modules={modules}
+              type={type}
+              casesQuery={this.props.casesQuery}
+            />
           </div>
         );
       }
