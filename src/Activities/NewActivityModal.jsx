@@ -96,7 +96,7 @@ class NewActivityModal extends React.Component {
       HALLAZGOS:"HALLAZGOS",
       INFORMATIVAS:"INFORMATIVAS",
     }
-
+    
     return (
       <Modal
         aria-labelledby="simple-modal-title"
@@ -149,56 +149,9 @@ class NewActivityModal extends React.Component {
                   style={{ width: "100%" }}
                 >
                   {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Gestión terceros análisis">
-                      Gestión terceros análisis
-                    </MenuItem>
+                    this.renderMenuItems(concepts)
                   )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Remitir para cargue de ODT">
-                      Remitir para cargue de ODT
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Finalización inspecciones">
-                      Finalización inspecciones
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Consolidado análisis">
-                      Consolidado análisis
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Reportes de liquidación">
-                      Reportes de liquidación
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Gestión terceros liquidación">
-                      Gestión terceros liquidación
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Consolidado balance">
-                      Consolidado balance
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Reporte novedades">
-                      Reporte novedades
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Consolidado novedades">
-                      Consolidado novedades
-                    </MenuItem>
-                  )}
-                  {this.state.userType === "Comsistelco" && (
-                    <MenuItem value="Consolidado storia">
-                      Consolidado storia
-                    </MenuItem>
-                  )}
-                  {<MenuItem value="Otro">Otro</MenuItem>}
+                    <MenuItem value="Otro">Otro</MenuItem>
                 </Select>
               </div>
             )}
