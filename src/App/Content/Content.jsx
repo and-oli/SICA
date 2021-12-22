@@ -8,7 +8,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import NewActivityModal from "../../Activities/NewActivityModal";
 import MainActivity from "../../Activities/MainActivity";
-
+import MenuItem from "@material-ui/core/MenuItem";
 export default class ContentApp extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +45,14 @@ export default class ContentApp extends Component {
 
   renderActividades = () => {
     return this.props.rows.map((r, i) => <MainActivity row={r} key={i} />);
+  };
+
+  renderOptions = (object) => {
+    return Object.keys(object).map((key, i) => (
+      <MenuItem value={object[key]} key={i}>
+        {key}
+      </MenuItem>
+    ));
   };
 
   renderComponents = () => {
