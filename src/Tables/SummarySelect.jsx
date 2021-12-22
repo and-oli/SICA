@@ -64,7 +64,7 @@ class SummarySelect extends React.Component {
     return Object.keys(object).map((key, i) => (
       <MenuItem value={object[key]} key={i}>{key}</MenuItem>
     ))
-}
+  }
 
   render() {
     const { classes } = this.props;
@@ -77,7 +77,7 @@ class SummarySelect extends React.Component {
       "HALLAZGOS":"HALLAZGOS",
       "INFORMATIVAS":"INFORMATIVAS"
     };
-    const fecha = {
+    const type = {
       "FECHA DE ASIGNACIÓN":"0",
       "ÚLTIMA MODIFICACIÓN":"1"
     };
@@ -112,15 +112,7 @@ class SummarySelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
-                <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
-                <MenuItem value="BALANCE MACROMEDICION">
-                  BALANCE MACROMEDICION
-                </MenuItem>
-                <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
-                <MenuItem value="STORIA">STORIA</MenuItem>
-                <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
-                <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
+                {this.renderOptions(modules)}
               </Select>
             </FormControl>
 
@@ -136,8 +128,7 @@ class SummarySelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                <MenuItem value="0">FECHA DE ASIGNACIÓN</MenuItem>
-                <MenuItem value="1">ÚLTIMA MODIFICACIÓN</MenuItem>
+                {this.renderOptions(type)}
               </Select>
             </FormControl>
           </div>
