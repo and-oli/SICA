@@ -432,13 +432,13 @@ class AppContent extends React.Component {
     }
   };
 
-  handleOpenModalUpload = () => {
-    this.setState({ openUpload: true });
-  };
-
-  handleCloseModalUpload = () => {
-    this.setState({ openUpload: false });
-    window.location.reload();
+  handleModalUpload = () => {
+    this.setState((prevState) => ({ openUpload: !prevState.openUpload }), 
+    () => {
+      if(!this.state.openUpload) {
+        window.location.reload();
+      }
+    });
   };
 
   componentDidMount() {
@@ -685,8 +685,7 @@ class AppContent extends React.Component {
           consolidateSelect={this.consolidateSelect}
           summaryQuery={this.summaryQuery}
           casesQuery={this.casesQuery}
-          handleOpenModalUpload={this.handleOpenModalUpload}
-          handleCloseModalUpload={this.handleCloseModalUpload}
+          handleModalUpload={this.handleModalUpload}
         />
       </div>
     );
