@@ -131,14 +131,7 @@ class EnhancedTable extends React.Component {
   handleOpenDateDetail = (data) => {
     this.setState({ openDateDetail: true, rowData: data });
   };
-
-  handleOpenModalUpload = () => {
-    this.setState({ openUpload: true });
-  };
-
-  handleCloseModalUpload = () => {
-    this.setState({ openUpload: false });
-  };
+  
   interpretar = (serial) => {
     if (serial === 0) return serial;
     if (!serial) return "";
