@@ -120,15 +120,7 @@ class CaseSelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                <MenuItem value="ANALISIS">ANÁLISIS</MenuItem>
-                <MenuItem value="LIQUIDACION">LIQUIDACIÓN</MenuItem>
-                <MenuItem value="BALANCE MACROMEDICION">
-                  BALANCE MACROMEDICION
-                </MenuItem>
-                <MenuItem value="NOVEDADES">NOVEDADES</MenuItem>
-                <MenuItem value="STORIA">STORIA</MenuItem>
-                <MenuItem value="HALLAZGOS">HALLAZGOS</MenuItem>
-                <MenuItem value="INFORMATIVAS">INFORMATIVAS</MenuItem>
+                {renderOptions(modules)}
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -157,8 +149,7 @@ class CaseSelect extends React.Component {
                 displayEmpty
                 name="newState"
               >
-                <MenuItem value="0">FECHA DE ASIGNACIÓN</MenuItem>
-                <MenuItem value="1">ÚLTIMA MODIFICACIÓN</MenuItem>
+                {renderOptions(type)}
               </Select>
             </FormControl>
           </div>
