@@ -49,6 +49,20 @@ export default class ContentApp extends Component {
 
   renderComponents = () => {
     const {tableNames} = this.props;
+    const modules = {
+      ANÁLISIS: "ANALISIS",
+      LIQUIDACIÓN: "LIQUIDACION",
+      "BALANCE MACROMEDICION": "BALANCE MACROMEDICION",
+      NOVEDADES: "NOVEDADES",
+      STORIA: "STORIA",
+      HALLAZGOS: "HALLAZGOS",
+      INFORMATIVAS: "INFORMATIVAS",
+    };
+    const type = {
+      "FECHA DE ASIGNACIÓN": "0",
+      "ÚLTIMA MODIFICACIÓN": "1",
+    };
+
     if (this.props.loading) {
       return <span className="loaderTable" id="loaderTable"></span>;
     } else {
@@ -97,7 +111,7 @@ export default class ContentApp extends Component {
       } else if (this.props.actualTable === tableNames.seleccionarResumen) {
         return (
           <div>
-            <SummarySelect summaryQuery={this.props.summaryQuery} />
+            <SummarySelect renderOptions={this.renderOptions} modules={modules} type={type} summaryQuery={this.props.summaryQuery} />
           </div>
         );
       } else if (this.props.actualTable === tableNames.seleccionarConsolidado) {
@@ -112,7 +126,7 @@ export default class ContentApp extends Component {
       } else {
         return (
           <div>
-            <CaseSelect casesQuery={this.props.casesQuery} />
+            <CaseSelect renderOptions={this.renderOptions} modules={modules} type={type} casesQuery={this.props.casesQuery} />
           </div>
         );
       }
