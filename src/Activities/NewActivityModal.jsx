@@ -66,13 +66,12 @@ class NewActivityModal extends React.Component {
       otro,
     });
   };
-  renderMenuItems = (itemValue) => (
+  renderMenuItems = (itemValue) =>
     Object.keys(itemValue).map((item, i) => (
       <MenuItem value={item} key={i}>
         {itemValue[item]}
       </MenuItem>
-    ))
-  )
+    ));
   render() {
     const { classes } = this.props;
     const concepts = {
@@ -86,17 +85,17 @@ class NewActivityModal extends React.Component {
       "Reporte novedades": "Reporte novedades",
       "Consolidado novedades": "Consolidado novedades",
       "Consolidado storia": "Consolidado storia",
-    }
+    };
     const modules = {
-      ANALISIS:"ANÁLISIS",
-      LIQUIDACION:"LIQUIDACIÓN",
-      "BALANCE MACROMEDICION":  "BALANCE MACROMEDICION",
-      NOVEDADES:"NOVEDADES",
-      STORIA:"STORIA",
-      HALLAZGOS:"HALLAZGOS",
-      INFORMATIVAS:"INFORMATIVAS",
-    }
-    
+      ANALISIS: "ANÁLISIS",
+      LIQUIDACION: "LIQUIDACIÓN",
+      "BALANCE MACROMEDICION": "BALANCE MACROMEDICION",
+      NOVEDADES: "NOVEDADES",
+      STORIA: "STORIA",
+      HALLAZGOS: "HALLAZGOS",
+      INFORMATIVAS: "INFORMATIVAS",
+    };
+
     return (
       <Modal
         aria-labelledby="simple-modal-title"
@@ -148,10 +147,9 @@ class NewActivityModal extends React.Component {
                   name="concept"
                   style={{ width: "100%" }}
                 >
-                  {this.state.userType === "Comsistelco" && (
-                    this.renderMenuItems(concepts)
-                  )}
-                    <MenuItem value="Otro">Otro</MenuItem>
+                  {this.state.userType === "Comsistelco" &&
+                    this.renderMenuItems(concepts)}
+                  <MenuItem value="Otro">Otro</MenuItem>
                 </Select>
               </div>
             )}

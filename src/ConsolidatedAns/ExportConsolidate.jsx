@@ -10,17 +10,17 @@ const ExportConsolidate = (props) => {
       `http://localhost:3001/sica/api/consolidado/lotes?mes=${mes}&module=${module}`,
       {
         method: "GET",
-        headers: { 
+        headers: {
           "x-access-token": localStorage.getItem("SICAToken"),
         },
       }
-    ).then((response) =>{
+    ).then((response) => {
       response.json().then((json) => {
         const data = json.casos;
-          exportxlsx(module, data, "xlsx");
-      })
-    })
-  }
+        exportxlsx(module, data, "xlsx");
+      });
+    });
+  };
 
   return (
     <Button

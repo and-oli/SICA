@@ -156,27 +156,29 @@ export default class ContentOverlay extends React.Component {
             this.props.actualTable === tableNames.actividades) && (
             <div className={classes.pagination}>
               <TablePagination
-                rowsPerPageOptions={[25,50, 100, 150]}
+                rowsPerPageOptions={[25, 50, 100, 150]}
                 component="div"
-                labelRowsPerPage = "Filas por pagina:"
+                labelRowsPerPage="Filas por pagina:"
                 className={classes.tablePagination}
                 count={100}
                 rowsPerPage={this.props.rowsPerPage}
                 page={this.props.page}
                 onChangePage={() => {}}
                 nextIconButtonProps={{
-                  "disabled": false,
-                  "onClick": () => {
-                    this.props.nextPage()
-                  }
+                  disabled: false,
+                  onClick: () => {
+                    this.props.nextPage();
+                  },
                 }}
                 backIconButtonProps={{
-                  "disabled": false,
-                  "onClick": () => {
-                    this.props.prevPage()
-                  }
+                  disabled: false,
+                  onClick: () => {
+                    this.props.prevPage();
+                  },
                 }}
-                onChangeRowsPerPage={(event) => this.props.handleChangeRowsPerPage(event, false)}
+                onChangeRowsPerPage={(event) =>
+                  this.props.handleChangeRowsPerPage(event, false)
+                }
               />
             </div>
           )}
@@ -195,18 +197,18 @@ export default class ContentOverlay extends React.Component {
             </span>
           )}
           {this.props.actualTable === tableNames.casos && (
-              <Select
-                value={this.props.queryAttribute}
-                onChange={this.props.handleChangeAttributeQueryDropdown}
-                input={<Input name="newState" id="state-label-placeholder" />}
-                displayEmpty
-                name="newState"
-                className="attributeSelector"
-              >
-                <MenuItem value="ordenado">ORDENADO</MenuItem>
-                <MenuItem value="estado">ESTADO</MenuItem>
-                {this.renderAttributes()}
-              </Select>
+            <Select
+              value={this.props.queryAttribute}
+              onChange={this.props.handleChangeAttributeQueryDropdown}
+              input={<Input name="newState" id="state-label-placeholder" />}
+              displayEmpty
+              name="newState"
+              className="attributeSelector"
+            >
+              <MenuItem value="ordenado">ORDENADO</MenuItem>
+              <MenuItem value="estado">ESTADO</MenuItem>
+              {this.renderAttributes()}
+            </Select>
           )}
           {this.props.actualTable === tableNames.casos &&
             !this.props.loading &&
@@ -230,9 +232,7 @@ export default class ContentOverlay extends React.Component {
             )}
           {this.props.actualTable === tableNames.consolidado && (
             <span className="select-info-wrapper">
-              <span className="select-info">
-                {this.props.module}
-              </span>
+              <span className="select-info">{this.props.module}</span>
               <span className="select-info">
                 lotes:{this.props.rows.length}
               </span>

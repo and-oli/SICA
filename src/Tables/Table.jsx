@@ -94,13 +94,15 @@ class EnhancedTable extends React.Component {
   }
 
   componentDidMount() {
-    const {currentTable, tableNames} = this.props
-    if(currentTable !== tableNames.casos &&
-       currentTable !== tableNames.resumen) {
-         this.setState({paginacionNativa: true})
-    } 
+    const { currentTable, tableNames } = this.props;
+    if (
+      currentTable !== tableNames.casos &&
+      currentTable !== tableNames.resumen
+    ) {
+      this.setState({ paginacionNativa: true });
+    }
   }
-  
+
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = "desc";
@@ -131,7 +133,7 @@ class EnhancedTable extends React.Component {
   handleOpenDateDetail = (data) => {
     this.setState({ openDateDetail: true, rowData: data });
   };
-  
+
   interpretar = (serial) => {
     if (serial === 0) return serial;
     if (!serial) return "";
@@ -171,20 +173,21 @@ class EnhancedTable extends React.Component {
   };
 
   render() {
-    const { rows, classes, module, mes, rowsPerPage, tableNames } =
-      this.props;
+    const { rows, classes, module, mes, rowsPerPage, tableNames } = this.props;
     const { order, orderBy, selected, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-    const  renderTableOption = (paginacionNativa) => {
-      if(paginacionNativa) {
-        return (stableSort(rows, getSorting(order, orderBy))
-        .slice( this.state.page * rowsPerPage, this.state.page * rowsPerPage + rowsPerPage))
+    const renderTableOption = (paginacionNativa) => {
+      if (paginacionNativa) {
+        return stableSort(rows, getSorting(order, orderBy)).slice(
+          this.state.page * rowsPerPage,
+          this.state.page * rowsPerPage + rowsPerPage
+        );
       } else {
-        return rows
+        return rows;
       }
-    }
+    };
 
     return (
       <div>
@@ -201,100 +204,100 @@ class EnhancedTable extends React.Component {
                 rowsHeaders={this.props.rowsHeaders}
               />
               <TableBody>
-                { renderTableOption(this.state.paginacionNativa).map((n, i) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={i}>
-                        {this.props.rowsHeaders.map((header, i) => {
-                          if (header.id === "cerrado") {
-                            return (
-                              <TableCell key={i} align="center">
-                                {n[header.id] ? "Sí" : "No"}
-                              </TableCell>
-                            );
-                          } else if (header.id === "cambiosDeEstado") {
-                            return (
-                              <TableCell
-                                key={i}
-                                align="center"
-                                style={{ whiteSpace: "nowrap" }}
-                                className="dateLink"
-                              >
-                                <Tooltip title="Ver en detalle">
-                                  {n[header.id] && (
-                                    <Typography
-                                      style={{ color: "#2196f3" }}
-                                      onClick={this.handleOpenDateDetail.bind(
-                                        this,
-                                        n
-                                      )}
-                                    >
-                                      {
-                                        n[header.id][n[header.id].length - 1]
-                                          .fecha
-                                      }
-                                    </Typography>
-                                  )}
-                                </Tooltip>
-                              </TableCell>
-                            );
-                          } else if (header.id === "URLArchivo") {
-                            return (
-                              <TableCell
-                                key={i}
-                                align="center"
-                                style={{ whiteSpace: "nowrap" }}
-                                className="dateLink"
-                              >
-                                <Tooltip title="Descargar">
-                                  <a
-                                    style={{ color: "#2196f3" }}
-                                    href={n[header.id]}
-                                  >
-                                    Descargar archivo
-                                  </a>
-                                </Tooltip>
-                              </TableCell>
-                            );
-                          } else if (SHOW_URL && header.id === "URLConsolidado") {
-                            //opcion en la tabla para descargar un consolidado por cada lote.
-                            return (
-                              <TableCell
-                                key={i}
-                                align="center"
-                                style={{ whiteSpace: "nowrap" }}
-                                className="dateLink"
-                              >
-                                <Tooltip title="Descargar">
-                                  <p
-                                    style={{
-                                      color: "#2196f3",
-                                      marginTop: 0,
-                                      marginBottom: 0,
-                                    }}
-                                    onClick={() =>
-                                      this.props.generarConsolidadoPorLote(
-                                        module,
-                                        mes,
-                                        "xlsx",
-                                        n.id
-                                      )
-                                    }
-                                  >
-                                    Descargar consolidado
-                                  </p>
-                                </Tooltip>
-                              </TableCell>
-                            );
-                          }
+                {renderTableOption(this.state.paginacionNativa).map((n, i) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={i}>
+                      {this.props.rowsHeaders.map((header, i) => {
+                        if (header.id === "cerrado") {
                           return (
                             <TableCell key={i} align="center">
-                              {this.interpretar(n[header.id])}
+                              {n[header.id] ? "Sí" : "No"}
                             </TableCell>
                           );
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                        } else if (header.id === "cambiosDeEstado") {
+                          return (
+                            <TableCell
+                              key={i}
+                              align="center"
+                              style={{ whiteSpace: "nowrap" }}
+                              className="dateLink"
+                            >
+                              <Tooltip title="Ver en detalle">
+                                {n[header.id] && (
+                                  <Typography
+                                    style={{ color: "#2196f3" }}
+                                    onClick={this.handleOpenDateDetail.bind(
+                                      this,
+                                      n
+                                    )}
+                                  >
+                                    {
+                                      n[header.id][n[header.id].length - 1]
+                                        .fecha
+                                    }
+                                  </Typography>
+                                )}
+                              </Tooltip>
+                            </TableCell>
+                          );
+                        } else if (header.id === "URLArchivo") {
+                          return (
+                            <TableCell
+                              key={i}
+                              align="center"
+                              style={{ whiteSpace: "nowrap" }}
+                              className="dateLink"
+                            >
+                              <Tooltip title="Descargar">
+                                <a
+                                  style={{ color: "#2196f3" }}
+                                  href={n[header.id]}
+                                >
+                                  Descargar archivo
+                                </a>
+                              </Tooltip>
+                            </TableCell>
+                          );
+                        } else if (SHOW_URL && header.id === "URLConsolidado") {
+                          //opcion en la tabla para descargar un consolidado por cada lote.
+                          return (
+                            <TableCell
+                              key={i}
+                              align="center"
+                              style={{ whiteSpace: "nowrap" }}
+                              className="dateLink"
+                            >
+                              <Tooltip title="Descargar">
+                                <p
+                                  style={{
+                                    color: "#2196f3",
+                                    marginTop: 0,
+                                    marginBottom: 0,
+                                  }}
+                                  onClick={() =>
+                                    this.props.generarConsolidadoPorLote(
+                                      module,
+                                      mes,
+                                      "xlsx",
+                                      n.id
+                                    )
+                                  }
+                                >
+                                  Descargar consolidado
+                                </p>
+                              </Tooltip>
+                            </TableCell>
+                          );
+                        }
+                        return (
+                          <TableCell key={i} align="center">
+                            {this.interpretar(n[header.id])}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 49 * emptyRows }}>
                     <TableCell colSpan={6} />
@@ -318,7 +321,9 @@ class EnhancedTable extends React.Component {
                   "aria-label": "Next Page",
                 }}
                 onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={(event) => this.props.handleChangeRowsPerPage(event, true)}
+                onChangeRowsPerPage={(event) =>
+                  this.props.handleChangeRowsPerPage(event, true)
+                }
               />
             )}
         </Paper>

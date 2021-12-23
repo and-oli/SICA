@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Login from "./Login/Login";
-import AppContent from "./App/App"; 
+import AppContent from "./App/App";
 import "./index.css";
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
     this.setState({ logged });
   };
   componentDidMount() {
-    if (localStorage.getItem('SICAToken')) {
+    if (localStorage.getItem("SICAToken")) {
       this.setState({ logged: true });
     } else this.setState({ logged: false });
   }

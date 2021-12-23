@@ -165,7 +165,7 @@ class AppContent extends React.Component {
           module,
         },
         () =>
-          this.doFetch( 
+          this.doFetch(
             `estado=${stateT}&f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`
           )
       );
@@ -202,7 +202,8 @@ class AppContent extends React.Component {
 
   consolidateSelect = (module, mes, fecha) => {
     this.setState({ loading: true });
-      this.setState({
+    this.setState(
+      {
         actualTable: TABLE_NAMES.consolidado,
         searching: false,
         loading: false,
@@ -210,7 +211,9 @@ class AppContent extends React.Component {
         page: 0,
         module,
         mes,
-      },() => this.doFetch(`module=${module}&mes=${mes}&fecha=${fecha}`));
+      },
+      () => this.doFetch(`module=${module}&mes=${mes}&fecha=${fecha}`)
+    );
   };
 
   summaryQuery = (f1, f2, type, module) => {
@@ -226,7 +229,10 @@ class AppContent extends React.Component {
         type,
         module,
       },
-      () => this.doFetch(`f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`)
+      () =>
+        this.doFetch(
+          `f1=${f1}&f2=${f2}&type=${type}&module=${module}&perPage=${this.state.rowsPerPage}`
+        )
     );
   };
 
@@ -433,12 +439,14 @@ class AppContent extends React.Component {
   };
 
   handleModalUpload = () => {
-    this.setState((prevState) => ({ openUpload: !prevState.openUpload }), 
-    () => {
-      if(!this.state.openUpload) {
-        window.location.reload();
+    this.setState(
+      (prevState) => ({ openUpload: !prevState.openUpload }),
+      () => {
+        if (!this.state.openUpload) {
+          window.location.reload();
+        }
       }
-    });
+    );
   };
 
   componentDidMount() {
@@ -553,37 +561,32 @@ class AppContent extends React.Component {
 
   generateConsolidate = () => {
     this.setState((prevState) => ({
-       consolidateModal: !prevState.consolidateModal 
-      })
-    );
+      consolidateModal: !prevState.consolidateModal,
+    }));
   };
 
   showClusterModal = () => {
     this.setState((prevState) => ({
-        clusterModal: !prevState.clusterModal 
-      })
-    );
+      clusterModal: !prevState.clusterModal,
+    }));
   };
 
   toggleCasesMenu = () => {
-    this.setState((prevState) => ({ 
-        openCasesMenu: !prevState.openCasesMenu 
-      })
-    );
+    this.setState((prevState) => ({
+      openCasesMenu: !prevState.openCasesMenu,
+    }));
   };
 
   onClickFab = () => {
     this.setState((prevState) => ({
-       openEdit: !prevState.openEdit 
-      })
-    );
+      openEdit: !prevState.openEdit,
+    }));
   };
 
   lookOneCaseModalClick = () => {
     this.setState((prevState) => ({
-        lookOneCaseModalVisible: !prevState.lookOneCaseModalVisible,
-      })
-    );
+      lookOneCaseModalVisible: !prevState.lookOneCaseModalVisible,
+    }));
   };
 
   generarConsolidadoPorLote = (module, mes, fileType, id) => {
@@ -591,14 +594,14 @@ class AppContent extends React.Component {
       `http://localhost:3001/sica/api/casosConsolidadoAns?mes=${mes}&module=${module}`,
       {
         method: "GET",
-        headers: { 
+        headers: {
           "x-access-token": localStorage.getItem("SICAToken"),
         },
       }
-    ).then((response) =>{
+    ).then((response) => {
       const data = response.casos;
-        exportxlsx(module, data, fileType, id);
-    })
+      exportxlsx(module, data, fileType, id);
+    });
   };
 
   render() {
@@ -637,9 +640,7 @@ class AppContent extends React.Component {
           handleChangeAttributeQueryDropdown={
             this.handleChangeAttributeQueryDropdown
           }
-          handleClickConsolidateAnsSelect={
-            this.handleClickConsolidateAnsSelect
-          }
+          handleClickConsolidateAnsSelect={this.handleClickConsolidateAnsSelect}
           handleClickCasos={this.handleClickCasos}
           handleDrawerToggle={this.handleDrawerToggle}
           onClickFab={this.onClickFab}
@@ -657,9 +658,7 @@ class AppContent extends React.Component {
           clusterModal={this.state.clusterModal}
           showClusterModal={this.showClusterModal}
           handleDrawerToggle={this.handleDrawerToggle}
-          handleClickConsolidateAnsSelect={
-            this.handleClickConsolidateAnsSelect
-          }
+          handleClickConsolidateAnsSelect={this.handleClickConsolidateAnsSelect}
           handleClickLotes={this.handleClickLotes}
           handleClickCasos={this.handleClickCasos}
           handleClickConsolidate={this.handleClickConsolidate}

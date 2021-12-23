@@ -46,11 +46,7 @@ export default class ConsolidatedSelect extends Component {
     const mesActual = MESES[mesSelect];
     const diaActual = new Date().getDate();
     const fechaActual = `${añoSelect}/${mesActual}/${diaActual}`;
-    this.props.consolidateSelect(
-      moduloSelect,
-      mesSelect,
-      fechaActual
-    );
+    this.props.consolidateSelect(moduloSelect, mesSelect, fechaActual);
   };
 
   handleChange = (e) => {
@@ -75,9 +71,7 @@ export default class ConsolidatedSelect extends Component {
     return añosArray;
   };
 
-
   render() {
-
     return (
       <Paper component="div" className="container-paper-padre">
         <h4>Seleccionar evaluación por lote (ANS)</h4>
@@ -140,7 +134,6 @@ export default class ConsolidatedSelect extends Component {
                 {this.renderMapSelect(this.años())}
               </Select>
             </FormControl>
-            
           </form>
           <div className="consolidate-button-wrapper">
             <Button
