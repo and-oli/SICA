@@ -45,8 +45,8 @@ export default class ConsolidatedSelect extends Component {
     const { moduloSelect, mesSelect, añoSelect } = this.state;
     const mesActual = MESES[mesSelect];
     const diaActual = new Date().getDate();
-    const fechaActual = `${añoSelect}/${mesActual}/${diaActual}`;
-    this.props.consolidateSelect(moduloSelect, mesSelect, fechaActual);
+    const fecha = `${añoSelect}/${mesActual}/${diaActual}`;
+    this.props.consolidateSelect(moduloSelect, mesActual, fecha);
   };
 
   handleChange = (e) => {
