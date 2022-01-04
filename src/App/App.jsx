@@ -142,6 +142,7 @@ class AppContent extends React.Component {
       currentModuleAttributes: [],
       lookOneCaseModalVisible: false,
       porcentajesDeConsolidado: {},
+      cuenta: 0
     };
   }
 
@@ -221,7 +222,7 @@ class AppContent extends React.Component {
       {
         actualTable: TABLE_NAMES.resumen,
         page: 0,
-        rowsPerPage: 12,
+        rowsPerPage: 0,
         loading: true,
         searching: false,
         f1,
@@ -497,7 +498,11 @@ class AppContent extends React.Component {
                 this.setState({ rowsHeaders: newRowHeaders });
               }
             }
-
+            if(json.cuenta) {
+              this.setState({
+                cuenta: json.cuenta
+              })
+            }
             if (tableInfo === TABLE_NAMES.actividades) {
               json[tableInfo].sort((r1, r2) => {
                 return (
@@ -640,6 +645,7 @@ class AppContent extends React.Component {
           handleChangeAttributeQueryDropdown={
             this.handleChangeAttributeQueryDropdown
           }
+          cuenta={this.state.cuenta}
           handleClickConsolidateAnsSelect={this.handleClickConsolidateAnsSelect}
           handleClickCasos={this.handleClickCasos}
           handleDrawerToggle={this.handleDrawerToggle}
