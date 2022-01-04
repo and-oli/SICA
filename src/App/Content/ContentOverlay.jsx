@@ -160,7 +160,7 @@ export default class ContentOverlay extends React.Component {
                 component="div"
                 labelRowsPerPage="Filas por pagina:"
                 className={classes.tablePagination}
-                count={100}
+                count={this.props.cuenta}
                 rowsPerPage={this.props.rowsPerPage}
                 page={this.props.page}
                 onChangePage={() => {}}
